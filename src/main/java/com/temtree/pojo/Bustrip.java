@@ -22,7 +22,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -37,8 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Bustrip.findAll", query = "SELECT b FROM Bustrip b"),
     @NamedQuery(name = "Bustrip.findById", query = "SELECT b FROM Bustrip b WHERE b.id = :id"),
     @NamedQuery(name = "Bustrip.findByDepartTime", query = "SELECT b FROM Bustrip b WHERE b.departTime = :departTime"),
-    @NamedQuery(name = "Bustrip.findByActive", query = "SELECT b FROM Bustrip b WHERE b.active = :active"),
-    @NamedQuery(name = "Bustrip.findByDriverId", query = "SELECT b FROM Bustrip b WHERE b.driverId = :driverId")})
+    @NamedQuery(name = "Bustrip.findByEndTime", query = "SELECT b FROM Bustrip b WHERE b.endTime = :endTime"),
+    @NamedQuery(name = "Bustrip.findByActive", query = "SELECT b FROM Bustrip b WHERE b.active = :active")})
 public class Bustrip implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,22 +47,21 @@ public class Bustrip implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "depart_time")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     private Date departTime;
+    @Column(name = "end_time")
+    @Temporal(TemporalType.TIME)
+    private Date endTime;
     @Column(name = "active")
     private Boolean active;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "driver_id")
-    private int driverId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId")
     private Set<Bus> busSet;
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Route routeId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "driver_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User userId;
+    private User driverId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId")
     private Set<Ticket> ticketSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId")
@@ -74,11 +72,6 @@ public class Bustrip implements Serializable {
 
     public Bustrip(Integer id) {
         this.id = id;
-    }
-
-    public Bustrip(Integer id, int driverId) {
-        this.id = id;
-        this.driverId = driverId;
     }
 
     public Integer getId() {
@@ -97,20 +90,20 @@ public class Bustrip implements Serializable {
         this.departTime = departTime;
     }
 
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
     public Boolean getActive() {
         return active;
     }
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public int getDriverId() {
-        return driverId;
-    }
-
-    public void setDriverId(int driverId) {
-        this.driverId = driverId;
     }
 
     @XmlTransient
@@ -130,12 +123,12 @@ public class Bustrip implements Serializable {
         this.routeId = routeId;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getDriverId() {
+        return driverId;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setDriverId(User driverId) {
+        this.driverId = driverId;
     }
 
     @XmlTransient

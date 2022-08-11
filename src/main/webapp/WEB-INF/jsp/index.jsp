@@ -6,528 +6,297 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="<c:url value="/css/home.css" />">
 
 
-<!DOCTYPE html>
-<!--[if IE 7 ]><html class="ie ie7 lte9 lte8 lte7" lang="en-US"><![endif]-->
-<!--[if IE 8]><html class="ie ie8 lte9 lte8" lang="en-US">	<![endif]-->
-<!--[if IE 9]><html class="ie ie9 lte9" lang="en-US"><![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!-->
-<html class="noIE" lang="en-US">
-    <!--<![endif]-->
-    <head>
-        <!-- meta -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
-        <title>Euro Travel</title>
+<!-- ##### Hero Area Start ##### -->
+<section class="hero-area">
+    <div class="hero-slides owl-carousel">
 
-        <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css" />">
-        <link rel="stylesheet" href="<c:url value="/css/ionicons.min.css" />">
-        <link rel="stylesheet" href="<c:url value="/css/owl.carousel.css" />">
-        <link rel="stylesheet" href="<c:url value="/css/owl.theme.css" />">
-        <link rel="stylesheet" href="<c:url value="/css/flexslider.css" />" type="text/css">
-        <link rel="stylesheet" href="<c:url value="/css/main.css" />">
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-                <script src="<c:url value="/js/html5shiv.js" />"></script>
-                <script src="<c:url value="/js/respond.js" />"></script>
-        <![endif]-->
-
-        <!--[if IE 8]>
-        <script src="<c:url value="/js/selectivizr.js" />"></script>
-    <![endif]-->
-    </head>
-    <body>
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <!-- Single Hero Slide -->
+        <div class="single-hero-slide d-flex align-items-center justify-content-center">
+            <!-- Slide Img -->
+            <div class="slide-img bg-img" style="background-image: url(images/bg-img/bg-1.jpg);"></div>
             <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="<c:url value="index.html" />" title="HOME"><i class="ion-paper-airplane"></i> euro <span>travel</span></a>
-                </div> <!-- /.navbar-header -->
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="<c:url value="index.html" />">Home</a></li>
-                        <li><a href="<c:url value="about.html" />">about</a></li>
-                        <li><a href="<c:url value="services.html" />">services</a></li>
-                        <li><a href="<c:url value="contact.html" />">contact</a></li>
-                    </ul> <!-- /.nav -->
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container -->
-        </nav>
-
-        <!-- Home -->
-        <div id="header">
-            <div class="flexslider">
-                <ul class="slides">
-                    <li class="slider-item" style="background-image: url(<c:url value="/images/item-1.png" />)">
-                        <div class="intro container">
-                            <div class="inner-intro">
-                                <h1 class="header-title">
-                                    <span>traveling</span> always "good idea"
-                                </h1>
-                                <p class="header-sub-title">
-                                    it leaves you speecless, then turns your into a storyteller.
-                                </p>
-                                <button class="btn custom-btn">
-                                    book now
-                                </button>
-                            </div>
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-9">
+                        <!-- Slide Content -->
+                        <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
+                            <div class="line" data-animation="fadeInUp" data-delay="300ms"></div>
+                            <h2 data-animation="fadeInUp" data-delay="500ms">The Vacation Heaven</h2>
+                            <p data-animation="fadeInUp" data-delay="700ms">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
+                            <a href="#" class="btn palatin-btn mt-50" data-animation="fadeInUp" data-delay="900ms">Read More</a>
                         </div>
-                    </li> <!-- /.slider-item -->
-                    <li class="slider-item" style="background-image: url(<c:url value="/images/item-2.png" />">
-                        <div class="intro">
-                            <div class="inner-intro">
-                                <h1 class="header-title">
-                                    to <span>travel</span> is to <span>live</span>
-                                </h1>
-                                <p class="header-sub-title">
-                                    it leaves you speecless, then turns your into a storyteller.
-                                </p>
-                                <button class="btn custom-btn">
-                                    book now
-                                </button>
-                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Single Hero Slide -->
+        <div class="single-hero-slide d-flex align-items-center justify-content-center">
+            <!-- Slide Img -->
+            <div class="slide-img bg-img" style="background-image: url(images/bg-img/bg-2.jpg);"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-9">
+                        <!-- Slide Content -->
+                        <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
+                            <div class="line" data-animation="fadeInUp" data-delay="300ms"></div>
+                            <h2 data-animation="fadeInUp" data-delay="500ms">A place to remember</h2>
+                            <p data-animation="fadeInUp" data-delay="700ms">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
+                            <a href="#" class="btn palatin-btn mt-50" data-animation="fadeInUp" data-delay="900ms">Read More</a>
                         </div>
-                    </li> <!-- /.slider-item -->
-                </ul> <!-- /.slides -->
-            </div> <!-- /.flexslider -->
-        </div> <!-- /#header -->
-        <!-- Find a Tour -->
-        <section class="tour section-wrapper container">
-            <h2 class="section-title">
-                Find a Tour
-            </h2>
-            <p class="section-subtitle">
-                Where would you like to go?
-            </p>
-            <div class="row">
-                <div class="col-md-3 col-sm-6">
-                    <form role="form" class="form-dropdown">
-                        <div class="form-group">
-                            <label for="sel1">Select list (select one):</label>
-                            <select class="form-control border-radius" id="sel1">
-                                <option>America</option>
-                                <option>Bangladesh</option>
-                                <option>Canada</option>
-                                <option>India</option>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Single Hero Slide -->
+        <div class="single-hero-slide d-flex align-items-center justify-content-center">
+            <!-- Slide Img -->
+            <div class="slide-img bg-img" style="background-image: url(images/bg-img/bg-3.jpg);"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-9">
+                        <!-- Slide Content -->
+                        <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
+                            <div class="line" data-animation="fadeInUp" data-delay="300ms"></div>
+                            <h2 data-animation="fadeInUp" data-delay="500ms">Enjoy your life</h2>
+                            <p data-animation="fadeInUp" data-delay="700ms">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
+                            <a href="#" class="btn palatin-btn mt-50" data-animation="fadeInUp" data-delay="900ms">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- ##### Hero Area End ##### -->
+
+<!-- ##### Book Now Area Start ##### -->
+<div class="book-now-area">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="book-now-form">
+                    <form action="#" class="row">
+                        <!-- Form Group -->
+                        <div class="form-group col-lg-4">
+                            <label for="select1">From</label>
+                            <select name="from" class="form-control" id="select1">
+                                <option value="Ultrasound Knee Right">Ultrasound Knee Right</option>
+                                <option value="Ultrasound Knee Left">Ultrasound Knee Left</option>
+                                <option value="MRI Knee Right">MRI Knee Right</option>
                             </select>
                         </div>
+
+                        <!-- Form Group -->
+                        <div class="form-group col-lg-4">
+                            <label for="select2">To</label>
+                            <select name="to" class="form-control" id="select2">
+                                <option value="MRI Knee Right">MRI Knee Right</option>
+                                <option value="Ultrasound Knee Right">Ultrasound Knee Right</option>
+                                <option value="Ultrasound Knee Left">Ultrasound Knee Left</option>
+                            </select>
+                        </div>
+
+                        <!-- Form Group -->
+                        <div class="form-group col-lg-4">
+                            <label for="select3">Date</label>
+                            <input style="cursor: pointer;" id="datepicker" name="date" placeholder="Pick Date"
+                                   class="date form-control transparent-input">
+                        </div>
+
+                        <!-- Form Group -->
+                        <div class="form-group col-lg-4">
+                            <label for="select3">Time</label>
+                            <input style="cursor: pointer;" id="timepicker" name="time" placeholder="Pick Time" 
+                                   class="date form-control transparent-input"
+                                   onclick="forceClickTimePicker(event)">
+                        </div>
+
+                        <!-- Form Group -->
+                        <div class="form-group col-lg-4">
+                            <label for="select4">Seat</label>
+                            <select name="seat" class="form-control" id="select4">
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                            </select>
+                        </div>
+
+                        <!-- Button -->
+                        <button class="col-lg-4" type="submit">Book Now</button>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Book Now Area End ##### -->
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-radius border-right" placeholder="Arrival"/>
-                        <span class="input-group-addon border-radius custom-addon">
-                            <i class="ion-ios-calendar"></i>
-                        </span>
-                    </div>
-                </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-radius border-right" placeholder="Departure"/>
-                        <span class="input-group-addon border-radius custom-addon">
-                            <i class="ion-ios-calendar"></i>
-                        </span>
-                    </div>
-                </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="btn btn-default border-radius custom-button">
-                        Search
+<!-- ##### Pool Area Start ##### -->
+<section class="pool-area section-padding-100 bg-img bg-fixed" style="background-image: url(images/bg-img/4.png);">
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-12 col-lg-7">
+                <div class="pool-content text-center wow fadeInUp" data-wow-delay="300ms">
+                    <div class="section-heading text-center white">
+                        <div class="line-"></div>
+                        <h2>Infinity Pool</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum.</p>
                     </div>
+
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <div class="pool-feature">
+                                <i class="icon-cocktail-1"></i>
+                                <p>Pool Beachbar</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="pool-feature">
+                                <i class="icon-swimming-pool"></i>
+                                <p>Infinity Pool</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="pool-feature">
+                                <i class="icon-beach"></i>
+                                <p>Sunbeds</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Button -->
+                    <a href="#" class="btn palatin-btn mt-50">Read More</a>
                 </div>
             </div>
-        </section> <!-- /.tour -->
+        </div>
+    </div>
+</section>
+<!-- ##### Pool Area End ##### -->
 
-
-        <!-- Our Blazzing offers -->
-        <section class="offer section-wrapper">
-            <div class="container">
-                <h2 class="section-title">
-                    Our Blazzing offers
-                </h2>
-                <p class="section-subtitle">
-                    Lorem Ipsum is simply dummy text of the industry.
-                </p>
-                <div class="row">
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="offer-item">
-                            <div class="icon">
-                                <i class="ion-social-euro"></i>
-                            </div>
-                            <h3>
-                                Affordable Pricing
-                            </h3>
-                            <p>
-                                Class aptent taciti sociosutn tora torquent conub nost reptos himenaeos.
-                            </p>
-                        </div>
-                    </div> <!-- /.col-md-3 -->
-
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="offer-item">
-                            <div class="icon">
-                                <i class="ion-ios-home"></i>
-                            </div>
-                            <h3>
-                                High class Hotels
-                            </h3>
-                            <p>
-                                Class aptent taciti sociosutn tora torquent conub nost reptos himenaeos.
-                            </p>
-                        </div>
-                    </div> <!-- /.col-md-3 -->
-
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="offer-item">
-                            <div class="icon">
-                                <i class="ion-android-bus"></i>
-                            </div>
-                            <h3>
-                                Luxury Transport
-                            </h3>
-                            <p>
-                                Class aptent taciti sociosutn tora torquent conub nost reptos himenaeos.
-                            </p>
-                        </div>
-                    </div> <!-- /.col-md-3 -->
-
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="offer-item">
-                            <div class="icon">
-                                <i class="ion-ios-locked"></i>
-                            </div>
-                            <h3>
-                                Highest Security
-                            </h3>
-                            <p>
-                                Class aptent taciti sociosutn tora torquent conub nost reptos himenaeos.
-                            </p>
-                        </div>
-                    </div> <!-- /.col-md-3 -->
-                </div> <!-- /.row -->
-            </div> <!-- /.container -->
-        </section> <!-- /.offer -->
-
-
-        <!-- Top place to visit -->
-        <section class="visit section-wrapper">
-            <div class="container">
-                <h2 class="section-title">
-                    Top place to visit
-                </h2>
-                <p class="section-subtitle">
-                    Lorem Ipsum is simply dummy text of the industry.
-                </p>
-
-                <div class="owl-carousel visit-carousel" id="">
-                    <div class="item">
-                        <img src="<c:url value="/images/visit-1.png" />" alt="visit-image" class="img-responsive visit-item">
-                    </div>
-                    <div class="item">
-                        <img src="<c:url value="/images/visit-2.png" />" alt="visit-image" class="img-responsive visit-item">
-                    </div>
-                    <div class="item">
-                        <img src="<c:url value="/images/visit-3.png" />" alt="visit-image" class="img-responsive visit-item">
-                    </div>
-                    <div class="item">
-                        <img src="<c:url value="/images/visit-1.png" />" alt="visit-image" class="img-responsive visit-item">
-                    </div>
-                    <div class="item">
-                        <img src="<c:url value="/images/visit-2.png" />" alt="visit-image" class="img-responsive visit-item">
-                    </div>
-                    <div class="item">
-                        <img src="<c:url value="/images/visit-3.png" />" alt="visit-image" class="img-responsive visit-item">
-                    </div>
+<!-- ##### Rooms Area Start ##### -->
+<section class="rooms-area section-padding-100-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-6">
+                <div class="section-heading text-center">
+                    <div class="line-"></div>
+                    <h2>Choose a room</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien.</p>
                 </div>
-            </div> <!-- /.container -->
-        </section> <!-- /.visit -->
+            </div>
+        </div>
 
-        <div class="offer-cta">
-            <div class="container">
-                <div class="offering">
-                    <div class="percent">
-                        <span>15%</span> off
-                    </div>
-                    <div class="FTour">
-                        for <strong>Family Tour</strong>
-                    </div>
-                    <a class="btn btn-default price-btn" href="<c:url value="#" />">
-                        see our price
-                    </a>
-                </div> <!-- /.offering -->
-            </div> <!-- /.container -->
-        </div> <!-- /.offer-cta -->
+        <div class="row justify-content-center">
 
-        <section class="additional-services section-wrapper">
-            <div class="container">
-                <h2 class="section-title">
-                    Additional services
-                </h2>
-                <p class="section-subtitle">
-                    Lorem Ipsum is simply dummy text of the industry.
-                </p>
-                <div class="row">
-                    <div class="col-md-4 col-sm-6">
-                        <div class="custom-table">
-                            <img src="<c:url value="/images/add-srvc-1.png" />" alt="" class="add-srvc-img">
-                            <div class="add-srvc-detail">
-                                <h4 class="add-srvc-heading">
-                                    Photography
-                                </h4>
-                                <p class="add-srvc">
-                                    Etiam pharetra ut ante eget ehy efficitur. Nullam quis felis at nunc vehicula sollicitudin euliquam quis felis atblan dit.
-                                </p>
-                            </div> <!-- /.add-srvc-detail -->
-                        </div> <!-- /.custom-table -->
-                    </div> <!-- /.col-md-4 col-sm-6 -->
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="custom-table">
-                            <img src="<c:url value="/images/add-srvc-2.png" />" alt="" class="add-srvc-img">
-                            <div class="add-srvc-detail">
-                                <h4 class="add-srvc-heading">
-                                    Cycling
-                                </h4>
-                                <p class="add-srvc">
-                                    Etiam pharetra ut ante eget ehy efficitur. Nullam quis felis at nunc vehicula sollicitudin euliquam quis felis atblan dit.
-                                </p>
-                            </div> <!-- /.add-srvc-detail -->
-                        </div> <!-- /.custom-table -->
-                    </div> <!-- /.col-md-4 col-sm-6 -->
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="custom-table">
-                            <img src="<c:url value="/images/add-srvc-3.png" />" alt="" class="add-srvc-img">
-                            <div class="add-srvc-detail">
-                                <h4 class="add-srvc-heading">
-                                    Waking
-                                </h4>
-                                <p class="add-srvc">
-                                    Etiam pharetra ut ante eget ehy efficitur. Nullam quis felis at nunc vehicula sollicitudin euliquam quis felis atblan dit.
-                                </p>
-                            </div> <!-- /.add-srvc-detail -->
-                        </div> <!-- /.custom-table -->
-                    </div> <!-- /.col-md-4 col-sm-6 -->
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="custom-table">
-                            <img src="<c:url value="/images/add-srvc-4.png" />" alt="" class="add-srvc-img">
-                            <div class="add-srvc-detail">
-                                <h4 class="add-srvc-heading">
-                                    Skiing
-                                </h4>
-                                <p class="add-srvc">
-                                    Etiam pharetra ut ante eget ehy efficitur. Nullam quis felis at nunc vehicula sollicitudin euliquam quis felis atblan dit.
-                                </p>
-                            </div> <!-- /.add-srvc-detail -->
-                        </div> <!-- /.custom-table -->
-                    </div> <!-- /.col-md-4 col-sm-6 -->
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="custom-table">
-                            <img src="<c:url value="/images/add-srvc-5.png" />" alt="" class="add-srvc-img">
-                            <div class="add-srvc-detail">
-                                <h4 class="add-srvc-heading">
-                                    Sea beach
-                                </h4>
-                                <p class="add-srvc">
-                                    Etiam pharetra ut ante eget ehy efficitur. Nullam quis felis at nunc vehicula sollicitudin euliquam quis felis atblan dit.
-                                </p>
-                            </div> <!-- /.add-srvc-detail -->
-                        </div> <!-- /.custom-table -->
-                    </div> <!-- /.col-md-4 col-sm-6 -->
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="custom-table">
-                            <img src="<c:url value="/images/add-srvc-6.png" />" alt="" class="add-srvc-img">
-                            <div class="add-srvc-detail">
-                                <h4 class="add-srvc-heading">
-                                    Hill tracking
-                                </h4>
-                                <p class="add-srvc">
-                                    Etiam pharetra ut ante eget ehy efficitur. Nullam quis felis at nunc vehicula sollicitudin euliquam quis felis atblan dit.
-                                </p>
-                            </div> <!-- /.add-srvc-detail -->
-                        </div> <!-- /.custom-table -->
-                    </div> <!-- /.col-md-4 col-sm-6 -->
-                </div> <!-- /.row -->
-            </div> <!-- /.container -->
-        </section> <!-- /.Additional-services -->
-
-
-        <div class="section-wrapper sponsor">
-            <div class="container">
-                <div class="owl-carousel sponsor-carousel">
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-1.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
+            <!-- Single Rooms Area -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
+                    <!-- Thumbnail -->
+                    <div class="bg-thumbnail bg-img" style="background-image: url(images/bg-img/1.jpg);"></div>
+                    <!-- Price -->
+                    <p class="price-from">From $150/night</p>
+                    <!-- Rooms Text -->
+                    <div class="rooms-text">
+                        <div class="line"></div>
+                        <h4>Deluxe Room</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
                     </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-2.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-3.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-4.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-5.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-6.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-1.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-2.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-3.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-4.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-5.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-6.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-1.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-2.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-3.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-4.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-5.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="<c:url value="#" />">
-                            <img src="<c:url value="/images/sp-6.png" />" alt="sponsor-brand" class="img-responsive sponsor-item">
-                        </a>
-                    </div>
-                </div> <!-- /.owl-carousel -->
-            </div> <!-- /.container -->
-        </div> <!-- /.sponsor -->
-
-        <div class="subscribe section-wrapper">
-            <a class="brand-logo" href="<c:url value="index.html" />" title="HOME"><i class="ion-paper-airplane"></i> Euro <span>Travel</span></a>
-            <p class="subscribe-now">
-                Subscribe to our Newsletter
-            </p>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                        <div class="input-group">
-                            <input type="email" class="form-control border-radius" placeholder="Email address">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default border-radius custom-sub-btn" type="button">DONE</button>
-                            </span>
-                        </div><!-- /input-group -->
-                    </div>
+                    <!-- Book Room -->
+                    <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
                 </div>
             </div>
 
-
-
-            <ul class="social-icon">
-                <li><a href="<c:url value="#" />"><i class="ion-social-twitter"></i></a></li>
-                <li><a href="<c:url value="#" />"><i class="ion-social-facebook"></i></a></li>
-                <li><a href="<c:url value="#" />"><i class="ion-social-linkedin-outline"></i></a></li>
-                <li><a href="<c:url value="#" />"><i class="ion-social-googleplus"></i></a></li>
-            </ul>
-        </div> <!-- /.subscribe -->
-
-
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <div class="text-left">
-                            &copy; Copyright Euro Travels
-                        </div>
+            <!-- Single Rooms Area -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="single-rooms-area wow fadeInUp" data-wow-delay="300ms">
+                    <!-- Thumbnail -->
+                    <div class="bg-thumbnail bg-img" style="background-image: url(images/bg-img/8.jpg);"></div>
+                    <!-- Price -->
+                    <p class="price-from">From $150/night</p>
+                    <!-- Rooms Text -->
+                    <div class="rooms-text">
+                        <div class="line"></div>
+                        <h4>Double Suite</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
                     </div>
-                    <div class="col-xs-4">
-                        Theme by <a href="<c:url value="http://www.themewagon.com" />">THEMEWAGON</a>
-                    </div>
-                    <div class="col-xs-4">
-                        <div class="top">
-                            <a href="<c:url value="#header" />">
-                                <i class="ion-arrow-up-b"></i>
-                            </a>
-                        </div>
-                    </div>
+                    <!-- Book Room -->
+                    <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
                 </div>
-            </div>		
-        </footer>
+            </div>
+
+            <!-- Single Rooms Area -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="single-rooms-area wow fadeInUp" data-wow-delay="500ms">
+                    <!-- Thumbnail -->
+                    <div class="bg-thumbnail bg-img" style="background-image: url(images/bg-img/9.jpg);"></div>
+                    <!-- Price -->
+                    <p class="price-from">From $100/night</p>
+                    <!-- Rooms Text -->
+                    <div class="rooms-text">
+                        <div class="line"></div>
+                        <h4>Single Room</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
+                    </div>
+                    <!-- Book Room -->
+                    <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- ##### Rooms Area End ##### -->
+
+<!-- ##### Contact Area Start ##### -->
+<section class="contact-area d-flex flex-wrap align-items-center">
+    <div class="home-map-area">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22236.40558254599!2d-118.25292394686001!3d34.057682914027104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2z4Kay4Ka4IOCmj-CmnuCnjeCmnOCnh-CmsuCnh-CmuCwg4KaV4KeN4Kav4Ka-4Kay4Ka_4Kar4KeL4Kaw4KeN4Kao4Ka_4Kav4Ka84Ka-LCDgpq7gpr7gprDgp43gppXgpr_gpqgg4Kav4KeB4KaV4KeN4Kak4Kaw4Ka-4Ka34KeN4Kaf4KeN4Kaw!5e0!3m2!1sbn!2sbd!4v1532328708137" allowfullscreen></iframe>
+    </div>
+    <!-- Contact Info -->
+    <div class="contact-info">
+        <div class="section-heading wow fadeInUp" data-wow-delay="100ms">
+            <div class="line-"></div>
+            <h2>Contact Info</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+        </div>
+        <h4 class="wow fadeInUp" data-wow-delay="300ms">Los Angeles 1481 Creekside Lane Avila Beach, CA 931</h4>
+        <h5 class="wow fadeInUp" data-wow-delay="400ms">+53 345 7953 32453</h5>
+        <h5 class="wow fadeInUp" data-wow-delay="500ms">yourmail@gmail.com</h5>
+        <!-- Social Info -->
+        <div class="social-info mt-50 wow fadeInUp" data-wow-delay="600ms">
+            <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</section>
+<!-- ##### Contact Area End ##### -->
 
 
-        <script src="<c:url value="/js/jquery-1.11.2.min.js" />"></script>
-        <script src="<c:url value="/js/bootstrap.min.js" />"></script>
-        <script src="<c:url value="/js/owl.carousel.min.js" />"></script>
-        <script src="<c:url value="/js/contact.js" />"></script>
-        <script src="<c:url value="/js/jquery.flexslider.js" />"></script>
-        <script src="<c:url value="/js/script.js" />"></script>
 
 
 
+<script src="<c:url value="https://unpkg.com/gijgo@1.9.13//js/gijgo.min.js" />" type="text/javascript"></script>
 
 
+<script>
+                                $('#datepicker').datepicker({
+                                    uiLibrary: 'bootstrap',
+                                    format: 'dd-mm-yyyy'
 
-    </body>
-</html>
+                                });
+                                $('#timepicker').timepicker();
+                                function forceClickTimePicker(e) {
+                                    e.target.nextSibling.click()
+                                }
+</script>

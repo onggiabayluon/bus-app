@@ -30,6 +30,7 @@
     <class>com.temtree.pojo.Seat</class>
     <class>com.temtree.pojo.User</class>
     <class>com.temtree.pojo.Comment</class>
+    <class>com.temtree.pojo.Location</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/saledb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

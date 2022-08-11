@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ticket.findAll", query = "SELECT t FROM Ticket t"),
     @NamedQuery(name = "Ticket.findById", query = "SELECT t FROM Ticket t WHERE t.id = :id"),
     @NamedQuery(name = "Ticket.findByPrice", query = "SELECT t FROM Ticket t WHERE t.price = :price"),
+    @NamedQuery(name = "Ticket.findByDepartDate", query = "SELECT t FROM Ticket t WHERE t.departDate = :departDate"),
     @NamedQuery(name = "Ticket.findByCreatedDate", query = "SELECT t FROM Ticket t WHERE t.createdDate = :createdDate"),
     @NamedQuery(name = "Ticket.findByActive", query = "SELECT t FROM Ticket t WHERE t.active = :active")})
 public class Ticket implements Serializable {
@@ -49,19 +50,22 @@ public class Ticket implements Serializable {
     private Integer id;
     @Column(name = "price")
     private Long price;
+    @Column(name = "depart_date")
+    @Temporal(TemporalType.DATE)
+    private Date departDate;
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Column(name = "active")
     private Boolean active;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "ticketId")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "ticket")
     private Seat seat;
     @JoinColumn(name = "bustrip_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Bustrip bustripId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "route_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User userId;
+    private Route routeId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticketId")
     private Set<Receipt> receiptSet;
 
@@ -86,6 +90,14 @@ public class Ticket implements Serializable {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public Date getDepartDate() {
+        return departDate;
+    }
+
+    public void setDepartDate(Date departDate) {
+        this.departDate = departDate;
     }
 
     public Date getCreatedDate() {
@@ -120,12 +132,12 @@ public class Ticket implements Serializable {
         this.bustripId = bustripId;
     }
 
-    public User getUserId() {
-        return userId;
+    public Route getRouteId() {
+        return routeId;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setRouteId(Route routeId) {
+        this.routeId = routeId;
     }
 
     @XmlTransient

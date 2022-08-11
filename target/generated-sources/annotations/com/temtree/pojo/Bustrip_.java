@@ -11,18 +11,18 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.9.v20210604-rNA", date="2022-08-07T17:21:31")
+@Generated(value="EclipseLink-2.7.9.v20210604-rNA", date="2022-08-11T19:15:22")
 @StaticMetamodel(Bustrip.class)
 public class Bustrip_ { 
 
     public static volatile SingularAttribute<Bustrip, Date> departTime;
     public static volatile SetAttribute<Bustrip, Bus> busSet;
     public static volatile SingularAttribute<Bustrip, Route> routeId;
-    public static volatile SingularAttribute<Bustrip, Integer> driverId;
+    public static volatile SingularAttribute<Bustrip, User> driverId;
     public static volatile SetAttribute<Bustrip, Ticket> ticketSet;
     public static volatile SetAttribute<Bustrip, Comment> commentSet;
     public static volatile SingularAttribute<Bustrip, Boolean> active;
     public static volatile SingularAttribute<Bustrip, Integer> id;
-    public static volatile SingularAttribute<Bustrip, User> userId;
+    public static volatile SingularAttribute<Bustrip, Date> endTime;
 
 }

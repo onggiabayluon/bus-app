@@ -13,11 +13,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -30,9 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Route.findAll", query = "SELECT r FROM Route r"),
-    @NamedQuery(name = "Route.findById", query = "SELECT r FROM Route r WHERE r.id = :id"),
-    @NamedQuery(name = "Route.findByStartRoute", query = "SELECT r FROM Route r WHERE r.startRoute = :startRoute"),
-    @NamedQuery(name = "Route.findByEndRoute", query = "SELECT r FROM Route r WHERE r.endRoute = :endRoute")})
+    @NamedQuery(name = "Route.findById", query = "SELECT r FROM Route r WHERE r.id = :id")})
 public class Route implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,14 +40,16 @@ public class Route implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
-    @Column(name = "start_route")
-    private String startRoute;
-    @Size(max = 255)
-    @Column(name = "end_route")
-    private String endRoute;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "routeId")
     private Set<Bustrip> bustripSet;
+    @JoinColumn(name = "start_location_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Location startLocationId;
+    @JoinColumn(name = "end_location_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Location endLocationId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "routeId")
+    private Set<Ticket> ticketSet;
 
     public Route() {
     }
@@ -65,22 +66,6 @@ public class Route implements Serializable {
         this.id = id;
     }
 
-    public String getStartRoute() {
-        return startRoute;
-    }
-
-    public void setStartRoute(String startRoute) {
-        this.startRoute = startRoute;
-    }
-
-    public String getEndRoute() {
-        return endRoute;
-    }
-
-    public void setEndRoute(String endRoute) {
-        this.endRoute = endRoute;
-    }
-
     @XmlTransient
     public Set<Bustrip> getBustripSet() {
         return bustripSet;
@@ -88,6 +73,31 @@ public class Route implements Serializable {
 
     public void setBustripSet(Set<Bustrip> bustripSet) {
         this.bustripSet = bustripSet;
+    }
+
+    public Location getStartLocationId() {
+        return startLocationId;
+    }
+
+    public void setStartLocationId(Location startLocationId) {
+        this.startLocationId = startLocationId;
+    }
+
+    public Location getEndLocationId() {
+        return endLocationId;
+    }
+
+    public void setEndLocationId(Location endLocationId) {
+        this.endLocationId = endLocationId;
+    }
+
+    @XmlTransient
+    public Set<Ticket> getTicketSet() {
+        return ticketSet;
+    }
+
+    public void setTicketSet(Set<Ticket> ticketSet) {
+        this.ticketSet = ticketSet;
     }
 
     @Override

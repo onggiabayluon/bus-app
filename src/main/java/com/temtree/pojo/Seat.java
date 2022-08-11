@@ -43,9 +43,9 @@ public class Seat implements Serializable {
     @JoinColumn(name = "bus_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Bus busId;
-    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
-    private Ticket ticketId;
+    private Ticket ticket;
 
     public Seat() {
     }
@@ -78,12 +78,12 @@ public class Seat implements Serializable {
         this.busId = busId;
     }
 
-    public Ticket getTicketId() {
-        return ticketId;
+    public Ticket getTicket() {
+        return ticket;
     }
 
-    public void setTicketId(Ticket ticketId) {
-        this.ticketId = ticketId;
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
     @Override
