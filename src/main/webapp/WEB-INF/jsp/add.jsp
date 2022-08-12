@@ -51,7 +51,6 @@
                                             <c:forEach items="${bustrips}" var="bustrip">
                                                 <option value="${bustrip.id}">${bustrip.id}</option>
                                             </c:forEach>
-                                                
                                             <option value="1">1</option>
                                         </select>
                                     </div>

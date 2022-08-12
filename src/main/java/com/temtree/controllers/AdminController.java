@@ -7,6 +7,7 @@ package com.temtree.controllers;
 import com.temtree.pojo.Bus;
 import com.temtree.pojo.Bustrip;
 import com.temtree.pojo.Location;
+import com.temtree.services.BusService;
 import com.temtree.utils.utils;
 import com.temtree.services.BustripService;
 import com.temtree.services.LocationService;
@@ -39,6 +40,8 @@ public class AdminController {
     private RouteService routeService;
     @Autowired
     private BustripService bustripService;
+    @Autowired
+    private BusService busService;
 
     @RequestMapping("/")
     public String admin(Model model, @RequestParam Map<String, String> params) {
@@ -51,6 +54,7 @@ public class AdminController {
         model.addAttribute("locations", this.locationService.getLocations());
         model.addAttribute("routes", this.routeService.getRoutes());
         model.addAttribute("bustrips", this.bustripService.getBustrips());
+      
 
         return "list";
     }
@@ -106,7 +110,7 @@ public class AdminController {
             @ModelAttribute(value = "bus") Bus bus,
             BindingResult r) throws ParseException {
         
-        if (this.busService.addbus(bus) == true)
+        if (this.busService.addBus(bus) == true)
             return "redirect:list";
         
         if (r.hasErrors()) {

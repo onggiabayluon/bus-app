@@ -18,4 +18,6 @@ public interface BusRepository {
     boolean addBus(Bus location);
 
     boolean deleteBus(int id);
+
+    public List<Bus> getBus();
 }
