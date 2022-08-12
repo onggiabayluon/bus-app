@@ -13,9 +13,11 @@ import java.util.Map;
  * @author admin
  */
 public interface RouteService {
+    List<Route> getRoutesName();
+    
     List<Route> getRoutes();
     
-    boolean addRoute(Route location);
+    boolean addRoute(Route route);
 
     boolean deleteRoute(int id);
 }

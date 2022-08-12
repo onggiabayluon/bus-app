@@ -5,8 +5,11 @@
 package com.temtree.repository.impl;
 
 import com.temtree.pojo.Route;
+import com.temtree.pojo.Route;
 import com.temtree.pojo.Location;
 import com.temtree.repository.RouteRepository;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -24,6 +27,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  *
@@ -33,17 +37,42 @@ import org.hibernate.query.Query;
 @PropertySource("classpath:databases.properties")
 @Transactional
 public class RouteRepositoryImpl implements RouteRepository {
+
     @Autowired
     private LocalSessionFactoryBean sessionFactory;
+
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     @Override
-    public boolean addRoute(Route location) {
-        Session session = this.sessionFactory.getObject().getCurrentSession();
+    public boolean deleteRoute(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Route> getRoutesName() {
+
+        List<Object[]> results = entityManager.createNativeQuery(
+                "SELECT r.id, j1.name as start_location_name, j2.name as end_location_name FROM Route r\n"
+                + "join Location j1 on j1.id = r.start_location_id\n"
+                + "join Location j2 on j2.id = r.end_location_id").getResultList();
         
+        List<Route> routes = new ArrayList<Route>();
+        
+        for (Object[] item : results) {
+            Route route = new Route(item);
+            routes.add(route);
+        }
+        
+        return routes;
+    }
+
+    @Override
+    public boolean addRoute(Route route) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+
         try {
-            session.save(location);
+            session.save(route);
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -52,23 +81,16 @@ public class RouteRepositoryImpl implements RouteRepository {
     }
 
     @Override
-    public boolean deleteRoute(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Route> getRoutes() {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Route> q = b.createQuery(Route.class);
+        Root route = q.from(Route.class);
+        q.select(route);
+        
+        Query query = session.createQuery(q);
+        
+        return query.getResultList();
     }
 
-    @Override
-    public List<Route> getRoutes() {
-        
-        List<Route> results = entityManager.createNativeQuery(
-                "SELECT r.id, j1.name as start_location_name, j2.name as end_location_name FROM Route r\n" +
-                "join Location j1 on j1.id = r.start_location_id\n" +
-                "join Location j2 on j2.id = r.end_location_id").getResultList();
-        
-        
-        for (Route result : results) {
-            System.err.println(result);
-        }
-        return results;
-    }
-    
 }

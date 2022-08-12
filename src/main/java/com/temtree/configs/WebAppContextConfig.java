@@ -4,6 +4,12 @@
  */
 package com.temtree.configs;
 
+import com.temtree.formatter.BustripFormatter;
+import com.temtree.formatter.LocationFormatter;
+import com.temtree.formatter.RouteFormatter;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -45,12 +51,6 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     }
    
     
-//    @Override
-//    public void addFormatters(FormatterRegistry registry) {
-//        registry.addFormatter(new CategoryFormatter());
-//    }
-    
-    
 //    @Bean
 //    public InternalResourceViewResolver viewResolver() {
 //        InternalResourceViewResolver r = new InternalResourceViewResolver();
@@ -60,12 +60,26 @@ public class WebAppContextConfig implements WebMvcConfigurer {
 //        
 //        return r;
 //    }
+    
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+//        registry.addFormatter(new RouteFormatter());
+//        registry.addFormatter(new LocationFormatter());
+        registry.addFormatter(new BustripFormatter());
+    }
+    
 
     @Override
     public Validator getValidator() {
         return validator();
     }
     
+//    @Bean
+//    @Qualifier(value = "entityManager")
+//    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
+//        return entityManagerFactory.createEntityManager();
+//    }
+
     @Bean
     public Validator validator() {
         LocalValidatorFactoryBean v = new LocalValidatorFactoryBean();

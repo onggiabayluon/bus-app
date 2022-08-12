@@ -13,6 +13,8 @@ import java.util.Map;
  * @author admin
  */
 public interface RouteRepository {
+    
+    List<Route> getRoutesName();
     List<Route> getRoutes();
 
     boolean addRoute(Route location);

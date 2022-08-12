@@ -8,7 +8,6 @@ import com.temtree.pojo.Route;
 import com.temtree.repository.RouteRepository;
 import com.temtree.services.RouteService;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +17,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RouteServiceImpl implements RouteService {
+
     @Autowired
-    private RouteRepository locationRepository;
-    
+    private RouteRepository routeRepository;
+
     @Override
-    public boolean addRoute(Route location) {
-        return this.locationRepository.addRoute(location); 
+    public boolean addRoute(Route route) {
+        return this.routeRepository.addRoute(route);
     }
 
     @Override
@@ -32,8 +32,13 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Route> getRoutes() {
-        return this.locationRepository.getRoutes();
+    public List<Route> getRoutesName() {
+        return this.routeRepository.getRoutesName();
     }
-    
+
+    @Override
+    public List<Route> getRoutes() {
+        return this.routeRepository.getRoutes();
+    }
+
 }

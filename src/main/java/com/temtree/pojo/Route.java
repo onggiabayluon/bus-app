@@ -4,6 +4,7 @@
  */
 package com.temtree.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -19,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -50,8 +52,25 @@ public class Route implements Serializable {
     private Location endLocationId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "routeId")
     private Set<Ticket> ticketSet;
+    
+    @Transient
+    private String startLocationName;
+    @Transient
+    private String endLocationName;
+
 
     public Route() {
+    }
+    
+    public Route(String id) {
+        this.id = Integer.parseInt(id);
+    }
+    
+    
+    public Route(Object[] obj) {
+        this.id = Integer.parseInt(String.valueOf(obj[0]));
+        this.startLocationName = String.valueOf(obj[1]);
+        this.endLocationName = String.valueOf(obj[2]);
     }
 
     public Route(Integer id) {
@@ -123,6 +142,34 @@ public class Route implements Serializable {
     @Override
     public String toString() {
         return "com.temtree.pojo.Route[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the startLocationName
+     */
+    public String getStartLocationName() {
+        return startLocationName;
+    }
+
+    /**
+     * @param startLocationName the startLocationName to set
+     */
+    public void setStartLocationName(String startLocationName) {
+        this.startLocationName = startLocationName;
+    }
+
+    /**
+     * @return the endLocationName
+     */
+    public String getEndLocationName() {
+        return endLocationName;
+    }
+
+    /**
+     * @param endLocationName the endLocationName to set
+     */
+    public void setEndLocationName(String endLocationName) {
+        this.endLocationName = endLocationName;
     }
     
 }

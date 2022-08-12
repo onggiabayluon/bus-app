@@ -69,6 +69,21 @@ public class Bustrip implements Serializable {
 
     public Bustrip() {
     }
+    
+    public Bustrip(Date departTime, Date endTime, Route routeId, User driverId) {
+        this.departTime = departTime;
+        this.endTime = endTime;
+        this.routeId = routeId;
+        this.driverId = driverId;
+    }
+    public Bustrip(int id, Date departTime, Date endTime, Route routeId, User driverId) {
+        this.id = id;
+        this.departTime = departTime;
+        this.endTime = endTime;
+        this.routeId = routeId;
+        this.driverId = driverId;
+    }
+    
 
     public Bustrip(Integer id) {
         this.id = id;

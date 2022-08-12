@@ -75,6 +75,10 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(String id) {
+        this.id = Integer.parseInt(id);
+    }
+    
     public User(Integer id) {
         this.id = id;
     }

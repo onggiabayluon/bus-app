@@ -4,6 +4,7 @@
     Author     : admin
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -32,6 +33,37 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div/>
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Add Bus</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <form class="p-4" action="add-bus" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select BustripId</label>
+                                        <select name="endLocationId" class="form-control" id="exampleFormControlSelect1">
+                                            <c:forEach items="${bustrips}" var="bustrip">
+                                                <option value="${bustrip.id}">${bustrip.id}</option>
+                                            </c:forEach>
+                                                
+                                            <option value="1">1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info ml-auto">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-12">
                 <div class="card my-4">
@@ -68,25 +100,25 @@
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
-                        <form class="p-4" action="route" method="post">
+                        <form onsubmit="addRoute(event)" class="p-4" action="route" method="post">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-group input-group-static mb-4">
                                         <label for="exampleFormControlSelect1" class="ms-0">Select Start Location</label>
-                                        <select name="start_location_id" class="form-control" id="exampleFormControlSelect1">
-                                            <option value="1">Mỹ Tho</option>
-                                            <option value="1">Tp Hồ Chí Minh</option>
-                                            <option value="1">Cujut</option>
+                                        <select name="startLocationId" class="form-control" id="exampleFormControlSelect1">
+                                            <c:forEach items="${locations}" var="location">
+                                                <option value="${location.id}">${location.name}</option>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group input-group-static mb-4">
                                         <label for="exampleFormControlSelect1" class="ms-0">Select End Location</label>
-                                        <select name="end_location_id" class="form-control" id="exampleFormControlSelect1">
-                                            <option value="1">Mỹ Tho</option>
-                                            <option value="1">Tp Hồ Chí Minh</option>
-                                            <option value="1">Cujut</option>
+                                        <select name="endLocationId" class="form-control" id="exampleFormControlSelect1">
+                                            <c:forEach items="${locations}" var="location">
+                                                <option value="${location.id}">${location.name}</option>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                 </div>
@@ -108,18 +140,60 @@
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
-                        <form class="p-4" action="bustrip" method="post">
+                        <!--                        <form method="post" onSubmit="addBustrip(event)" class="p-4">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="input-group input-group-static my-3">
+                                                                <label>Depart Time</label>
+                                                                <input name="departTime" name="departTime" type="time" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group input-group-static my-3">
+                                                                <label>Arrived Time</label>
+                                                                <input name="endTime" name="endTime" type="time" class="form-control" />
+                                                            </div>
+                                                        </div>
+                        
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="input-group input-group-static mb-4">
+                                                                <label for="exampleFormControlSelect1" class="ms-0">Select Route</label>
+                                                                <select name="routeId" class="form-control">
+                        <c:forEach items="${routes}" var="route">
+                            <option value="${route.id}">${route.startLocationName} -> ${route.endLocationName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-static mb-4">
+                    <label for="exampleFormControlSelect1" class="ms-0">Select Driver</label>
+                    <select name="driverId" class="form-control" id="exampleFormControlSelect1">
+                        <option value="1">QuáiXế</option>
+                        <option value="1">TàiXếDămBông</option>
+                        <option value="1">Dono</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-info ml-auto">Submit</button>
+    </form>-->
+                        <form:form method="post" action="add-bustrip" modelAttribute="bustrip" class="p-4">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-group input-group-static my-3">
                                         <label>Depart Time</label>
-                                        <input name="depart_time" type="time" class="form-control">
+                                        <form:input path="departTime" name="departTime" type="time" class="form-control" />
+                                        <form:errors path="departTime" element="div" cssClass="invalid-feedback" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group input-group-static my-3">
                                         <label>Arrived Time</label>
-                                        <input name="depart_time" type="time" class="form-control">
+                                        <form:input path="endTime" name="endTime" type="time" class="form-control" />
+                                        <form:errors path="endTime" element="div" cssClass="invalid-feedback" />
                                     </div>
                                 </div>
 
@@ -128,26 +202,26 @@
                                 <div class="col-md-6">
                                     <div class="input-group input-group-static mb-4">
                                         <label for="exampleFormControlSelect1" class="ms-0">Select Route</label>
-                                        <select name="route_id" class="form-control">
-                                            <option value="1">Mỹ Tho -> Sài Gòn</option>
-                                            <option value="1">Cujut -> Sài Gòn</option>
-                                            <option value="1">Doremon -> Cà Mau</option>
-                                        </select>
+                                        <form:select path="routeId" class="form-control">
+                                            <c:forEach items="${routes}" var="route">
+                                                <option value="${route.id}">${route.startLocationName} -> ${route.endLocationName}</option>
+                                            </c:forEach>
+                                        </form:select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group input-group-static mb-4">
                                         <label for="exampleFormControlSelect1" class="ms-0">Select Driver</label>
-                                        <select name="driver_id" class="form-control" id="exampleFormControlSelect1">
+                                        <form:select path="driverId" class="form-control" id="exampleFormControlSelect1">
                                             <option value="1">QuáiXế</option>
                                             <option value="1">TàiXếDămBông</option>
                                             <option value="1">Dono</option>
-                                        </select>
+                                        </form:select>
                                     </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-info ml-auto">Submit</button>
-                        </form>
+                        </form:form>
                     </div
 
                 </div>

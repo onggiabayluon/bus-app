@@ -42,7 +42,15 @@ const submitForm = (e) => {
 
     const formData = new FormData(e.target);
     const inputObject = Object.fromEntries(formData); // convert the FormData object to a JSON object
-
+//    let newInputObject = {};
+//    
+//    if (inputObject.departTime || inputObject.endTime) {
+//        newInputObject = {
+//            ...inputObject,
+//            departTime: inputObject.departTime.replace(/:/g,''),
+//            endTime: inputObject.endTime.replace(/:/g,'')
+//        };
+//    }
 //    console.log(inputObject);
     return inputObject;
 };
@@ -59,4 +67,27 @@ const submitForm = (e) => {
   }
 };
 
+const addRoute = async (e) => {
+  try {
+    const formData = submitForm(e);
+    const res = await httpRequest.post("route", formData);
+    
+    handleMsg(res);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addBustrip = async (e) => {
+  try {
+    const formData = submitForm(e);
+    const res = await httpRequest.post("bustrip", formData);
+    
+    handleMsg(res);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
