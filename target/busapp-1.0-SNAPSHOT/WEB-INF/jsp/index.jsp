@@ -72,7 +72,13 @@
     </div>
 </section>
 <!-- ##### Hero Area End ##### -->
+<style>
+.nice-select.open .list {
+    overflow-y: auto;
+    max-height: 200px;
+}
 
+</style>
 <!-- ##### Book Now Area Start ##### -->
 <div class="book-now-area">
     <div class="container">
@@ -83,10 +89,10 @@
                         <!-- Form Group -->
                         <div class="form-group col-lg-4">
                             <label for="select1">From</label>
-                            <select name="from" class="form-control" id="select1">
-                                <option value="Ultrasound Knee Right">Ultrasound Knee Right</option>
-                                <option value="Ultrasound Knee Left">Ultrasound Knee Left</option>
-                                <option value="MRI Knee Right">MRI Knee Right</option>
+                            <select onChange="handleFromClick(event)" name="from" class="form-control" id="select1">
+                                <c:forEach items="${locations}" var="location">
+                                    <option value="${location.id}">${location.name}</option>
+                                </c:forEach>
                             </select>
                         </div>
 
@@ -286,17 +292,4 @@
 
 
 
-<script src="<c:url value="https://unpkg.com/gijgo@1.9.13//js/gijgo.min.js" />" type="text/javascript"></script>
 
-
-<script>
-                                $('#datepicker').datepicker({
-                                    uiLibrary: 'bootstrap',
-                                    format: 'dd-mm-yyyy'
-
-                                });
-                                $('#timepicker').timepicker();
-                                function forceClickTimePicker(e) {
-                                    e.target.nextSibling.click()
-                                }
-</script>

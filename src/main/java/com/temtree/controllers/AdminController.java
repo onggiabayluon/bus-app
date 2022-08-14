@@ -101,20 +101,20 @@ public class AdminController {
     }
     
     
-    @PostMapping("/add-bus")
-    public String addBus(
-            @ModelAttribute(value = "bus") Bus bus,
-            BindingResult r) throws ParseException {
-        
-        if (this.busService.addbus(bus) == true)
-            return "redirect:list";
-        
-        if (r.hasErrors()) {
-            return "add";
-        }
-        
-        
-        return "list";
-    }
+//    @PostMapping("/add-bus")
+//    public String addBus(
+//            @ModelAttribute(value = "bus") Bus bus,
+//            BindingResult r) throws ParseException {
+//        
+//        if (this.busService.addbus(bus) == true)
+//            return "redirect:list";
+//        
+//        if (r.hasErrors()) {
+//            return "add";
+//        }
+//        
+//        
+//        return "list";
+//    }
 
 }

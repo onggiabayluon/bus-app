@@ -275,6 +275,21 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select Seat</label>
+                                        <select name="seat" class="form-control" id="exampleFormControlSelect1">
+                                            <option value="1">Seat 1</option>
+                                            <option value="1">Seat 2</option>
+                                            <option value="1">Seat 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-info ml-auto">Submit</button>
                         </form>
                     </div
