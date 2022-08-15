@@ -4,16 +4,12 @@
  */
 package com.temtree.controllers;
 
-import com.temtree.utils.utils;
-import com.temtree.pojo.Bustrip;
 import com.temtree.pojo.Location;
 import com.temtree.pojo.Route;
 import com.temtree.services.BustripService;
 import com.temtree.services.LocationService;
 import com.temtree.services.RouteService;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -26,9 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -38,8 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/api")
 public class ApiController {
-
-    private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
 
     @Autowired
     private LocationService locationService;
@@ -93,5 +85,16 @@ public class ApiController {
 //        
 //        return bustrip;
 //    }
+    
+    
+    @GetMapping("/routes")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Route> getRoutes(@RequestParam String id) {
+        System.out.println("Check value: " + id);
+        int startLocationId = Integer.parseInt(id);
+
+        List<Route> routes = this.routeService.getRoutesByLocationId(startLocationId);
+        return routes;
+    }
 
 }

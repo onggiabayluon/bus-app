@@ -20,20 +20,26 @@ public class utils {
         DateFormat sdf = new SimpleDateFormat("HH:mm");
         Date date = sdf.parse(time);
 
-        System.out.println("date: " + date);
-        System.out.println("Time: " + sdf.format(date));
+//        System.out.println("date: " + date);
+//        System.out.println("Time: " + sdf.format(date));
 
         return date;
     }
     public static Date stringInDateToJavaDate(String strDate) throws ParseException {
         //String date = "15/08/2022";
+        try {
+            DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            Date date = sdf.parse(strDate);
 
-        DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = sdf.parse(strDate);
+//            System.out.println("date: " + date);
+//            System.out.println("Time: " + sdf.format(date));
 
-        System.out.println("date: " + date);
-        System.out.println("Time: " + sdf.format(date));
-
-        return date;
+            return date;
+        }
+        catch (Exception e) {
+            System.err.println(e);
+        }
+        
+        return null;
     }
 }

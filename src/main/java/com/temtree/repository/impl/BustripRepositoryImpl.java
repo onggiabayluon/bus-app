@@ -5,9 +5,14 @@
 package com.temtree.repository.impl;
 
 import com.temtree.pojo.Bustrip;
+import com.temtree.pojo.Route;
 import com.temtree.repository.BustripRepository;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -30,6 +35,9 @@ import org.hibernate.query.Query;
 public class BustripRepositoryImpl implements BustripRepository {
     @Autowired
     private LocalSessionFactoryBean sessionFactory;
+    
+    @PersistenceContext
+    private EntityManager entityManager;
     
     @Override
     public boolean addBustrip(Bustrip bustrip) {
@@ -60,6 +68,27 @@ public class BustripRepositoryImpl implements BustripRepository {
         Query query = session.createQuery(q);
         
         return query.getResultList();
+    }
+
+    @Override
+    public List<Bustrip> getTicketBustrips(int startLocationId, int endLocationId, Date departDate) {
+        List<Bustrip> results = (List<Bustrip>) entityManager.createNativeQuery(
+                "SELECT bustrip.* FROM bustrip, route, ticket\n" +
+                "where bustrip.route_id = route.id\n" +
+                "and bustrip.id = ticket.bustrip_id\n" +
+                "and start_location_id = ?\n" +
+                "and end_location_id = ?\n" +
+                "and depart_date = ?", Bustrip.class)
+                .setParameter(1, startLocationId)
+                .setParameter(2, endLocationId)
+                .setParameter(3, departDate)
+                .getResultList();
+        
+        System.out.println("com.temtree.repository.impl.BustripRepositoryImpl.getTicketBustrips()");
+        System.err.println(results);
+        
+        
+        return results;
     }
     
 }

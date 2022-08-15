@@ -22,8 +22,9 @@ const httpRequest = axios.create({
 
 const getForm = (e) => {
     e.preventDefault();
+    const grandParent = e.target.parentNode.parentNode;
 
-    const formData = new FormData(e.target);
+    const formData = new FormData(grandParent);
     const inputObject = Object.fromEntries(formData);
     
     //console.log(inputObject);
@@ -32,15 +33,38 @@ const getForm = (e) => {
 
 const handleFromClick = async (e) => {
     const formData = getForm(e);
-    console.log(formData);
-//    try {
-//    const res = await httpRequest.post("route", {params: {
-//        q
-//      }});
-//    
-//    handleMsg(res);
-//    console.log(res);
-//  } catch (error) {
-//    console.log(error);
-//  }
+    const start_location_id = formData.from;
+    try {
+        const res = await httpRequest.get("routes", {params: {
+            id: start_location_id
+        }});
+        renderStartLocationSelect(res.data);
+    
+        console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
 };
+
+const select = $("#endLocationSelect").niceSelect();
+
+function renderStartLocationSelect(locations) {
+    const fragment = document.createDocumentFragment();
+    
+    
+    const htmlOption = (location) => {
+        var option = document.createElement('option');
+        option.value = location.endLocationIdInt;
+        option.text = location.endLocationName;
+        return option;
+    };
+
+    for (const location of locations) {
+        fragment.appendChild(htmlOption(location));
+    }
+    
+    select.html(fragment);
+    
+    select.niceSelect("update");
+    
+}

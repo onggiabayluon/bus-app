@@ -57,6 +57,8 @@ public class Route implements Serializable {
     private String startLocationName;
     @Transient
     private String endLocationName;
+    @Transient
+    private int endLocationIdInt;
 
 
     public Route() {
@@ -65,12 +67,15 @@ public class Route implements Serializable {
     public Route(String id) {
         this.id = Integer.parseInt(id);
     }
-    
+
     
     public Route(Object[] obj) {
         this.id = Integer.parseInt(String.valueOf(obj[0]));
         this.startLocationName = String.valueOf(obj[1]);
         this.endLocationName = String.valueOf(obj[2]);
+        if (obj.length > 3) {
+            this.endLocationIdInt = Integer.parseInt(String.valueOf(obj[3]));
+        }
     }
 
     public Route(Integer id) {
@@ -170,6 +175,20 @@ public class Route implements Serializable {
      */
     public void setEndLocationName(String endLocationName) {
         this.endLocationName = endLocationName;
+    }
+
+    /**
+     * @return the endLocationIdInt
+     */
+    public int getEndLocationIdInt() {
+        return endLocationIdInt;
+    }
+
+    /**
+     * @param endLocationIdInt the endLocationIdInt to set
+     */
+    public void setEndLocationIdInt(int endLocationIdInt) {
+        this.endLocationIdInt = endLocationIdInt;
     }
     
 }

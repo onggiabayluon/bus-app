@@ -16,6 +16,7 @@ public interface RouteRepository {
     
     List<Route> getRoutesName();
     List<Route> getRoutes();
+    List<Route> getRoutesByLocationId(int locationId);
 
     boolean addRoute(Route location);
 

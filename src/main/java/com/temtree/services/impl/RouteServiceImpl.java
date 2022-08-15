@@ -41,4 +41,9 @@ public class RouteServiceImpl implements RouteService {
         return this.routeRepository.getRoutes();
     }
 
+    @Override
+    public List<Route> getRoutesByLocationId(int i) {
+        return this.routeRepository.getRoutesByLocationId(i);
+    }
+
 }

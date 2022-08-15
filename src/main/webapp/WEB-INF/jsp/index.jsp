@@ -85,11 +85,11 @@
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
                 <div class="book-now-form">
-                    <form action="#" class="row">
+                    <form action="ticket" method="POST" class="row justify-content-center" style="margin: 0">
                         <!-- Form Group -->
-                        <div class="form-group col-lg-4">
-                            <label for="select1">From</label>
-                            <select onChange="handleFromClick(event)" name="from" class="form-control" id="select1">
+                        <div class="form-group col-lg-3">
+                            <label for="select1">Điểm Đi</label>
+                            <select onChange="handleFromClick(event)" name="from" class="form-control" id="startLocationSelect">
                                 <c:forEach items="${locations}" var="location">
                                     <option value="${location.id}">${location.name}</option>
                                 </c:forEach>
@@ -97,44 +97,25 @@
                         </div>
 
                         <!-- Form Group -->
-                        <div class="form-group col-lg-4">
-                            <label for="select2">To</label>
-                            <select name="to" class="form-control" id="select2">
-                                <option value="MRI Knee Right">MRI Knee Right</option>
-                                <option value="Ultrasound Knee Right">Ultrasound Knee Right</option>
-                                <option value="Ultrasound Knee Left">Ultrasound Knee Left</option>
+                        <div class="form-group col-lg-3">
+                            <label for="select2">Điểm Đến</label>
+                            <select name="to" class="form-control" id="endLocationSelect">
+                                <c:forEach items="${routes}" var="route">
+                                    <option value="${route.endLocationIdInt}">${route.endLocationName}</option>
+                                </c:forEach>
                             </select>
                         </div>
 
                         <!-- Form Group -->
-                        <div class="form-group col-lg-4">
-                            <label for="select3">Date</label>
-                            <input style="cursor: pointer;" id="datepicker" name="date" placeholder="Pick Date"
+                        <div class="form-group col-lg-3">
+                            <label for="select3">Ngày đi</label>
+                            <input style="cursor: pointer;" id="datepicker" name="date" placeholder="Chọn ngày"
                                    class="date form-control transparent-input">
                         </div>
 
-                        <!-- Form Group -->
-                        <div class="form-group col-lg-4">
-                            <label for="select3">Time</label>
-                            <input style="cursor: pointer;" id="timepicker" name="time" placeholder="Pick Time" 
-                                   class="date form-control transparent-input"
-                                   onclick="forceClickTimePicker(event)">
-                        </div>
-
-                        <!-- Form Group -->
-                        <div class="form-group col-lg-4">
-                            <label for="select4">Seat</label>
-                            <select name="seat" class="form-control" id="select4">
-                                <option value="1">01</option>
-                                <option value="2">02</option>
-                                <option value="3">03</option>
-                                <option value="4">04</option>
-                                <option value="5">05</option>
-                            </select>
-                        </div>
 
                         <!-- Button -->
-                        <button class="col-lg-4" type="submit">Book Now</button>
+                        <button class="col-lg-3" type="submit">Tìm chuyến</button>
                     </form>
                 </div>
             </div>

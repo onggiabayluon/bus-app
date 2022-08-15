@@ -93,4 +93,22 @@ public class RouteRepositoryImpl implements RouteRepository {
         return query.getResultList();
     }
 
+    @Override
+    public List<Route> getRoutesByLocationId(int locationId) {
+        List<Object[]> results = entityManager.createNativeQuery(
+                "SELECT r.id, j1.name as start_location_name, j2.name as end_location_name, r.end_location_id FROM Route r\n" +
+                "join Location j1 on j1.id = r.start_location_id\n" +
+                "join Location j2 on j2.id = r.end_location_id\n" +
+                "where start_location_id = ?").setParameter(1, locationId).getResultList();
+        
+        List<Route> routes = new ArrayList<Route>();
+        
+        for (Object[] item : results) {
+            Route route = new Route(item);
+            routes.add(route);
+        }
+        
+        return routes;
+    }
+
 }

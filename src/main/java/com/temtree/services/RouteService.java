@@ -17,6 +17,8 @@ public interface RouteService {
     
     List<Route> getRoutes();
     
+    List<Route> getRoutesByLocationId(int locationId);
+    
     boolean addRoute(Route route);
 
     boolean deleteRoute(int id);

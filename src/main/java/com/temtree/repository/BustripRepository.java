@@ -5,6 +5,7 @@
 package com.temtree.repository;
 
 import com.temtree.pojo.Bustrip;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,9 @@ import java.util.Map;
 public interface BustripRepository {
     
     List<Bustrip> getBustrips();
-
+    
+    List<Bustrip> getTicketBustrips(int startLocationId, int endLocationId, Date departDate);
+    
     boolean addBustrip(Bustrip bustrip);
 
     boolean deleteBustrip(int id);

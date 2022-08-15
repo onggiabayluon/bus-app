@@ -37,8 +37,11 @@
 
         <!-- ##### All Javascript Script ##### -->
 
-        <!--Axios-->
-        <!--<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>-->
+        <!--Custom Scripts-->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+        
+        
         <!-- jQuery-2.2.4 js -->
         <script src="<c:url value="/js/jquery/jquery-2.2.4.min.js" />"></script>
         <!-- Popper js -->
@@ -49,7 +52,7 @@
         <script src="<c:url value="/js/plugins/plugins.js" />"></script>
         <!-- Active js -->
         <script src="<c:url value="/js/active.js" />"></script>
-        <script src="<c:url value="/js/home.js" />"></script>
+        
         <script src="<c:url value="https://unpkg.com/gijgo@1.9.13//js/gijgo.min.js" />" type="text/javascript"></script>
         <script>
             $('#datepicker').datepicker({
@@ -62,5 +65,7 @@
                 e.target.nextSibling.click()
             }
         </script>
+        
+        <script src="<c:url value="/js/home.js" />"></script>
     </body>
 </html>
