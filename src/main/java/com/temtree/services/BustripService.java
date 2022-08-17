@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public interface BustripService {
 
+    Bustrip findById(int id);
+    
     List<Bustrip> getBustrips();
 
     List<Bustrip> getTicketBustrips(int startLocationId, int endLocationId, Date departDate);

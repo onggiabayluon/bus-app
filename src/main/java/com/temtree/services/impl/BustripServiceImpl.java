@@ -43,4 +43,9 @@ public class BustripServiceImpl implements BustripService {
         return this.bustripRepository.getTicketBustrips(startLocationId, endLocationId, departDate);
     }
 
+    @Override
+    public Bustrip findById(int i) {
+        return this.bustripRepository.findById(i);
+    }
+
 }

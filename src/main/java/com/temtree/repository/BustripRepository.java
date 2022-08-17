@@ -5,6 +5,7 @@
 package com.temtree.repository;
 
 import com.temtree.pojo.Bustrip;
+import com.temtree.pojo.User;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,9 @@ import java.util.Map;
  *
  * @author admin
  */
-public interface BustripRepository {
+public interface BustripRepository{
+    
+    Bustrip findById(int id);
     
     List<Bustrip> getBustrips();
     

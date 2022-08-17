@@ -17,10 +17,12 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +42,13 @@ public class HomeController {
     private TicketService ticketService;
     @Autowired
     private RouteService routeService;
+    
+    @ModelAttribute
+    public void commonAttr(Model model, HttpSession session) {
+        // inject currentUser from session after login
+        model.addAttribute("currentUser", session.getAttribute("currentUser"));
+    } 
+    
 
     @RequestMapping("/")
     public String index(Model model, @RequestParam Map<String, String> params) {
@@ -54,10 +63,10 @@ public class HomeController {
         return "index";
     }
 
-    @PostMapping("/ticket")
+    @RequestMapping("/ticket")
     public String bustrip(Model model, @RequestParam Map<String, String> params) throws ParseException {
-        int startLocationId = Integer.parseInt(params.getOrDefault("from", null));
-        int endLocationId = Integer.parseInt(params.getOrDefault("to", null));
+        int startLocationId = Integer.parseInt(params.getOrDefault("from", "0"));
+        int endLocationId = Integer.parseInt(params.getOrDefault("to", "0"));
         Date departDate = utils.stringInDateToJavaDate(params.getOrDefault("date", null));
 
 //        System.out.println(startLocationId);
@@ -68,7 +77,8 @@ public class HomeController {
 
         List<Route> routes = this.routeService.getRoutesByLocationId(startLocationId);
         
-        model.addAttribute("selectedLocationId", Integer.parseInt(params.getOrDefault("from", null)));
+        model.addAttribute("selectedLocationId", Integer.parseInt(params.getOrDefault("from", "0")));
+        model.addAttribute("selectedEndId", Integer.parseInt(params.getOrDefault("to", "0")));
         model.addAttribute("departDate", params.getOrDefault("date", null));
         model.addAttribute("routes", routes);
         model.addAttribute("locations", this.locationService.getLocations());

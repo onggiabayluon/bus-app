@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author admin
  */
-@Controller
 @RequestMapping("/admin")
+@Controller
 public class AdminController {
 
     @Autowired
