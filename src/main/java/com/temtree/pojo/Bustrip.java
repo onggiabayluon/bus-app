@@ -4,6 +4,7 @@
  */
 package com.temtree.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -11,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,17 +56,22 @@ public class Bustrip implements Serializable {
     private Date endTime;
     @Column(name = "active")
     private Boolean active;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId")
     private Set<Bus> busSet;
+    @JsonIgnore
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Route routeId;
+    @JsonIgnore
     @JoinColumn(name = "driver_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User driverId;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId")
     private Set<Ticket> ticketSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId", fetch = FetchType.EAGER)
     private Set<Comment> commentSet;
 
     public Bustrip() {

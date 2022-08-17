@@ -21,7 +21,7 @@
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
                 <div class="book-now-form">
-                    <form action="ticket" method="POST" class="row justify-content-center" style="margin: 0">
+                    <form action="ticket" method="get" class="row justify-content-center" style="margin: 0">
                         <!-- Form Group -->
                         <div class="form-group col-lg-3">
                             <label for="select1">Điểm Đi</label>
@@ -31,8 +31,9 @@
                                             <c:if test = "${selectedLocationId == location.id}">
                                                 selected
                                             </c:if>
-                                            >${location.name}</option>
-                                    </c:forEach>
+                                            >${location.name}
+                                    </option>
+                                </c:forEach>
                             </select>
                         </div>
 
@@ -41,7 +42,11 @@
                             <label for="select2">Điểm Đến</label>
                             <select name="to" class="form-control" id="endLocationSelect">
                                 <c:forEach items="${routes}" var="route">
-                                    <option value="${route.endLocationIdInt}">${route.endLocationName}</option>
+                                    <option value="${route.endLocationIdInt}"
+                                            <c:if test = "${selectedEndId == route.endLocationIdInt}">
+                                                selected
+                                            </c:if>
+                                            >${route.endLocationName}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -68,7 +73,10 @@
 <section class="elements-area">
     <div class="container">
         <div class="row">
-
+            <c:if test="${tickets.size() == 0}">
+                <p><em>Không có chuyến tại thời điểm hiện tại!!!</em></p>
+                <p><em>Vui lòng chọn chyến khác</em></p>
+            </c:if>
             <c:forEach items="${tickets}" var="ticket">
                 <div class="col-10 mx-auto mb-4">
 
@@ -80,6 +88,7 @@
                             <div class="p-4 pt-0 pb-0 card-title fs-5">Chỗ trống: còn 4</div>
                             <!-- Section: Timeline -->
                             <section class="p-4 pb-0">
+
                                 <ul class="timeline-3">
                                     <li>
                                         <a href="#!">Bến xe ${ticket.routeId.startLocationId.getName()}</a>
@@ -99,11 +108,11 @@
                             <div class="row justify-content-end">
                                 <div class="col-lg-9 col-sm-12 flex">
                                     <!-- Section: Accordians-->
-                                    <div class="accordions" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="accordions" id="accordion-${ticket.bustripId.getId()}" role="tablist" aria-multiselectable="true">
                                         <!-- single accordian area -->
                                         <div class="panel single-accordion">
                                             <h6>
-                                                <a role="button" class="collapsed" aria-expanded="true" aria-controls="collapseTwo" data-parent="#accordion" data-toggle="collapse" href="#collapseTwo">
+                                                <a role="button" class="collapsed" aria-expanded="true" aria-controls="collapseTwo-${ticket.bustripId.getId()}" data-parent="#accordion-${ticket.bustripId.getId()}" data-toggle="collapse" href="#collapseTwo-${ticket.bustripId.getId()}">
                                                     Nhận xét
                                                     <span class="accor-open"><i class="fa fa-plus" aria-hidden="true"></i></span>
                                                     <span class="accor-close"><i class="fa fa-minus" aria-hidden="true"></i></span>
@@ -119,7 +128,7 @@
                                     <!-- single accordian area -->
                                     <div class="panel single-accordion">
                                         <h6>
-                                            <a role="button" class="collapsed" aria-expanded="true" aria-controls="collapseSeat" data-parent="#accordion" data-toggle="collapse" href="#collapseSeat">
+                                            <a role="button" class="collapsed" aria-expanded="true" aria-controls="collapseSeat-${ticket.bustripId.getId()}" data-parent="#accordion-${ticket.bustripId.getId()}" data-toggle="collapse" href="#collapseSeat-${ticket.bustripId.getId()}">
                                                 Chọn
                                                 <span class="accor-open"><i class="fa fa-plus" aria-hidden="true"></i></span>
                                                 <span class="accor-close"><i class="fa fa-minus" aria-hidden="true"></i></span>
@@ -131,72 +140,81 @@
                             </div>
 
                             <!-- collapseTwo Tab-->
-                            <div id="collapseTwo" class="accordion-content collapse">
+                            <div id="collapseTwo-${ticket.bustripId.getId()}" class="accordion-content collapse">
                                 <div class="container p-5">
-                                    <div class="timeline-comment-box">
-                                        <div class="user"><img src="https://bootdey.com/img/Content/avatar/avatar6.png"></div>
-                                        <div class="input">
-                                            <form action="">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control rounded-corner" placeholder="Write a comment...">
-                                                    <span class="input-group-btn p-l-10">
-                                                        <button class="btn btn-primary f-s-12 rounded-corner" type="button">Comment</button>
-                                                    </span>
-                                                </div>
-                                            </form>
+                                    <!--User is logged In-->
+                                    <c:if test="${currentUser != null}">
+                                        <div class="timeline-comment-box">
+                                            <div class="user">
+                                                <c:choose>
+                                                    <c:when test="${empty currentUser.avatar}">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="${currentUser.avatar}">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                            <div class="input">
+                                                <form onsubmit="return addComment(event)">
+                                                    <div class="input-group">
+                                                        <input name="bustripId" value="${ticket.bustripId.getId()}" type="hidden">
+                                                        <input name="content" type="text" class="form-control rounded-corner" placeholder="Write a comment...">
+                                                        <button class="btn btn-primary f-s-12 rounded-corner" type="submit">Comment</button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <ul class="timeline">
-                                    <li>
-                                        <!-- begin timeline-body -->
-                                        <div class="timeline-body">
-                                            <div class="timeline-header">
-                                                <span class="userimage"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""></span>
-                                                <span class="username"><a href="javascript:;">John Smith</a> <small></small></span>
-                                                <!--<span class="pull-right text-muted">18 Views</span>-->
-                                            </div>
-                                            <div class="timeline-content">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc faucibus turpis quis tincidunt luctus.
-                                                    Nam sagittis dui in nunc consequat, in imperdiet nunc sagittis.
-                                                </p>
-                                            </div>
-                                            <div class="timeline-likes">
-                                                <!-- 
-                                                <div class="stats-right">
-                                                    <span class="stats-text">259 Shares</span>
-                                                    <span class="stats-text">21 Comments</span>
-                                                </div>
-                                                -->
-                                                <div class="stats">
-                                                    <span class="fa-stack fa-fw stats-icon">
-                                                        <i class="fa fa-circle fa-stack-2x text-danger"></i>
-                                                        <i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
-                                                    </span>
-                                                    <span class="fa-stack fa-fw stats-icon">
-                                                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                                        <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                    <span class="stats-total">4.3k</span>
-                                                </div>
-                                            </div>
-                                            <div class="timeline-footer">
-                                                <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-                                                <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
-                                                <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
-                                            </div>
+                                    </c:if>
 
+                                    <!--User not logged In-->
+                                    <c:if test="${currentUser == null}">
+                                        <div class="shadow p-3 mb-5 bg-white rounded">
+                                            <span>Bạn chưa đăng nhập, vui lòng đăng nhập để bình luận</span>
+                                            <a href="<c:url value="/login" />" class="btn palatin-btn">Đăng nhập</a>
+                                            <a href="<c:url value="/register" />" class="btn palatin-btn">Đăng ký</a>
                                         </div>
-                                        <!-- end timeline-body -->
-                                    </li>
+
+                                    </c:if>
+
+                                </div>
+                                <ul class="timeline" id="commentBox-${ticket.bustripId.getId()}">
+                                    <c:forEach items="${ticket.bustripId.commentSet}" var="comment">
+                                        <li>
+                                            <!-- begin timeline-body -->
+                                            <div class="timeline-body">
+                                                <div class="timeline-header">
+                                                    <span class="userimage">
+                                                        <c:choose>
+                                                            <c:when test="${empty comment.userId.avatar}">
+                                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="${comment.userId.avatar}">
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </span>
+                                                    <span class="username"><a href="javascript:;">${comment.userId.username}</a> <small></small></span>
+                                                    <!--<span class="pull-right text-muted">18 Views</span>-->
+                                                </div>
+                                                <div class="timeline-content">
+                                                    <p>
+                                                        ${comment.content}
+                                                    </p>
+                                                </div>
+                                                <!-- end timeline-body -->
+                                                <div/>
+                                        </li>
+                                    </c:forEach>
+
                                 </ul>
                             </div>
                             <!-- End collapseTwo Tab-->
 
 
                             <!-- collapseSeat Tab-->
-                            <form action="test" method="post" id="collapseSeat" class="accordion-content collapse">
+                            <form action="test" method="post" id="collapseSeat-${ticket.bustripId.getId()}" class="accordion-content collapse">
                                 <div class="row p-4">
                                     <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                                         <input type="checkbox" name="seatId" value=1 class="btn-check" id="btncheck1" autocomplete="off">

@@ -6,69 +6,90 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec"
+uri="http://www.springframework.org/security/tags" %>
 <!-- Preloader -->
-    <div class="preloader d-flex align-items-center justify-content-center">
-        <div class="cssload-container">
-            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
-        </div>
+<div class="preloader d-flex align-items-center justify-content-center">
+    <div class="cssload-container">
+        <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
     </div>
+</div>
 
-    <!-- ##### Header Area Start ##### -->
-    <header class="header-area">
-        <!-- Navbar Area -->
-        <div class="palatin-main-menu">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+    <!-- Navbar Area -->
+    <div class="palatin-main-menu">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-evenly" id="palatinNav">
+
+                    <!-- Nav brand -->
+                    <a href="index.html" class="nav-brand"><img scr="<c:url value="/images/core-img/logo.png" />" alt=""></a>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
                     <!-- Menu -->
-                    <nav class="classy-navbar justify-content-evenly" id="palatinNav">
+                    <div class="classy-menu">
 
-                        <!-- Nav brand -->
-                        <a href="index.html" class="nav-brand"><img scr="<c:url value="/images/core-img/logo.png" />" alt=""></a>
-
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        <!-- close btn -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                         </div>
 
-                        <!-- Menu -->
-                        <div class="classy-menu">
-
-                            <!-- close btn -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li class="active"><a href="<c:url value="/"/>">Home</a></li>
-                                    <li><a href="about-us.html">About Us</a></li>
-                                    <li><a href="#">Pages</a>
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li class="active"><a href="<c:url value="/"/>">Home</a></li>
+                                <li><a href="about-us.html">About Us</a></li>
+                                <li><a href="#">Pages</a>
+                                    <ul class="dropdown">
+                                        <li><a href="<c:url value="/"/>">Home</a></li>
+                                        <li><a href="about-us.html">About Us</a></li>
+                                        <li><a href="services.html">Services</a></li>
+                                        <li><a href="rooms.html">Rooms</a></li>
+                                        <li><a href="blog.html">News</a></li>
+                                        <li><a href="contact.html">Contact</a></li>
+                                        <li><a href="elements.html">Elements</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="services.html">Services</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <sec:authorize access="hasAuthority('ADMIN')">
+                                    <li><a href="#">Admin Page</a>
                                         <ul class="dropdown">
-                                            <li><a href="<c:url value="/"/>">Home</a></li>
-                                            <li><a href="about-us.html">About Us</a></li>
-                                            <li><a href="services.html">Services</a></li>
-                                            <li><a href="rooms.html">Rooms</a></li>
-                                            <li><a href="blog.html">News</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
-                                            <li><a href="elements.html">Elements</a></li>
+                                            <li><a href="<c:url value="/admin/" />">Admin</a></li>
+                                            <li><a href="<c:url value="/admin/list" />">List</a></li>
+                                            <li><a href="<c:url value="/admin/add" />">Add</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="services.html">Services</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
+                                </sec:authorize>
+                                <c:choose>
+                                    <c:when test="${pageContext.request.userPrincipal.name == null}">
+                                        <li><a href="login">Đăng nhập</a></li>
+                                        <li><a href="register">Đăng ký</a></li>
+                                        </c:when>
+                                        <c:when test="${pageContext.request.userPrincipal.name != null}">
+                                        <li><a href="#">${pageContext.request.userPrincipal.name}</a></li>
+                                        <li><a href="<c:url value="/logout" />">Đăng xuất</a></li>
+                                        </c:when>
+                                    </c:choose>
+                            </ul>
 
-                                <!-- Button -->
-                                <div class="menu-btn">
-                                    <a href="#" class="btn palatin-btn">Make a Reservation</a>
-                                </div>
-
+                            <!-- Button -->
+                            <div class="menu-btn">
+                                <a href="#" class="btn palatin-btn">Make a Reservation</a>
                             </div>
-                            <!-- Nav End -->
+
                         </div>
-                    </nav>
-                </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
             </div>
         </div>
-    </header>
-    <!-- ##### Header Area End ##### -->
+    </div>
+</header>
+<!-- ##### Header Area End ##### -->

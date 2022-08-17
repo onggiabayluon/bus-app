@@ -62,7 +62,7 @@
             });
             $('#timepicker').timepicker();
             function forceClickTimePicker(e) {
-                e.target.nextSibling.click()
+                e.target.nextSibling.click();
             }
         </script>
         

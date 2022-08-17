@@ -4,12 +4,14 @@
  */
 package com.temtree.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -39,6 +42,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar")})
 public class User implements Serializable {
 
+    public static final String USER = "USER";
+    public static final String ADMIN = "ADMIN";
+    public static final String DRIVER = "DRIVER";
+    
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +58,7 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "username")
     private String username;
+    @JsonIgnore
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -65,20 +74,26 @@ public class User implements Serializable {
     @Size(max = 100)
     @Column(name = "avatar")
     private String avatar;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "driverId")
     private Set<Bustrip> bustripSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Comment> commentSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Receipt> receiptSet;
-
+    
+    @Transient
+    private String confirmPassword;
+    
     public User() {
     }
 
     public User(String id) {
         this.id = Integer.parseInt(id);
     }
-    
+
     public User(Integer id) {
         this.id = id;
     }
@@ -189,5 +204,19 @@ public class User implements Serializable {
     public String toString() {
         return "com.temtree.pojo.User[ id=" + id + " ]";
     }
-    
+
+    /**
+     * @return the confirmPassword
+     */
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    /**
+     * @param confirmPassword the confirmPassword to set
+     */
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
 }

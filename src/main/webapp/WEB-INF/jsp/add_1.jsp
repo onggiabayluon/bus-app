@@ -5,22 +5,26 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
-            <div class="card my-4">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">Add Location</h6>
-                    </div>
-                </div>
-                <div class="card-body px-0 pb-2">
-
-                </div>
-            </div>
-        </div>
+<c:if test="${param.error != null}">
+    <div class="alert alert-danger">
+        Đã có lỗi xảy ra
     </div>
-
-
-</div>
+</c:if>
+<c:if test="${param.accessDenied != null}">
+    <div class="alert alert-danger">
+        Bạn không có quyền truy cập
+    </div>
+</c:if>
+    
+ <form action="login" method="post">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Username</label>
+    <input name="username" type="text" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input name="password" type="password" class="form-control" id="exampleInputPassword1">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Đăng nhập</button>
+</form>
