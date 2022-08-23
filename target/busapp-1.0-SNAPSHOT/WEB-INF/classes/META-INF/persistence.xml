@@ -31,6 +31,35 @@
     <class>com.temtree.pojo.User</class>
     <class>com.temtree.pojo.Comment</class>
     <class>com.temtree.pojo.Location</class>
+    <class>com.temtree.pojo.CalendarDates</class>
+    <class>com.temtree.pojo.Calendar</class>
+    <class>com.temtree.pojo.Calendar_1</class>
+    <class>com.temtree.pojo.Bus_1</class>
+    <class>com.temtree.pojo.Route_1</class>
+    <class>com.temtree.pojo.Location_1</class>
+    <class>com.temtree.pojo.User_1</class>
+    <class>com.temtree.pojo.test.Bus</class>
+    <class>com.temtree.pojo.test.Route</class>
+    <class>com.temtree.pojo.test.Calendar</class>
+    <class>com.temtree.pojo.test.User</class>
+    <class>com.temtree.pojo.test.Location</class>
+    <class>com.temtree.pojo.test.Seat</class>
+    <class>com.temtree.pojo.test.Ticket</class>
+    <class>com.temtree.pojo.test.Receipt</class>
+    <class>com.temtree.pojo.test.Comment</class>
+    <class>com.temtree.pojo.test.Bustrip</class>
+    <class>com.temtree.pojo.test.CalendarDates</class>
+    <class>com.temtree.pojo.dab.Calendar</class>
+    <class>com.temtree.pojo.dab.Bustrip</class>
+    <class>com.temtree.pojo.dab.Route</class>
+    <class>com.temtree.pojo.dab.User</class>
+    <class>com.temtree.pojo.dab.Location</class>
+    <class>com.temtree.pojo.dab.Comment</class>
+    <class>com.temtree.pojo.dab.Seat</class>
+    <class>com.temtree.pojo.dab.Receipt</class>
+    <class>com.temtree.pojo.dab.Ticket</class>
+    <class>com.temtree.pojo.dab.CalendarDates</class>
+    <class>com.temtree.pojo.dab.Bus</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/saledb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

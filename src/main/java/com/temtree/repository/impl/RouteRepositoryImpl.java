@@ -4,6 +4,7 @@
  */
 package com.temtree.repository.impl;
 
+import com.temtree.pojo.Bustrip;
 import com.temtree.pojo.Route;
 import com.temtree.pojo.Route;
 import com.temtree.pojo.Location;
@@ -109,6 +110,13 @@ public class RouteRepositoryImpl implements RouteRepository {
         }
         
         return routes;
+    }
+
+    @Override
+    public Route findById(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        
+        return session.get(Route.class, id);
     }
 
 }

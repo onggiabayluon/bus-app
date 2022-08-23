@@ -4,7 +4,10 @@
  */
 package com.temtree.services;
 
+import com.temtree.pojo.Bustrip;
+import com.temtree.pojo.Seat;
 import com.temtree.pojo.Ticket;
+import com.temtree.pojo.User;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +22,7 @@ public interface TicketService {
 
     List<Ticket> getTicketBustrips(int startLocationId, int endLocationId, Date departDate);
 
-    boolean addTicket(Ticket ticket);
+    boolean addTicket(long price, Date bookedDate, Bustrip bustrip, User user, Seat seat);
 
     boolean deleteTicket(int id);
 }

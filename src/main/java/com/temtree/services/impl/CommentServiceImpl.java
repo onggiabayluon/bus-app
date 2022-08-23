@@ -29,15 +29,20 @@ public class CommentServiceImpl implements CommentService {
     
     @Override
     public Comment addComment(String content, int bustripId, int userId) {
-        Bustrip bustrip = this.bustripRepository.findById(bustripId);
-        User user = this.userRepository.findById(userId);
+        try {
+            Bustrip bustrip = this.bustripRepository.findById(bustripId);
+            User user = this.userRepository.findById(userId);
 
-        Comment c = new Comment();
-        c.setBustripId(bustrip);
-        c.setUserId(user);
-        c.setContent(content);
-        
-        return this.commentRepository.addComment(c); 
+            Comment c = new Comment();
+            c.setBustripId(bustrip);
+            c.setUserId(user);
+            c.setContent(content);
+
+            return this.commentRepository.addComment(c); 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

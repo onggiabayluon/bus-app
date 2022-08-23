@@ -42,22 +42,23 @@
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
-                        <form class="p-4" action="add-bus" method="post">
+                        <form:form class="p-4" action="add-bus" method="post" modelAttribute="bus">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="input-group input-group-static mb-4">
-                                        <label for="exampleFormControlSelect1" class="ms-0">Select BustripId</label>
-                                        <select name="endLocationId" class="form-control" id="exampleFormControlSelect1">
-                                            <c:forEach items="${bustrips}" var="bustrip">
-                                                <option value="${bustrip.id}">${bustrip.id}</option>
-                                            </c:forEach>
-                                            <option value="1">1</option>
-                                        </select>
+                                    <div class="input-group input-group-outline my-3">
+                                        <label class="form-label">Bus name</label>
+                                        <form:input path="name" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-outline my-3">
+                                        <label class="form-label">Bus total Seat</label>
+                                        <form:input path="totalSeat" type="number" class="form-control" />
                                     </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-info ml-auto">Submit</button>
-                        </form>
+                        </form:form>
                     </div>
                 </div>
             </div>
@@ -135,50 +136,103 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Add Calendar</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <form:form class="p-4" action="add-calendar" method="post" modelAttribute="calendar">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group input-group-outline my-3">
+                                        <label class="form-label">Alias</label>
+                                        <form:input path="alias" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <form:checkbox path="monday"  value="2" class="form-check-input" checked="" />
+                                        <label class="custom-control-label" for="customCheck1">Monday</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <form:checkbox path="tuesday" value="3" class="form-check-input" checked="" />
+                                        <label class="custom-control-label" for="customCheck1">Tuesday</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <form:checkbox path="wednesday"  value="4" class="form-check-input" checked="" />
+                                        <label class="custom-control-label" for="customCheck1">Wednesday</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <form:checkbox path="thursday" value="5" class="form-check-input" checked="" />
+                                        <label class="custom-control-label" for="customCheck1">Thursday</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <form:checkbox path="friday"  value="6" class="form-check-input" checked="" />
+                                        <label class="custom-control-label" for="customCheck1">Friday</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <form:checkbox path="saturday" value="7" class="form-check-input" checked="" />
+                                        <label class="custom-control-label" for="customCheck1">Saturday</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <form:checkbox path="sunday"  value="1" class="form-check-input" checked="" />
+                                        <label class="custom-control-label" for="customCheck1">Sunday</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static my-3">
+                                        <label>Start service date</label>
+                                        <form:input path="startDate" type="date" class="form-control" />
+                                        <form:errors path="startDate" element="div" cssClass="invalid-feedback" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static my-3">
+                                        <label>End service date</label>
+                                        <form:input path="endDate" type="date" class="form-control" />
+                                        <form:errors path="endDate" element="div" cssClass="invalid-feedback" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button type="submit" class="btn btn-info ml-auto">Submit</button>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                             <h6 class="text-white text-capitalize ps-3">Add BusTrip</h6>
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
-                        <!--                        <form method="post" onSubmit="addBustrip(event)" class="p-4">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="input-group input-group-static my-3">
-                                                                <label>Depart Time</label>
-                                                                <input name="departTime" name="departTime" type="time" class="form-control" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="input-group input-group-static my-3">
-                                                                <label>Arrived Time</label>
-                                                                <input name="endTime" name="endTime" type="time" class="form-control" />
-                                                            </div>
-                                                        </div>
-                        
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="input-group input-group-static mb-4">
-                                                                <label for="exampleFormControlSelect1" class="ms-0">Select Route</label>
-                                                                <select name="routeId" class="form-control">
-                        <c:forEach items="${routes}" var="route">
-                            <option value="${route.id}">${route.startLocationName} -> ${route.endLocationName}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-static mb-4">
-                    <label for="exampleFormControlSelect1" class="ms-0">Select Driver</label>
-                    <select name="driverId" class="form-control" id="exampleFormControlSelect1">
-                        <option value="1">QuáiXế</option>
-                        <option value="1">TàiXếDămBông</option>
-                        <option value="1">Dono</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-info ml-auto">Submit</button>
-    </form>-->
                         <form:form method="post" action="add-bustrip" modelAttribute="bustrip" class="p-4">
                             <div class="row">
                                 <div class="col-md-6">
@@ -212,13 +266,44 @@
                                     <div class="input-group input-group-static mb-4">
                                         <label for="exampleFormControlSelect1" class="ms-0">Select Driver</label>
                                         <form:select path="driverId" class="form-control" id="exampleFormControlSelect1">
-                                            <option value="1">QuáiXế</option>
-                                            <option value="1">TàiXếDămBông</option>
-                                            <option value="1">Dono</option>
+                                            <c:forEach items="${drivers}" var="driver">
+                                                <option value="${driver.id}">${driver.username}</option>
+                                            </c:forEach>
                                         </form:select>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select Bus</label>
+                                        <form:select path="busId" class="form-control">
+                                            <c:forEach items="${buses}" var="bus">
+                                                <option value="${bus.id}">${bus.id} - ${bus.name}</option>
+                                            </c:forEach>
+                                        </form:select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select Calendar</label>
+                                        <form:select path="calendarId" class="form-control" id="exampleFormControlSelect1">
+                                            <c:forEach items="${calendars}" var="calendar">
+                                                <option value="${calendar.id}">${calendar.alias} - ${calendar.monday} - ${calendar.tuesday} - ${calendar.wednesday} - ${calendar.thursday} - ${calendar.friday} - ${calendar.saturday} - ${calendar.sunday}</option>
+                                            </c:forEach>
+                                        </form:select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Price</label>
+                                        <form:input path="price" type="number" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
                             <button type="submit" class="btn btn-info ml-auto">Submit</button>
                         </form:form>
                     </div
@@ -276,7 +361,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    
+
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group input-group-static mb-4">

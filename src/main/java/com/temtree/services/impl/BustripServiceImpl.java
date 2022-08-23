@@ -5,7 +5,12 @@
 package com.temtree.services.impl;
 
 import com.temtree.pojo.Bustrip;
+import com.temtree.pojo.Comment;
+import com.temtree.pojo.Route;
+import com.temtree.pojo.User;
 import com.temtree.repository.BustripRepository;
+import com.temtree.repository.RouteRepository;
+import com.temtree.repository.UserRepository;
 import com.temtree.services.BustripService;
 import java.util.Date;
 import java.util.List;
@@ -22,11 +27,24 @@ public class BustripServiceImpl implements BustripService {
 
     @Autowired
     private BustripRepository bustripRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RouteRepository routeRepository;
 
-    @Override
-    public boolean addBustrip(Bustrip bustrip) {
-        return this.bustripRepository.addBustrip(bustrip);
-    }
+//    @Override
+//    public Bustrip addBustrip(Date departTime, Date endTime, int routeId, int driverId) {
+//        User driver = this.userRepository.findById(driverId);
+//        Route route = this.routeRepository.findById(routeId);
+//        
+//        Bustrip bustrip = new Bustrip();
+//        bustrip.setDepartTime(departTime);
+//        bustrip.setEndTime(endTime);
+//        bustrip.setRouteId(route);
+//        bustrip.setDriverId(driver);
+//        
+//        return this.bustripRepository.addBustrip(bustrip);
+//    }
 
     @Override
     public boolean deleteBustrip(int id) {
@@ -39,13 +57,18 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
-    public List<Bustrip> getTicketBustrips(int startLocationId, int endLocationId, Date departDate) {
-        return this.bustripRepository.getTicketBustrips(startLocationId, endLocationId, departDate);
+    public List<Bustrip> getAvailableBustrips(int startLocationId, int endLocationId, Date departDate) {
+        return this.bustripRepository.getAvailableBustrips(startLocationId, endLocationId, departDate);
     }
 
     @Override
     public Bustrip findById(int i) {
         return this.bustripRepository.findById(i);
+    }
+
+    @Override
+    public boolean addBustrip(Bustrip bustrip) {
+        return this.bustripRepository.addBustrip(bustrip);
     }
 
 }

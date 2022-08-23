@@ -30,6 +30,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             throws IOException, ServletException {
         
         // Add currentUser to session
+//        String referer = request.getHeader("Referer");
+//        System.err.println(referer);
         User u = this.userDetailService.getUsers(a.getName()).get(0);
         request.getSession().setAttribute("currentUser", u);
         

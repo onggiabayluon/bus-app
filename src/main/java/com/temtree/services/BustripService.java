@@ -19,8 +19,10 @@ public interface BustripService {
     
     List<Bustrip> getBustrips();
 
-    List<Bustrip> getTicketBustrips(int startLocationId, int endLocationId, Date departDate);
+    List<Bustrip> getAvailableBustrips(int startLocationId, int endLocationId, Date departDate);
 
+//    Bustrip addBustrip(Date departTime, Date endTime, int routeId, int driverId);
+    
     boolean addBustrip(Bustrip bustrip);
 
     boolean deleteBustrip(int id);

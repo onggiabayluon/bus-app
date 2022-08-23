@@ -5,6 +5,7 @@
 package com.temtree.repository.impl;
 
 import com.temtree.pojo.Bus;
+import com.temtree.pojo.Calendar;
 import com.temtree.repository.BusRepository;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,22 @@ public class BusRepositoryImpl implements BusRepository {
     }
 
     @Override
-    public List<Bus> getBuss() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Bus> getBuses() {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Bus> q = b.createQuery(Bus.class);
+        Root root = q.from(Bus.class);
+        q.select(root);
+        
+        Query query = session.createQuery(q);
+        
+        return query.getResultList();
+    }
+
+    @Override
+    public Bus findById(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        
+        return session.get(Bus.class, id);
     }
 }

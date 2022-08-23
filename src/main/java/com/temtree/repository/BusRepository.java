@@ -13,11 +13,13 @@ import java.util.Map;
  * @author admin
  */
 public interface BusRepository {
-    List<Bus> getBuss();
+    List<Bus> getBuses();
 
     boolean addBus(Bus location);
 
     boolean deleteBus(int id);
+    
+    Bus findById(int id);
 
     public List<Bus> getBus();
 }

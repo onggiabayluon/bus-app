@@ -4,11 +4,15 @@
  */
 package com.temtree.services.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.temtree.pojo.User;
 import com.temtree.repository.UserRepository;
 import com.temtree.services.UserService;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private Cloudinary cloudinary;
 //    @Override
 //    public boolean addUser(User user) {
 //        return this.userRepository.addUser(user); 
@@ -56,11 +62,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean addUser(User user) {
-        String pass = user.getPassword();
-        user.setPassword(bCryptPasswordEncoder.encode(pass));
-        user.setUserRole(User.USER);
+        try {
+            String pass = user.getPassword();
+            user.setPassword(bCryptPasswordEncoder.encode(pass));
+            user.setUserRole(User.USER);
+            
+            // Upload avatar file to cloudinary
+            Map cloudinaryRes = cloudinary.uploader().upload(
+                    user.getAvatarFile().getBytes(),
+                    ObjectUtils.asMap("resource_type", "auto")
+            );
 
-        return this.userRepository.addUser(user);
+            // Get secure_url from cloudinary response
+            user.setAvatar((String) cloudinaryRes.get("secure_url"));
+            
+            return this.userRepository.addUser(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     @Override
@@ -71,22 +92,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<User> users = userRepository.getUsers(username);
-        
+
         if (users.isEmpty()) {
             throw new UsernameNotFoundException("Không tồn tại!");
         }
-        
+
         User u = users.get(0);
-        
+
         Set<GrantedAuthority> authorities = new HashSet<>();
-        
+
         authorities.add(new SimpleGrantedAuthority(u.getUserRole()));
-        
+
         System.out.println("com.temtree.services.impl.UserServiceImpl.loadUserByUsername()");
         System.err.println(u.getUserRole());
-        
-        return new org.springframework.security.core
-                .userdetails.User(u.getUsername(), u.getPassword(), authorities);
+
+        return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), authorities);
     }
 
 }

@@ -4,6 +4,8 @@
  */
 package com.temtree.configs;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.temtree.handlers.CustomLogoutSuccessHandler;
 import com.temtree.handlers.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +37,32 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
-    
+
+    @Bean
+    public Cloudinary cloudinary() {
+        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dwajvm53v",
+                "api_key", "485633522843934",
+                "api_secret", "gZYmgO8732Xzcms1AJeU1_ReCGU",
+                "secure", true));
+        return cloudinary;
+    }
+
     @Autowired
     private AuthenticationSuccessHandler loginSuccessHandler;
     @Autowired
     private LogoutSuccessHandler customLogoutSuccessHandler;
-    
+
     @Bean
     public AuthenticationSuccessHandler LoginSuccessHandler() {
         return new LoginSuccessHandler();
     }
+
     @Bean
     public LogoutSuccessHandler CustomLogoutSuccessHandler() {
         return new CustomLogoutSuccessHandler();
     }
 
-    
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -61,29 +73,31 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
-    
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin().loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password");
-        
+
         http.formLogin().defaultSuccessUrl("/").failureUrl("/login?error");
-        
+
         http.formLogin().successHandler(this.loginSuccessHandler);
-        
+
         http.logout().logoutSuccessUrl("/login");
-        
+
         http.logout().logoutSuccessHandler(this.customLogoutSuccessHandler);
-        
+
         http.exceptionHandling()
                 .accessDeniedPage("/login?accessDenied");
-        
+
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/confirm").access("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('DRIVER')")
+                .antMatchers("/book-ticket").access("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('DRIVER')")
+                .antMatchers("/pay").access("hasAuthority('USER') or hasAuthority('ADMIN') or hasAuthority('DRIVER')")
                 .antMatchers("/admin/**").hasAuthority("ADMIN");
-        
+
         http.csrf().disable();
     }
 

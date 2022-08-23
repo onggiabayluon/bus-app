@@ -39,7 +39,7 @@
                     </div>
                 </c:if>
 
-                <form:form action="register" method="post" modelAttribute="user">
+                <form:form action="register" method="post" modelAttribute="user" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Username</label>
                         <form:input path="username" type="text" class="form-control" />
@@ -55,6 +55,12 @@
                         <form:input path="confirmPassword" type="password" class="form-control" />
                         <form:errors path="confirmPassword" element="div" cssClass="invalid-feedback" />
                     </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Upload avatar</label>
+                        <form:input id="imageId" path="avatarFile" type="file" />
+                        <form:errors path="avatar" element="div" cssClass="invalid-feedback" />
+                    </div>
+                    
 
                     <button type="submit" class="btn btn-primary">Đăng ký</button>
                 </form:form>

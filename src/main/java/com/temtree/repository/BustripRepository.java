@@ -20,7 +20,7 @@ public interface BustripRepository{
     
     List<Bustrip> getBustrips();
     
-    List<Bustrip> getTicketBustrips(int startLocationId, int endLocationId, Date departDate);
+    List<Bustrip> getAvailableBustrips(int startLocationId, int endLocationId, Date departDate);
     
     boolean addBustrip(Bustrip bustrip);
 

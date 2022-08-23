@@ -6,6 +6,7 @@ package com.temtree.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,6 +21,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -36,6 +39,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Route.findById", query = "SELECT r FROM Route r WHERE r.id = :id")})
 public class Route implements Serializable {
 
+    
+
+    @Column(name = "duration")
+    @Temporal(TemporalType.TIME)
+    private Date duration;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,8 +59,7 @@ public class Route implements Serializable {
     @JoinColumn(name = "end_location_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Location endLocationId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "routeId")
-    private Set<Ticket> ticketSet;
+    
     
     @Transient
     private String startLocationName;
@@ -115,14 +123,7 @@ public class Route implements Serializable {
         this.endLocationId = endLocationId;
     }
 
-    @XmlTransient
-    public Set<Ticket> getTicketSet() {
-        return ticketSet;
-    }
-
-    public void setTicketSet(Set<Ticket> ticketSet) {
-        this.ticketSet = ticketSet;
-    }
+   
 
     @Override
     public int hashCode() {
@@ -190,5 +191,14 @@ public class Route implements Serializable {
     public void setEndLocationIdInt(int endLocationIdInt) {
         this.endLocationIdInt = endLocationIdInt;
     }
-    
+
+    public Date getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Date duration) {
+        this.duration = duration;
+    }
+
+   
 }
