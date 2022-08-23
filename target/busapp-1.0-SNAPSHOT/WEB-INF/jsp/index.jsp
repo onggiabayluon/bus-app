@@ -85,7 +85,7 @@
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
                 <div class="book-now-form">
-                    <form action="ticket" method="get" class="row justify-content-center" style="margin: 0">
+                    <form action="bustrip" method="get" class="row justify-content-center" style="margin: 0">
                         <!-- Form Group -->
                         <div class="form-group col-lg-3">
                             <label for="select1">Điểm Đi</label>

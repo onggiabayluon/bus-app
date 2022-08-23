@@ -6,7 +6,12 @@ package com.temtree.controllers;
 
 import com.temtree.pojo.Bus;
 import com.temtree.pojo.Bustrip;
+import com.temtree.pojo.Calendar;
 import com.temtree.pojo.Location;
+import com.temtree.pojo.User;
+import com.temtree.repository.BusRepository;
+import com.temtree.repository.CalendarRepository;
+import com.temtree.repository.UserRepository;
 import com.temtree.services.BusService;
 import com.temtree.utils.utils;
 import com.temtree.services.BustripService;
@@ -42,6 +47,12 @@ public class AdminController {
     private BustripService bustripService;
     @Autowired
     private BusService busService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private BusRepository busRepository;
+    @Autowired
+    private CalendarRepository calendarRepository;
 
     @RequestMapping("/")
     public String admin(Model model, @RequestParam Map<String, String> params) {
@@ -54,7 +65,6 @@ public class AdminController {
         model.addAttribute("locations", this.locationService.getLocations());
         model.addAttribute("routes", this.routeService.getRoutes());
         model.addAttribute("bustrips", this.bustripService.getBustrips());
-      
 
         return "list";
     }
@@ -64,62 +74,80 @@ public class AdminController {
         model.addAttribute("locations", this.locationService.getLocations());
         model.addAttribute("routes", this.routeService.getRoutesName());
         model.addAttribute("bustrips", this.bustripService.getBustrips());
+        model.addAttribute("drivers", this.userRepository.getUsersByRole(User.DRIVER));
+        model.addAttribute("calendars", this.calendarRepository.getCalendars());
+        model.addAttribute("buses", this.busRepository.getBuses());
+        model.addAttribute("bus", new Bus());
         model.addAttribute("bustrip", new Bustrip());
-        
+        model.addAttribute("calendar", new Calendar());
+
         return "add";
     }
-    
-    
-//    @GetMapping("/bustrip")
-//    public String list(Model model) {
-//        model.addAttribute("bustrip", new Bustrip());
-//        
-//        return "bustrip";
-//    }
-    
+
     @PostMapping("/add-bustrip")
     public String add(
             @ModelAttribute(value = "bustrip") Bustrip bustrip,
             BindingResult r,
             @RequestParam("departTime") String departTime,
             @RequestParam("endTime") String endTime) throws ParseException {
-        
+
         // Reformat Date
         Date formattedDepartTime = utils.stringInTimeToDateObject(departTime);
         Date formattedEndTime = utils.stringInTimeToDateObject(endTime);
-         
-        // System.out.println("/save | registerDate : " + formattedDepartTime);
-         
-        bustrip.setDepartTime(formattedDepartTime); 
-        bustrip.setEndTime(formattedEndTime); 
-        if (this.bustripService.addBustrip(bustrip) == true)
+        // Re-set bustrip date 
+        bustrip.setDepartTime(formattedDepartTime);
+        bustrip.setEndTime(formattedEndTime);
+
+        if (this.bustripService.addBustrip(bustrip) == true) {
             return "redirect:list";
-        
+        }
+
         if (r.hasErrors()) {
             return "add";
         }
-        
-        
-        
+
         return "list";
     }
-    
-    
+
     @PostMapping("/add-bus")
     public String addBus(
             @ModelAttribute(value = "bus") Bus bus,
             BindingResult r) throws ParseException {
-        
-        if (this.busService.addBus(bus) == true)
+
+        if (this.busService.addBus(bus) == true) {
             return "redirect:list";
-        
+        }
+
         if (r.hasErrors()) {
             return "add";
         }
-        
-        
+
         return "list";
     }
 
+    @PostMapping("/add-calendar")
+    public String addCalendar(
+            @ModelAttribute(value = "calendar") Calendar calendar,
+            BindingResult r,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate) throws ParseException {
+
+        // Reformat Date
+        Date formattedStartDate = utils.stringInDateToJavaDate(startDate);
+        Date formattedEndDate = utils.stringInDateToJavaDate(endDate);
+        // Re-set bustrip date 
+        calendar.setStartDate(formattedStartDate);
+        calendar.setEndDate(formattedEndDate);
+
+        if (this.calendarRepository.addCalendar(calendar) == true) {
+            return "redirect:list";
+        }
+
+        if (r.hasErrors()) {
+            return "add";
+        }
+
+        return "list";
+    }
 
 }

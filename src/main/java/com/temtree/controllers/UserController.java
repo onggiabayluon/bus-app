@@ -4,8 +4,12 @@
  */
 package com.temtree.controllers;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.temtree.pojo.User;
 import com.temtree.services.UserService;
+import java.io.IOException;
+import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
 
     @RequestMapping("/login")
     public String login() {
@@ -42,7 +47,7 @@ public class UserController {
     public String register(
             Model model,
             @ModelAttribute(name = "user") @Valid User user,
-            BindingResult result) {
+            BindingResult result) throws IOException {
 
         String errMsg = "";
         System.out.println("com.temtree.controllers.UserController.registerProcess()");
@@ -51,11 +56,10 @@ public class UserController {
         System.out.println(user.getConfirmPassword());
 
         if (user.getPassword().equals(user.getConfirmPassword())) {
-            if (this.userService.addUser(user) == true) {
+            if (this.userService.addUser(user) == true) 
                 return "redirect:/login";
-            } else {
+            else 
                 errMsg = "Đã có lỗi xảy ra";
-            }
         } else {
             errMsg = "Mật khẩu không đúng";
         }

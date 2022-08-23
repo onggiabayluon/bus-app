@@ -62,6 +62,7 @@ const addComment = async (e) => {
             const bustripId = res.data.bustripId.id;
             let commentBox = document.getElementById(`commentBox-${bustripId}`);
             const comment = res.data;
+            const avatar = comment.userId.avatar ? comment.userId.avatar : "https://bootdey.com/img/Content/avatar/avatar6.png";
 
             commentBox.innerHTML = `
             <li>
@@ -69,7 +70,7 @@ const addComment = async (e) => {
                 <div class="timeline-body">
                     <div class="timeline-header">
                         <span class="userimage">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                            <img src="${avatar}" alt="">
                         </span>
                         <span class="username"><a href="javascript:;">${comment.userId.username}</a> <small></small></span>
                         <!--<span class="pull-right text-muted">18 Views</span>-->

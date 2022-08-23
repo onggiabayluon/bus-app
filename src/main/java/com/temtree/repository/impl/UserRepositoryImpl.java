@@ -84,15 +84,25 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> getUsers(String username) {
-         List<User> results = (List<User>) entityManager.createNativeQuery(
+        List<User> results = (List<User>) entityManager.createNativeQuery(
                 "SELECT * FROM user\n" +
                 "where user.username = ?\n", User.class)
                 .setParameter(1, username)
                 .getResultList();
         
-        System.err.println(username);
 
-        System.err.println(results);
+        return results;
+    }
+
+    @Override
+    public List<User> getUsersByRole(String role) {
+        List<User> results = (List<User>) entityManager.createNativeQuery(
+                "SELECT * FROM user\n" +
+                "where user_role = ?\n", User.class)
+                .setParameter(1, role)
+                .getResultList();
+        
+
         return results;
     }
 

@@ -4,6 +4,7 @@
  */
 package com.temtree.controllers;
 
+import com.temtree.pojo.Bustrip;
 import com.temtree.pojo.Location;
 import com.temtree.pojo.Route;
 import com.temtree.pojo.Comment;
@@ -11,6 +12,9 @@ import com.temtree.services.BustripService;
 import com.temtree.services.CommentService;
 import com.temtree.services.LocationService;
 import com.temtree.services.RouteService;
+import com.temtree.utils.utils;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,54 +75,31 @@ public class ApiController {
 
         String content = params.getOrDefault("content", null);
         int bustripId = Integer.parseInt(params.getOrDefault("bustripId", null));
-        int userId = Integer.parseInt(params.getOrDefault("userId", "1"));
+        int userId = Integer.parseInt(params.getOrDefault("userId", null));
 
         Comment comment = this.commentService.addComment(content, bustripId, userId);
         return comment;
     }
 
-//    @PostMapping(name = "/comment", produces = {
-//        MediaType.APPLICATION_JSON_VALUE
-//    })
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public ResponseEntity<Comment> addComment(@RequestBody Map<String, String> params) {
-//        System.err.println("test");
-//        return null;
-////        try {
-////            
-////        } catch (Exception e) {
-////            e.printStackTrace();
-////        }
-////        
-////        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//    }
+
 //    @PostMapping(value = "/bustrip")
 //    @ResponseStatus(HttpStatus.CREATED)
-//    public Bustrip addBustrip(
-//            @RequestBody Bustrip bustrip,
-//            BindingResult r,
-//            @RequestBody String departTime,
-//            @RequestBody String endTime) throws ParseException
+//    public Bustrip addBustrip(@RequestBody Map<String, String> params) throws ParseException
 //    {
-//        // Reformat Date
-//        Date formattedDepartTime = utils.stringInTimeToDateObject(departTime);
-//        Date formattedEndTime = utils.stringInTimeToDateObject(endTime);
+//        Date departTime = utils.stringInTimeToDateObject(params.getOrDefault("departTime", null));
+//        Date endTime = utils.stringInTimeToDateObject(params.getOrDefault("endTime", null));
+//        int routeId = Integer.parseInt(params.getOrDefault("routeId", null));
+//        int driverId = Integer.parseInt(params.getOrDefault("driverId", null));
+//        
 //         
-//        // System.out.println("/save | registerDate : " + formattedDepartTime);
+//        System.out.println("/save | registerDate : " + departTime);
+//        
+//        Bustrip bustrip = this.bustripService.addBustrip(departTime, endTime, routeId, driverId);
 //         
-//        bustrip.setDepartTime(formattedDepartTime); 
-//        bustrip.setEndTime(formattedEndTime); 
-//        if (this.bustripService.addBustrip(bustrip) == true)
-//            return bustrip;
-//        
-//        if (r.hasErrors()) {
-//            return null;
-//        }
-//        
-//        
-//        
-//        return bustrip;
+//       return bustrip;
 //    }
+    
+    
     @GetMapping("/routes")
     @ResponseStatus(HttpStatus.OK)
     public List<Route> getRoutes(@RequestParam String id) {

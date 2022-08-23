@@ -24,6 +24,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -41,6 +42,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByUserRole", query = "SELECT u FROM User u WHERE u.userRole = :userRole"),
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar")})
 public class User implements Serializable {
+
+    
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Set<Ticket> ticketSet;
 
     public static final String USER = "USER";
     public static final String ADMIN = "ADMIN";
@@ -85,11 +92,14 @@ public class User implements Serializable {
     private Set<Receipt> receiptSet;
     
     @Transient
+    private MultipartFile avatarFile;
+    @Transient
     private String confirmPassword;
     
     public User() {
     }
 
+    // Important Note: help stupid fuk request.body which needed my help to parse from string to int
     public User(String id) {
         this.id = Integer.parseInt(id);
     }
@@ -219,4 +229,28 @@ public class User implements Serializable {
         this.confirmPassword = confirmPassword;
     }
 
+    /**
+     * @return the avatarFile
+     */
+    public MultipartFile getAvatarFile() {
+        return avatarFile;
+    }
+
+    /**
+     * @param avatarFile the avatarFile to set
+     */
+    public void setAvatarFile(MultipartFile avatarFile) {
+        this.avatarFile = avatarFile;
+    }
+
+    @XmlTransient
+    public Set<Ticket> getTicketSet() {
+        return ticketSet;
+    }
+
+    public void setTicketSet(Set<Ticket> ticketSet) {
+        this.ticketSet = ticketSet;
+    }
+
+    
 }

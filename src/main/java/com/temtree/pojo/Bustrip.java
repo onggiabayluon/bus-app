@@ -4,6 +4,7 @@
  */
 package com.temtree.pojo;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
@@ -39,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Bustrip.findById", query = "SELECT b FROM Bustrip b WHERE b.id = :id"),
     @NamedQuery(name = "Bustrip.findByDepartTime", query = "SELECT b FROM Bustrip b WHERE b.departTime = :departTime"),
     @NamedQuery(name = "Bustrip.findByEndTime", query = "SELECT b FROM Bustrip b WHERE b.endTime = :endTime"),
+    @NamedQuery(name = "Bustrip.findByPrice", query = "SELECT b FROM Bustrip b WHERE b.price = :price"),
     @NamedQuery(name = "Bustrip.findByActive", query = "SELECT b FROM Bustrip b WHERE b.active = :active")})
 public class Bustrip implements Serializable {
 
@@ -54,11 +56,18 @@ public class Bustrip implements Serializable {
     @Column(name = "end_time")
     @Temporal(TemporalType.TIME)
     private Date endTime;
+    @Column(name = "price")
+    private Long price;
     @Column(name = "active")
     private Boolean active;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId")
-    private Set<Bus> busSet;
+    @JoinColumn(name = "bus_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Bus busId;
+    @JsonIgnore
+    @JoinColumn(name = "calendar_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Calendar calendarId;
     @JsonIgnore
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -76,21 +85,6 @@ public class Bustrip implements Serializable {
 
     public Bustrip() {
     }
-    
-    public Bustrip(Date departTime, Date endTime, Route routeId, User driverId) {
-        this.departTime = departTime;
-        this.endTime = endTime;
-        this.routeId = routeId;
-        this.driverId = driverId;
-    }
-    public Bustrip(int id, Date departTime, Date endTime, Route routeId, User driverId) {
-        this.id = id;
-        this.departTime = departTime;
-        this.endTime = endTime;
-        this.routeId = routeId;
-        this.driverId = driverId;
-    }
-    
 
     public Bustrip(Integer id) {
         this.id = id;
@@ -120,6 +114,14 @@ public class Bustrip implements Serializable {
         this.endTime = endTime;
     }
 
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -128,13 +130,20 @@ public class Bustrip implements Serializable {
         this.active = active;
     }
 
-    @XmlTransient
-    public Set<Bus> getBusSet() {
-        return busSet;
+    public Bus getBusId() {
+        return busId;
     }
 
-    public void setBusSet(Set<Bus> busSet) {
-        this.busSet = busSet;
+    public void setBusId(Bus busId) {
+        this.busId = busId;
+    }
+
+    public Calendar getCalendarId() {
+        return calendarId;
+    }
+
+    public void setCalendarId(Calendar calendarId) {
+        this.calendarId = calendarId;
     }
 
     public Route getRouteId() {
@@ -193,7 +202,7 @@ public class Bustrip implements Serializable {
 
     @Override
     public String toString() {
-        return "com.temtree.pojo.Bustrip[ id=" + id + " ]";
+        return "com.temtree.pojo.test.Bustrip[ id=" + id + " ]";
     }
     
 }

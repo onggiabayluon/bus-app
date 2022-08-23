@@ -28,11 +28,42 @@ public class utils {
     public static Date stringInDateToJavaDate(String strDate) throws ParseException {
         //String date = "15/08/2022";
         try {
-            DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = sdf.parse(strDate);
 
 //            System.out.println("date: " + date);
 //            System.out.println("Time: " + sdf.format(date));
+
+            return date;
+        }
+        catch (Exception e) {
+            System.err.println(e);
+        }
+        
+        return null;
+    }
+    
+    public static Date stringInDateToJavaDate2(String strDate) throws ParseException {
+        //String date = "15/08/2022";
+        try {
+            DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            Date date = sdf.parse(strDate);
+
+            return date;
+        }
+        catch (Exception e) {
+            System.err.println(e);
+        }
+        
+        return null;
+    }
+    
+    public static Date getCurrentDateTime() throws ParseException {
+        //String date = "15/08/2022";
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+            Date date = new Date(System.currentTimeMillis());
+            formatter.format(date);
 
             return date;
         }

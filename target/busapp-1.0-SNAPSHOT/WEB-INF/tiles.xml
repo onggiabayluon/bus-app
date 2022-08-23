@@ -19,15 +19,15 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="content"
                        value="/WEB-INF/jsp/index.jsp" />
     </definition>
-    <definition name="ticket" extends="baseLayout">
+    <definition name="bustrip" extends="baseLayout">
         <put-attribute name="title" value="Đặt vé" />
         <put-attribute name="content"
-                       value="/WEB-INF/jsp/ticket.jsp" />
+                       value="/WEB-INF/jsp/bustrip.jsp" />
     </definition>
-    <definition name="pay" extends="baseLayout">
+    <definition name="confirm" extends="baseLayout">
         <put-attribute name="title" value="Thanh toán" />
         <put-attribute name="content"
-                       value="/WEB-INF/jsp/pay.jsp" />
+                       value="/WEB-INF/jsp/confirm.jsp" />
     </definition>
     <definition name="login" extends="baseLayout">
         <put-attribute name="title" value="Đăng nhập" />

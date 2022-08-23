@@ -19,7 +19,9 @@ public interface UserRepository{
     
     List<User> getUsers();
     
+    List<User> getUsersByRole(String role);
     User findById(int id);
+    
 
     boolean addUser(User user);
 
