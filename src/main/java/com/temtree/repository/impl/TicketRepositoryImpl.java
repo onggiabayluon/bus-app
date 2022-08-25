@@ -5,12 +5,10 @@
 package com.temtree.repository.impl;
 
 import com.temtree.pojo.Ticket;
-import com.temtree.pojo.Route;
 import com.temtree.repository.TicketRepository;
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
@@ -78,17 +76,57 @@ public class TicketRepositoryImpl implements TicketRepository {
                 "and bustrip.id = ticket.bustrip_id\n" +
                 "and start_location_id = ?\n" +
                 "and end_location_id = ?\n" +
-                "and depart_date = ?", Ticket.class)
+                "and booked_date = ?", Ticket.class)
                 .setParameter(1, startLocationId)
                 .setParameter(2, endLocationId)
                 .setParameter(3, departDate)
                 .getResultList();
         
-        System.out.println("com.temtree.repository.impl.TicketRepositoryImpl.getTicketTickets()");
-        System.err.println(results);
-        
-        
         return results;
+    }
+
+    @Override
+    public Ticket getTicketByUserId(int id) {
+        Ticket ticket = (Ticket) entityManager.createNativeQuery(
+                "select * from ticket\n" +
+                "where user_id = ?\n" +
+                "and payment_status = false", Ticket.class)
+                .setParameter(1, id)
+                .getSingleResult();
+        
+        System.out.println("com.temtree.repository.impl.TicketRepositoryImpl.getTicketByUserId()");
+        System.err.println(ticket);
+        
+        return ticket;
+    }
+
+    @Override
+    public boolean checkBookedSeat(int id, Date bookedDate) {
+        Query query = (Query) entityManager.createNativeQuery(
+                "SELECT count(*) FROM busdb.ticket\n" +
+                "where seat_id = ?\n" +
+                "and booked_date = ?\n" +
+                "and active = 1")
+                .setParameter(1, id)
+                .setParameter(2, bookedDate);
+
+        BigInteger isBooked = (BigInteger) query.getSingleResult();
+
+        return isBooked.intValue() > 0;
+    }
+
+    @Override
+    public int getTotalBookedSeatByDateAndBusTrip(Date date, int bustripId) {
+        BigInteger totalSeat = (BigInteger) entityManager.createNativeQuery(
+                "SELECT count(*) FROM busdb.ticket\n" +
+                "where booked_date = ?\n" +
+                "and bustrip_id = ?\n" +
+                "and active = 1")
+                .setParameter(1, date)
+                .setParameter(2, bustripId)
+                .getSingleResult();
+
+        return totalSeat.intValue();
     }
     
 }

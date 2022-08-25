@@ -23,6 +23,8 @@ public interface BustripRepository{
     List<Bustrip> getAvailableBustrips(int startLocationId, int endLocationId, Date departDate);
     
     boolean addBustrip(Bustrip bustrip);
+    
+    boolean updateBustrip(Bustrip bustrip);
 
     boolean deleteBustrip(int id);
 }

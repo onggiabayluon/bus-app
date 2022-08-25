@@ -11,10 +11,13 @@ com\temtree\pojo\Seat_.class
 com\temtree\pojo\Bustrip.class
 com\temtree\repository\LocationRepository.class
 com\temtree\pojo\Location.class
+com\temtree\configs\Environment.class
 com\temtree\pojo\User.class
 com\temtree\repository\CommentRepository.class
 com\temtree\pojo\Location_.class
+com\temtree\repository\impl\CalendarDatesRepositoryImpl.class
 com\temtree\formatter\RouteFormatter.class
+com\temtree\configs\Environment$ProcessType.class
 com\temtree\repository\TicketRepository.class
 com\temtree\handlers\CustomLogoutSuccessHandler.class
 com\temtree\services\BustripService.class
@@ -27,6 +30,7 @@ com\temtree\services\UserService.class
 com\temtree\pojo\Seat.class
 com\temtree\pojo\Calendar_.class
 com\temtree\configs\SpringSecurityConfig.class
+com\temtree\repository\CalendarDatesRepository.class
 com\temtree\services\CommentService.class
 com\temtree\services\impl\RouteServiceImpl.class
 com\temtree\formatter\CalendarFormatter.class

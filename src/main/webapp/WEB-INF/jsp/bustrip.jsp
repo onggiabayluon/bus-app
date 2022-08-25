@@ -4,7 +4,7 @@
     Author     : admin
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!-- ##### Breadcumb Area Start ##### -->
@@ -87,7 +87,7 @@
                         <h5 class="card-header">${bustrip.getDepartTime()} -> ${bustrip.getEndTime()}</h5>
                         <div class="card-body">
                             <div class="p-4 pb-0 card-title fs-5">Giá vé: ${bustrip.price}VNĐ</div>
-                            <div class="p-4 pt-0 pb-0 card-title fs-5">Chỗ trống: còn 4</div>
+                            <div class="p-4 pt-0 pb-0 card-title fs-5">Chỗ trống: còn ${bustrip.remainingSeat}</div>
                             <!-- Section: Timeline -->
                             <section class="p-4 pb-0">
 
@@ -224,9 +224,37 @@
                                 <div class="row p-4">
                                     <c:forEach items="${bustrip.busId.seatSet}" var="seat" varStatus="loop">
                                         <div class="btn-group col-4 mt-3" role="group" aria-label="Basic checkbox toggle button group">
-                                            
-                                            <input class="btn-check<c:if test="${seat.isBooked == true}">disabled</c:if>" type="checkbox" name="seatId" value="${seat.id}" id="btncheck-${bustrip.getId()}-${seat.id}" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btncheck-${bustrip.getId()}-${seat.id}">Ghế ${seat.id}</label>
+
+                                            <input class="btn-check" 
+                                                   type="checkbox" 
+                                                   name="seatId" 
+                                                   value="${seat.id}" 
+                                                   id="btncheck-${bustrip.getId()}-${seat.id}" 
+                                                   autocomplete="off"
+                                                   <c:forEach items="${bustrip.ticketSet}" var="ticket">
+                                                       <fmt:formatDate value="${ticket.bookedDate}" pattern="dd-MM-yyyy" var="bookedDate" />
+                                                       <c:if test="${ticket.seatId.id == seat.id && bookedDate == departDate}">
+                                                           disabled
+                                                       </c:if>
+                                                   </c:forEach>
+                                                   >
+
+                                            <label class="btn btn-outline-primary" for="btncheck-${bustrip.getId()}-${seat.id}">
+                                                Ghế ${seat.id}
+                                                <c:set var="continueExecuting" scope="request" value="true"/>
+                                                <c:forEach items="${bustrip.ticketSet}" var="ticket">
+                                                    <c:if test="${continueExecuting}">
+                                                        <fmt:formatDate value="${ticket.bookedDate}" pattern="dd-MM-yyyy" var="bookedDate" />
+                                                        
+                                                        <c:if test="${ticket.seatId.id == seat.id && bookedDate == departDate}" var="condition">
+                                                            <span>đã có người đặt</span> 
+                                                            <c:set var="continueExecuting" scope="request" value="false"/>
+                                                        </c:if>
+                                                    </c:if>
+                                                    
+                                                </c:forEach>
+                                                
+                                            </label>
                                         </div>
                                     </c:forEach>
                                 </div>

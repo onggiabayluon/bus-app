@@ -41,15 +41,15 @@ public class Location implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
+    @Size(max = 10)
     @Column(name = "alias")
     private String alias;
     @Size(max = 255)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "startLocationId")
-    private Set<Route> routeSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "endLocationId")
+    private Set<Route> routeSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "startLocationId")
     private Set<Route> routeSet1;
 
     public Location() {

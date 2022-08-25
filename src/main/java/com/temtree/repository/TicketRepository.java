@@ -4,10 +4,10 @@
  */
 package com.temtree.repository;
 
+import com.temtree.pojo.Seat;
 import com.temtree.pojo.Ticket;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -17,9 +17,15 @@ public interface TicketRepository {
     
     List<Ticket> getTickets();
     
+    Ticket getTicketByUserId(int id);
+    
     List<Ticket> getTicketBustrips(int startLocationId, int endLocationId, Date departDate);
     
     boolean addTicket(Ticket ticket);
+    
+    boolean checkBookedSeat(int id, Date bookedDate);
+    
+    int getTotalBookedSeatByDateAndBusTrip(Date bookedDate, int bustripId);
 
     boolean deleteTicket(int id);
 }

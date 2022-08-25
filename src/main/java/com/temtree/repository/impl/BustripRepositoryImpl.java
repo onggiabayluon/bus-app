@@ -80,23 +80,29 @@ public class BustripRepositoryImpl implements BustripRepository {
         System.err.println(departDate);
 
         List<Bustrip> results = (List<Bustrip>) entityManager.createNativeQuery(
-                "SELECT bustrip.* FROM bustrip\n"
-                + "left join route\n"
-                + "on bustrip.route_id = route.id\n"
-                + "left join calendar\n"
-                + "on bustrip.calendar_id = calendar.id\n"
-                + "where start_location_id = ?\n"
-                + "and end_location_id = ?\n"
-                + "and ? BETWEEN start_date AND end_date\n"
-                + "and DAYOFWEEK(?) IN (monday, tuesday, wednesday, thursday, friday, saturday, sunday)\n"
-                + "and calendar.id not IN (select calendar_dates.calendar_id from calendar_dates\n"
-                + "                        where exception_type = 2\n"
-                + "                        and date = ?)", Bustrip.class)
-                .setParameter(1, startLocationId)
-                .setParameter(2, endLocationId)
+                "SELECT bustrip.id, depart_time, end_time, active, route_id, driver_id, bus_id, bustrip.calendar_id\n" +
+                ", If(exception_type = 3 and date = ?, bustrip.price*ratio, bustrip.price) as price\n" +
+                "FROM bustrip\n" +
+                "left join route\n" +
+                "on bustrip.route_id = route.id\n" +
+                "left join calendar\n" +
+                "on bustrip.calendar_id = calendar.id\n" +
+                "left join calendar_dates\n" +
+                "on calendar_dates.calendar_id = calendar.id \n" +
+                "and calendar_dates.date = ? \n" +
+                "and NOT (exception_type = 2 and calendar_dates.date = ?)\n" +
+                "where start_location_id = ? \n" +
+                "and end_location_id = ?     \n" +
+                "and ? BETWEEN start_date AND end_date \n" +
+                "and DAYOFWEEK(?) IN (monday, tuesday, wednesday, thursday, friday, saturday, sunday)\n" 
+                , Bustrip.class)
+                .setParameter(1, departDate)
+                .setParameter(2, departDate)
                 .setParameter(3, departDate)
-                .setParameter(4, departDate)
-                .setParameter(5, departDate)
+                .setParameter(4, startLocationId)
+                .setParameter(5, endLocationId)
+                .setParameter(6, departDate)
+                .setParameter(7, departDate)
                 .getResultList();
 
         System.out.println("com.temtree.repository.impl.BustripRepositoryImpl.getAvailableBustrips()");
@@ -114,6 +120,18 @@ public class BustripRepositoryImpl implements BustripRepository {
                 .getSingleResult();
         
         return bustrip;
+    }
+
+    @Override
+    public boolean updateBustrip(Bustrip bustrip) {
+        Query query = (Query) entityManager.createNativeQuery(
+                "UPDATE bustrip SET driver_id = ? where id = ?")
+                .setParameter(1, bustrip.getDriverId())
+                .setParameter(2, bustrip.getId());
+
+        int result = query.executeUpdate();
+
+        return result > 0;
     }
 
 }

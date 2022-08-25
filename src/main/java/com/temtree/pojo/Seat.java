@@ -18,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -33,14 +32,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Seat.findAll", query = "SELECT s FROM Seat s"),
     @NamedQuery(name = "Seat.findById", query = "SELECT s FROM Seat s WHERE s.id = :id"),
-    @NamedQuery(name = "Seat.findByActive", query = "SELECT s FROM Seat s WHERE s.active = :active")})
+    @NamedQuery(name = "Seat.findByActive", query = "SELECT s FROM Seat s WHERE s.active = :active"),
+    @NamedQuery(name = "Seat.findByIsBooked", query = "SELECT s FROM Seat s WHERE s.isBooked = :isBooked")})
 public class Seat implements Serializable {
-
-    @Column(name = "is_booked")
-    private Boolean isBooked;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "seatId")
-    private Set<Ticket> ticketSet;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,12 +44,13 @@ public class Seat implements Serializable {
     private Integer id;
     @Column(name = "active")
     private Boolean active;
+    @Column(name = "is_booked")
+    private Boolean isBooked;
     @JoinColumn(name = "bus_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Bus busId;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Ticket ticket;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "seatId")
+    private Set<Ticket> ticketSet;
 
     public Seat() {
     }
@@ -80,6 +75,14 @@ public class Seat implements Serializable {
         this.active = active;
     }
 
+    public Boolean getIsBooked() {
+        return isBooked;
+    }
+
+    public void setIsBooked(Boolean isBooked) {
+        this.isBooked = isBooked;
+    }
+
     public Bus getBusId() {
         return busId;
     }
@@ -88,12 +91,13 @@ public class Seat implements Serializable {
         this.busId = busId;
     }
 
-    public Ticket getTicket() {
-        return ticket;
+    @XmlTransient
+    public Set<Ticket> getTicketSet() {
+        return ticketSet;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
+    public void setTicketSet(Set<Ticket> ticketSet) {
+        this.ticketSet = ticketSet;
     }
 
     @Override
@@ -119,23 +123,6 @@ public class Seat implements Serializable {
     @Override
     public String toString() {
         return "com.temtree.pojo.Seat[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Set<Ticket> getTicketSet() {
-        return ticketSet;
-    }
-
-    public void setTicketSet(Set<Ticket> ticketSet) {
-        this.ticketSet = ticketSet;
-    }
-
-    public Boolean getIsBooked() {
-        return isBooked;
-    }
-
-    public void setIsBooked(Boolean isBooked) {
-        this.isBooked = isBooked;
     }
     
 }

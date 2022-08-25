@@ -7,9 +7,12 @@ package com.temtree.controllers;
 import com.temtree.pojo.Bus;
 import com.temtree.pojo.Bustrip;
 import com.temtree.pojo.Calendar;
+import com.temtree.pojo.CalendarDates;
 import com.temtree.pojo.Location;
 import com.temtree.pojo.User;
 import com.temtree.repository.BusRepository;
+import com.temtree.repository.BustripRepository;
+import com.temtree.repository.CalendarDatesRepository;
 import com.temtree.repository.CalendarRepository;
 import com.temtree.repository.UserRepository;
 import com.temtree.services.BusService;
@@ -17,6 +20,7 @@ import com.temtree.utils.utils;
 import com.temtree.services.BustripService;
 import com.temtree.services.LocationService;
 import com.temtree.services.RouteService;
+import com.temtree.services.UserService;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
@@ -53,6 +57,12 @@ public class AdminController {
     private BusRepository busRepository;
     @Autowired
     private CalendarRepository calendarRepository;
+    @Autowired
+    private CalendarDatesRepository calendarDatesRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BustripRepository bustripRepository;
 
     @RequestMapping("/")
     public String admin(Model model, @RequestParam Map<String, String> params) {
@@ -65,6 +75,8 @@ public class AdminController {
         model.addAttribute("locations", this.locationService.getLocations());
         model.addAttribute("routes", this.routeService.getRoutes());
         model.addAttribute("bustrips", this.bustripService.getBustrips());
+        model.addAttribute("users", this.userRepository.getUsers());
+        model.addAttribute("bustrip", new Bustrip());
 
         return "list";
     }
@@ -80,6 +92,8 @@ public class AdminController {
         model.addAttribute("bus", new Bus());
         model.addAttribute("bustrip", new Bustrip());
         model.addAttribute("calendar", new Calendar());
+        model.addAttribute("calendarDates", new CalendarDates());
+        model.addAttribute("user", new User());
 
         return "add";
     }
@@ -107,6 +121,22 @@ public class AdminController {
         }
 
         return "list";
+    }
+
+    @PostMapping("/update-bustrip")
+    public String updateBustrip(
+            @ModelAttribute(value = "bustrip") Bustrip bustrip,
+            BindingResult r) throws ParseException {
+
+        if (this.bustripRepository.updateBustrip(bustrip) == true) {
+            return "redirect:list";
+        }
+
+        if (r.hasErrors()) {
+            return "redirect:add";
+        }
+
+        return "redirect:list";
     }
 
     @PostMapping("/add-bus")
@@ -140,6 +170,44 @@ public class AdminController {
         calendar.setEndDate(formattedEndDate);
 
         if (this.calendarRepository.addCalendar(calendar) == true) {
+            return "redirect:list";
+        }
+
+        if (r.hasErrors()) {
+            return "add";
+        }
+
+        return "list";
+    }
+
+    @PostMapping("/add-calendar-dates")
+    public String addCalendarDates(
+            @ModelAttribute(value = "calendar") CalendarDates calendarDates,
+            BindingResult r,
+            @RequestParam("date") String date) throws ParseException {
+
+        // Reformat Date
+        Date formattedDate = utils.stringInDateToJavaDate(date);
+        // Re-set bustrip date 
+        calendarDates.setDate(formattedDate);
+
+        if (this.calendarDatesRepository.addCalendarDates(calendarDates) == true) {
+            return "redirect:list";
+        }
+
+        if (r.hasErrors()) {
+            return "add";
+        }
+
+        return "list";
+    }
+
+    @PostMapping("/add-user")
+    public String addUser(
+            @ModelAttribute(value = "user") User user,
+            BindingResult r) throws ParseException {
+
+        if (this.userService.addUser(user) == true) {
             return "redirect:list";
         }
 

@@ -31,8 +31,8 @@ public class utils {
             DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = sdf.parse(strDate);
 
-//            System.out.println("date: " + date);
-//            System.out.println("Time: " + sdf.format(date));
+            System.out.println("date: " + date);
+            System.out.println("Time: " + sdf.format(date));
 
             return date;
         }

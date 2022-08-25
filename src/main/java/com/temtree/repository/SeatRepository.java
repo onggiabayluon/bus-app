@@ -23,6 +23,8 @@ public interface SeatRepository {
     boolean checkBooked(int id);
     
     boolean updateIsBooked(int id);
+    
+    int getTotalSeatByBus(int busId);
 
     public List<Seat> getSeat();
 }

@@ -42,10 +42,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ticket.findByActive", query = "SELECT t FROM Ticket t WHERE t.active = :active"),
     @NamedQuery(name = "Ticket.findByPaymentStatus", query = "SELECT t FROM Ticket t WHERE t.paymentStatus = :paymentStatus")})
 public class Ticket implements Serializable {
-    
-    public static final String USER = "USER";
-    public static final String ADMIN = "ADMIN";
-    public static final String DRIVER = "DRIVER";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -61,7 +57,7 @@ public class Ticket implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "booked_date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date bookedDate;
     @Column(name = "active")
     private Boolean active;

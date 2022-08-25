@@ -112,4 +112,16 @@ public class SeatRepositoryImpl implements SeatRepository {
 
         return isBooked > 0;
     }
+
+    @Override
+    public int getTotalSeatByBus(int busId) {
+        BigInteger totalSeat = (BigInteger) entityManager.createNativeQuery(
+                "SELECT count(*) FROM seat\n" +
+                "where bus_id = ?\n" +
+                "and active = 1")
+                .setParameter(1, busId)
+                .getSingleResult();
+
+        return totalSeat.intValue();
+    }
 }

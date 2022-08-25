@@ -19,7 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -35,12 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Receipt.findById", query = "SELECT r FROM Receipt r WHERE r.id = :id"),
     @NamedQuery(name = "Receipt.findByActive", query = "SELECT r FROM Receipt r WHERE r.active = :active"),
     @NamedQuery(name = "Receipt.findByCreatedDate", query = "SELECT r FROM Receipt r WHERE r.createdDate = :createdDate"),
-    @NamedQuery(name = "Receipt.findByAmount", query = "SELECT r FROM Receipt r WHERE r.amount = :amount")})
+    @NamedQuery(name = "Receipt.findByAmount", query = "SELECT r FROM Receipt r WHERE r.amount = :amount"),
+    @NamedQuery(name = "Receipt.findByPaymentMethod", query = "SELECT r FROM Receipt r WHERE r.paymentMethod = :paymentMethod")})
 public class Receipt implements Serializable {
-
-    @Size(max = 255)
-    @Column(name = "payment_method")
-    private String paymentMethod;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,13 +46,14 @@ public class Receipt implements Serializable {
     private Integer id;
     @Column(name = "active")
     private Boolean active;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Column(name = "amount")
     private Long amount;
+    @Size(max = 255)
+    @Column(name = "payment_method")
+    private String paymentMethod;
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Ticket ticketId;
@@ -69,11 +66,6 @@ public class Receipt implements Serializable {
 
     public Receipt(Integer id) {
         this.id = id;
-    }
-
-    public Receipt(Integer id, Date createdDate) {
-        this.id = id;
-        this.createdDate = createdDate;
     }
 
     public Integer getId() {
@@ -106,6 +98,14 @@ public class Receipt implements Serializable {
 
     public void setAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public Ticket getTicketId() {
@@ -147,14 +147,6 @@ public class Receipt implements Serializable {
     @Override
     public String toString() {
         return "com.temtree.pojo.Receipt[ id=" + id + " ]";
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
     }
     
 }

@@ -25,6 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -77,11 +78,14 @@ public class Bustrip implements Serializable {
     @ManyToOne(optional = false)
     private User driverId;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId", fetch = FetchType.EAGER)
     private Set<Ticket> ticketSet;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bustripId", fetch = FetchType.EAGER)
     private Set<Comment> commentSet;
+    
+    @Transient
+    private int remainingSeat;
 
     public Bustrip() {
     }
@@ -203,6 +207,20 @@ public class Bustrip implements Serializable {
     @Override
     public String toString() {
         return "com.temtree.pojo.test.Bustrip[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the remainingSeat
+     */
+    public int getRemainingSeat() {
+        return remainingSeat;
+    }
+
+    /**
+     * @param remainingSeat the remainingSeat to set
+     */
+    public void setRemainingSeat(int remainingSeat) {
+        this.remainingSeat = remainingSeat;
     }
     
 }

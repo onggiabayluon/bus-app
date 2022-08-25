@@ -60,6 +60,8 @@
     <class>com.temtree.pojo.dab.Ticket</class>
     <class>com.temtree.pojo.dab.CalendarDates</class>
     <class>com.temtree.pojo.dab.Bus</class>
+    <class>com.temtree.pojo.Seat_1</class>
+    <class>com.temtree.pojo.Bustrip_1</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/saledb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

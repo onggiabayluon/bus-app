@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,18 +41,12 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByUserRole", query = "SELECT u FROM User u WHERE u.userRole = :userRole"),
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar")})
 public class User implements Serializable {
-
     
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<Ticket> ticketSet;
-
     public static final String USER = "USER";
     public static final String ADMIN = "ADMIN";
     public static final String DRIVER = "DRIVER";
-    
-    
+    public static final String EMPLOYEE = "EMPLOYEE";
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,7 +58,6 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "username")
     private String username;
-    @JsonIgnore
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -86,6 +78,9 @@ public class User implements Serializable {
     private Set<Bustrip> bustripSet;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Set<Ticket> ticketSet;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Comment> commentSet;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
@@ -95,10 +90,10 @@ public class User implements Serializable {
     private MultipartFile avatarFile;
     @Transient
     private String confirmPassword;
-    
+
     public User() {
     }
-
+    
     // Important Note: help stupid fuk request.body which needed my help to parse from string to int
     public User(String id) {
         this.id = Integer.parseInt(id);
@@ -173,6 +168,15 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    public Set<Ticket> getTicketSet() {
+        return ticketSet;
+    }
+
+    public void setTicketSet(Set<Ticket> ticketSet) {
+        this.ticketSet = ticketSet;
+    }
+
+    @XmlTransient
     public Set<Comment> getCommentSet() {
         return commentSet;
     }
@@ -214,7 +218,7 @@ public class User implements Serializable {
     public String toString() {
         return "com.temtree.pojo.User[ id=" + id + " ]";
     }
-
+    
     /**
      * @return the confirmPassword
      */
@@ -242,15 +246,4 @@ public class User implements Serializable {
     public void setAvatarFile(MultipartFile avatarFile) {
         this.avatarFile = avatarFile;
     }
-
-    @XmlTransient
-    public Set<Ticket> getTicketSet() {
-        return ticketSet;
-    }
-
-    public void setTicketSet(Set<Ticket> ticketSet) {
-        this.ticketSet = ticketSet;
-    }
-
-    
 }
