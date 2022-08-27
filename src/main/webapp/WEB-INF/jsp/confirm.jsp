@@ -34,7 +34,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="p-4 pb-0 card-title fs-5">Chuyến: ${selectedBustrip.departTime} -> ${selectedBustrip.endTime}</div>
-                        <div class="pt-0 p-4 pb-0 card-title fs-5">Giá vé: ${selectedBustrip.price}VND</div>
+                        <div class="pt-0 p-4 pb-0 card-title fs-5">Giá vé: ${totalPrice}VND</div>
                         <div class="pt-0 p-4 pb-0 card-title fs-5">Ngày đi: ${selectedDate}</div>
                         
                         <!-- Section: Timeline -->
@@ -68,7 +68,7 @@
                 <div class="card p-4">
                     <h5 class="card-title">Thông tin khách hàng</h5>
                     <div class="card-body">
-                        <form action="book-ticket" method="post">
+                        <form action="pay-momo" method="post">
                             <!--hidden input-->
                             <c:forEach items="${selectedSeats}" var="selectedSeat">
                                 <input type="hidden" name="seatIds" value="${selectedSeat}"/>
@@ -100,7 +100,20 @@
 
 
                             <!-- Submit button -->
-                            <button type="submit" class="btn btn-primary btn-block">Đặt vé</button>
+                            <button 
+                                type="submit" 
+                                class="btn btn-primary btn-block"
+                                onclick="this.form.action='book-ticket';"
+                                >
+                                Đặt vé
+                            </button>
+<!--                            <button 
+                                type="submit" 
+                                class="btn btn-primary btn-block"
+                                onclick="this.form.action='pay-momo';"
+                                >
+                                Đặt vé và thanh toán qua momo
+                            </button>-->
                         </form>
                     </div>
                 </div>

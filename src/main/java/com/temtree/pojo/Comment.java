@@ -4,7 +4,6 @@
  */
 package com.temtree.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -35,12 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
     @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
     @NamedQuery(name = "Comment.findByContent", query = "SELECT c FROM Comment c WHERE c.content = :content"),
-    @NamedQuery(name = "Comment.findByActive", query = "SELECT c FROM Comment c WHERE c.active = :active")})
+    @NamedQuery(name = "Comment.findByActive", query = "SELECT c FROM Comment c WHERE c.active = :active"),
+    @NamedQuery(name = "Comment.findByCreatedDate", query = "SELECT c FROM Comment c WHERE c.createdDate = :createdDate")})
 public class Comment implements Serializable {
-
-    @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,6 +49,9 @@ public class Comment implements Serializable {
     private String content;
     @Column(name = "active")
     private Boolean active;
+    @Column(name = "created_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
     @JoinColumn(name = "bustrip_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Bustrip bustripId;
@@ -61,6 +60,8 @@ public class Comment implements Serializable {
     private User userId;
 
     public Comment() {
+        this.createdDate = new Date();
+        this.active = true;
     }
 
     public Comment(Integer id) {
@@ -89,6 +90,14 @@ public class Comment implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Bustrip getBustripId() {
@@ -130,14 +139,6 @@ public class Comment implements Serializable {
     @Override
     public String toString() {
         return "com.temtree.pojo.Comment[ id=" + id + " ]";
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
     
 }

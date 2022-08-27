@@ -4,7 +4,6 @@
  */
 package com.temtree.pojo;
 
-import com.temtree.pojo.Bustrip;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -47,8 +46,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Calendar.findByStartDate", query = "SELECT c FROM Calendar c WHERE c.startDate = :startDate"),
     @NamedQuery(name = "Calendar.findByEndDate", query = "SELECT c FROM Calendar c WHERE c.endDate = :endDate")})
 public class Calendar implements Serializable {
-
-    
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -97,18 +94,17 @@ public class Calendar implements Serializable {
     private Set<CalendarDates> calendarDatesSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "calendarId")
     private Set<Bustrip> bustripSet;
-    
 
     public Calendar() {
     }
 
+    public Calendar(Integer id) {
+        this.id = id;
+    }
+    
     // Important Note: help stupid fuk request.body which needed my help to parse from string to int
     public Calendar(String id) {
         this.id = Integer.parseInt(id);
-    }
-    
-    public Calendar(Integer id) {
-        this.id = id;
     }
 
     public Calendar(Integer id, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday) {
@@ -250,9 +246,7 @@ public class Calendar implements Serializable {
 
     @Override
     public String toString() {
-        return "com.temtree.pojo.busdb2.Calendar[ id=" + id + " ]";
+        return "com.temtree.pojo.Calendar[ id=" + id + " ]";
     }
-
-    
     
 }

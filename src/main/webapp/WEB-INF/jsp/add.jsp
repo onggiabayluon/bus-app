@@ -38,6 +38,50 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Add User</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <form:form class="p-4" action="add-user" method="post" modelAttribute="user">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-outline my-3">
+                                        <label class="form-label">User name</label>
+                                        <form:input path="username" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-outline my-3">
+                                        <label class="form-label">Password</label>
+                                        <form:input path="password" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select User Role</label>
+                                        <form:select path="userRole" class="form-control" id="exampleFormControlSelect1">
+                                            <option value="DRIVER">DRIVER</option>
+                                            <option value="EMPLOYEE">EMPLOYEE</option>
+                                            <option value="USER">USER</option>
+                                        </form:select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info ml-auto">Submit</button>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                             <h6 class="text-white text-capitalize ps-3">Add Bus</h6>
                         </div>
                     </div>
@@ -130,6 +174,138 @@
             </div>
         </div>
 
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Add Routes</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <form onsubmit="addRoute(event)" class="p-4" action="route" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select Start Location</label>
+                                        <select name="startLocationId" class="form-control" id="exampleFormControlSelect1">
+                                            <c:forEach items="${locations}" var="location">
+                                                <option value="${location.id}">${location.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select End Location</label>
+                                        <select name="endLocationId" class="form-control" id="exampleFormControlSelect1">
+                                            <c:forEach items="${locations}" var="location">
+                                                <option value="${location.id}">${location.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info ml-auto">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Add BusTrip</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <form:form method="post" action="add-bustrip" modelAttribute="bustrip" class="p-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static my-3">
+                                        <label>Depart Time</label>
+                                        <form:input path="departTime" name="departTime" type="time" class="form-control" />
+                                        <form:errors path="departTime" element="div" cssClass="invalid-feedback" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static my-3">
+                                        <label>Arrived Time</label>
+                                        <form:input path="endTime" name="endTime" type="time" class="form-control" />
+                                        <form:errors path="endTime" element="div" cssClass="invalid-feedback" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select Route</label>
+                                        <form:select path="routeId" class="form-control">
+                                            <c:forEach items="${routes}" var="route">
+                                                <option value="${route.id}">${route.startLocationName} -> ${route.endLocationName}</option>
+                                            </c:forEach>
+                                        </form:select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select Driver</label>
+                                        <form:select path="driverId" class="form-control" id="exampleFormControlSelect1">
+                                            <c:forEach items="${drivers}" var="driver">
+                                                <option value="${driver.id}">${driver.username}</option>
+                                            </c:forEach>
+                                        </form:select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select Bus</label>
+                                        <form:select path="busId" class="form-control">
+                                            <c:forEach items="${buses}" var="bus">
+                                                <option value="${bus.id}">${bus.id} - ${bus.name}</option>
+                                            </c:forEach>
+                                        </form:select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select Calendar</label>
+                                        <form:select path="calendarId" class="form-control" id="exampleFormControlSelect1">
+                                            <c:forEach items="${calendars}" var="calendar">
+                                                <option value="${calendar.id}">${calendar.alias} - ${calendar.monday} - ${calendar.tuesday} - ${calendar.wednesday} - ${calendar.thursday} - ${calendar.friday} - ${calendar.saturday} - ${calendar.sunday}</option>
+                                            </c:forEach>
+                                        </form:select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Price</label>
+                                        <form:input path="price" type="number" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-info ml-auto">Submit</button>
+                        </form:form>
+                    </div
+
+                </div>
+            </div>
+        </div>
+        
+        
+        
 
         <div class="row">
             <div class="col-12">
@@ -222,6 +398,9 @@
                 </div>
             </div>
         </div>
+        
+        
+        
 
 
         <div class="row">
@@ -229,81 +408,51 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">Add BusTrip</h6>
+                            <h6 class="text-white text-capitalize ps-3">Add Calendar dates</h6>
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
-                        <form:form method="post" action="add-bustrip" modelAttribute="bustrip" class="p-4">
+                        <form:form method="post" action="add-calendar-dates" modelAttribute="calendarDates" class="p-4">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-group input-group-static my-3">
-                                        <label>Depart Time</label>
-                                        <form:input path="departTime" name="departTime" type="time" class="form-control" />
-                                        <form:errors path="departTime" element="div" cssClass="invalid-feedback" />
+                                        <label>Select date</label>
+                                        <form:input path="date" name="departTime" type="date" class="form-control" />
+                                        <form:errors path="date" element="div" cssClass="invalid-feedback" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="input-group input-group-static my-3">
-                                        <label>Arrived Time</label>
-                                        <form:input path="endTime" name="endTime" type="time" class="form-control" />
-                                        <form:errors path="endTime" element="div" cssClass="invalid-feedback" />
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-static mb-4">
-                                        <label for="exampleFormControlSelect1" class="ms-0">Select Route</label>
-                                        <form:select path="routeId" class="form-control">
-                                            <c:forEach items="${routes}" var="route">
-                                                <option value="${route.id}">${route.startLocationName} -> ${route.endLocationName}</option>
-                                            </c:forEach>
-                                        </form:select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-static mb-4">
-                                        <label for="exampleFormControlSelect1" class="ms-0">Select Driver</label>
-                                        <form:select path="driverId" class="form-control" id="exampleFormControlSelect1">
-                                            <c:forEach items="${drivers}" var="driver">
-                                                <option value="${driver.id}">${driver.username}</option>
-                                            </c:forEach>
-                                        </form:select>
+                                     <div class="input-group input-group-static mb-4">
+                                        <label for="exampleFormControlSelect1" class="ms-0">Select Type</label>
+                                        <select name="exceptionType" class="form-control" id="exampleFormControlSelect1">
+                                            <option value="1">Add this date to calendar</option>
+                                            <option value="2">Remove this date from calendar</option>
+                                            <option value="3">Add this date as holiday for Surcharge</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
+                                    
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-static mb-4">
-                                        <label for="exampleFormControlSelect1" class="ms-0">Select Bus</label>
-                                        <form:select path="busId" class="form-control">
-                                            <c:forEach items="${buses}" var="bus">
-                                                <option value="${bus.id}">${bus.id} - ${bus.name}</option>
-                                            </c:forEach>
-                                        </form:select>
-                                    </div>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="input-group input-group-static mb-4">
                                         <label for="exampleFormControlSelect1" class="ms-0">Select Calendar</label>
-                                        <form:select path="calendarId" class="form-control" id="exampleFormControlSelect1">
+                                        <form:select path="calendarId" class="form-control">
                                             <c:forEach items="${calendars}" var="calendar">
-                                                <option value="${calendar.id}">${calendar.alias} - ${calendar.monday} - ${calendar.tuesday} - ${calendar.wednesday} - ${calendar.thursday} - ${calendar.friday} - ${calendar.saturday} - ${calendar.sunday}</option>
+                                                <option value="${calendar.id}">${calendar.id} - ${calendar.alias}</option>
                                             </c:forEach>
                                         </form:select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
-                                    <div class="input-group input-group-static mb-4">
-                                        <label for="exampleFormControlSelect1" class="ms-0">Price</label>
-                                        <form:input path="price" type="number" class="form-control" />
+                                    <div class="input-group input-group-static my-3">
+                                        <label>Select Ratio</label>
+                                        <form:input path="ratio" type="number" value="1.0" step="0.1" class="form-control" />
+                                        <form:errors path="ratio" element="div" cssClass="invalid-feedback" />
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <button type="submit" class="btn btn-info ml-auto">Submit</button>
                         </form:form>
                     </div
@@ -312,75 +461,6 @@
             </div>
         </div
 
-
-        <div class="row">
-            <div class="col-12">
-                <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">Add Ticket</h6>
-                        </div>
-                    </div>
-                    <div class="card-body px-0 pb-2">
-                        <form class="p-4" action="ticket" method="post">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-outline my-3">
-                                        <label class="form-label">Price</label>
-                                        <input name="price" type="number" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-static my-3">
-                                        <label>Depart Date</label>
-                                        <input name="depart_date" type="date" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-static mb-4">
-                                        <label for="exampleFormControlSelect1" class="ms-0">Select Route</label>
-                                        <select name="route_id" class="form-control">
-                                            <option value="1">Mỹ Tho -> Sài Gòn</option>
-                                            <option value="1">Cujut -> Sài Gòn</option>
-                                            <option value="1">Doremon -> Cà Mau</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-static mb-4">
-                                        <label for="exampleFormControlSelect1" class="ms-0">Select Bustrip</label>
-                                        <select name="bustrip_id" class="form-control" id="exampleFormControlSelect1">
-                                            <option value="1">1</option>
-                                            <option value="1">2</option>
-                                            <option value="1">3</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-static mb-4">
-                                        <label for="exampleFormControlSelect1" class="ms-0">Select Seat</label>
-                                        <select name="seat" class="form-control" id="exampleFormControlSelect1">
-                                            <option value="1">Seat 1</option>
-                                            <option value="1">Seat 2</option>
-                                            <option value="1">Seat 3</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-info ml-auto">Submit</button>
-                        </form>
-                    </div
-
-                </div>
-            </div>
-        </div>
 
 
 

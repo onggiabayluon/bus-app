@@ -4,15 +4,10 @@
  */
 package com.temtree.repository.impl;
 
-import com.temtree.pojo.Bustrip;
 import com.temtree.pojo.Route;
-import com.temtree.pojo.Route;
-import com.temtree.pojo.Location;
 import com.temtree.repository.RouteRepository;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
@@ -23,12 +18,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  *

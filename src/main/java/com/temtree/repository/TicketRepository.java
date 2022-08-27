@@ -4,22 +4,35 @@
  */
 package com.temtree.repository;
 
+import com.temtree.pojo.Seat;
 import com.temtree.pojo.Ticket;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author admin
  */
 public interface TicketRepository {
+    Ticket getTicketById(int id);
     
     List<Ticket> getTickets();
+    
+    List<Ticket> getTicketsByUserId(int userId);
+    
+    Ticket getTicketByUserId(int id);
     
     List<Ticket> getTicketBustrips(int startLocationId, int endLocationId, Date departDate);
     
     boolean addTicket(Ticket ticket);
+    
+    Ticket addTicket2(Ticket ticket);
+    
+    boolean checkBookedSeat(int id, Date bookedDate, int bustripId);
+    
+    int getTotalBookedSeatByDateAndBusTrip(Date bookedDate, int bustripId);
+    
+    boolean updateTicket(Ticket ticket);
 
     boolean deleteTicket(int id);
 }

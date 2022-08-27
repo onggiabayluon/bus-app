@@ -4,7 +4,6 @@
  */
 package com.temtree.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -36,14 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Route.findAll", query = "SELECT r FROM Route r"),
-    @NamedQuery(name = "Route.findById", query = "SELECT r FROM Route r WHERE r.id = :id")})
+    @NamedQuery(name = "Route.findById", query = "SELECT r FROM Route r WHERE r.id = :id"),
+    @NamedQuery(name = "Route.findByDuration", query = "SELECT r FROM Route r WHERE r.duration = :duration")})
 public class Route implements Serializable {
-
-    
-
-    @Column(name = "duration")
-    @Temporal(TemporalType.TIME)
-    private Date duration;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,15 +45,17 @@ public class Route implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "duration")
+    @Temporal(TemporalType.TIME)
+    private Date duration;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "routeId")
     private Set<Bustrip> bustripSet;
-    @JoinColumn(name = "start_location_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Location startLocationId;
     @JoinColumn(name = "end_location_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Location endLocationId;
-    
+    @JoinColumn(name = "start_location_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Location startLocationId;
     
     @Transient
     private String startLocationName;
@@ -67,7 +63,6 @@ public class Route implements Serializable {
     private String endLocationName;
     @Transient
     private int endLocationIdInt;
-
 
     public Route() {
     }
@@ -98,6 +93,14 @@ public class Route implements Serializable {
         this.id = id;
     }
 
+    public Date getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Date duration) {
+        this.duration = duration;
+    }
+
     @XmlTransient
     public Set<Bustrip> getBustripSet() {
         return bustripSet;
@@ -105,14 +108,6 @@ public class Route implements Serializable {
 
     public void setBustripSet(Set<Bustrip> bustripSet) {
         this.bustripSet = bustripSet;
-    }
-
-    public Location getStartLocationId() {
-        return startLocationId;
-    }
-
-    public void setStartLocationId(Location startLocationId) {
-        this.startLocationId = startLocationId;
     }
 
     public Location getEndLocationId() {
@@ -123,7 +118,13 @@ public class Route implements Serializable {
         this.endLocationId = endLocationId;
     }
 
-   
+    public Location getStartLocationId() {
+        return startLocationId;
+    }
+
+    public void setStartLocationId(Location startLocationId) {
+        this.startLocationId = startLocationId;
+    }
 
     @Override
     public int hashCode() {
@@ -149,8 +150,10 @@ public class Route implements Serializable {
     public String toString() {
         return "com.temtree.pojo.Route[ id=" + id + " ]";
     }
-
-    /**
+    
+    
+    
+     /**
      * @return the startLocationName
      */
     public String getStartLocationName() {
@@ -191,14 +194,4 @@ public class Route implements Serializable {
     public void setEndLocationIdInt(int endLocationIdInt) {
         this.endLocationIdInt = endLocationIdInt;
     }
-
-    public Date getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Date duration) {
-        this.duration = duration;
-    }
-
-   
 }

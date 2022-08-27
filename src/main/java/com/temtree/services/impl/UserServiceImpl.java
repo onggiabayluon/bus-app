@@ -65,17 +65,22 @@ public class UserServiceImpl implements UserService {
         try {
             String pass = user.getPassword();
             user.setPassword(bCryptPasswordEncoder.encode(pass));
-            user.setUserRole(User.USER);
             
-            // Upload avatar file to cloudinary
-            Map cloudinaryRes = cloudinary.uploader().upload(
-                    user.getAvatarFile().getBytes(),
-                    ObjectUtils.asMap("resource_type", "auto")
-            );
+            // Default role is USER
+            if (user.getUserRole() == null) {
+                user.setUserRole(User.USER);
+            }
 
-            // Get secure_url from cloudinary response
-            user.setAvatar((String) cloudinaryRes.get("secure_url"));
-            
+            // Upload avatar file to cloudinary
+            if (user.getAvatarFile() != null) {
+                Map cloudinaryRes = cloudinary.uploader().upload(
+                        user.getAvatarFile().getBytes(),
+                        ObjectUtils.asMap("resource_type", "auto")
+                );
+                // Get secure_url from cloudinary response
+                user.setAvatar((String) cloudinaryRes.get("secure_url"));
+            }
+
             return this.userRepository.addUser(user);
         } catch (IOException e) {
             e.printStackTrace();

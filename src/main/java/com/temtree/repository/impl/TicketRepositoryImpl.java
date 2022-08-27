@@ -5,12 +5,10 @@
 package com.temtree.repository.impl;
 
 import com.temtree.pojo.Ticket;
-import com.temtree.pojo.Route;
 import com.temtree.repository.TicketRepository;
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
@@ -78,17 +76,102 @@ public class TicketRepositoryImpl implements TicketRepository {
                 "and bustrip.id = ticket.bustrip_id\n" +
                 "and start_location_id = ?\n" +
                 "and end_location_id = ?\n" +
-                "and depart_date = ?", Ticket.class)
+                "and booked_date = ?", Ticket.class)
                 .setParameter(1, startLocationId)
                 .setParameter(2, endLocationId)
                 .setParameter(3, departDate)
                 .getResultList();
         
-        System.out.println("com.temtree.repository.impl.TicketRepositoryImpl.getTicketTickets()");
-        System.err.println(results);
+        return results;
+    }
+
+    @Override
+    public Ticket getTicketByUserId(int id) {
+        Ticket ticket = (Ticket) entityManager.createNativeQuery(
+                "select * from ticket\n" +
+                "where user_id = ?\n" +
+                "and payment_status = false\n" +
+                "order by created_date desc\n" +
+                "LIMIT 1", Ticket.class)
+                .setParameter(1, id)
+                .getSingleResult();
         
+        
+        return ticket;
+    }
+
+    @Override
+    public boolean checkBookedSeat(int id, Date bookedDate, int bustripId) {
+        Query query = (Query) entityManager.createNativeQuery(
+                "SELECT count(*) FROM busdb.ticket\n" +
+                "where seat_id = ?\n" +
+                "and bustrip_id = ?\n" +
+                "and booked_date = ?\n" +
+                "and active = 1")
+                .setParameter(1, id)
+                .setParameter(2, bustripId)
+                .setParameter(3, bookedDate);
+
+        BigInteger isBooked = (BigInteger) query.getSingleResult();
+
+        return isBooked.intValue() > 0;
+    }
+
+    @Override
+    public int getTotalBookedSeatByDateAndBusTrip(Date date, int bustripId) {
+        BigInteger totalSeat = (BigInteger) entityManager.createNativeQuery(
+                "SELECT count(*) FROM busdb.ticket\n" +
+                "where booked_date = ?\n" +
+                "and bustrip_id = ?\n" +
+                "and active = 1")
+                .setParameter(1, date)
+                .setParameter(2, bustripId)
+                .getSingleResult();
+
+        return totalSeat.intValue();
+    }
+
+    @Override
+    public List<Ticket> getTicketsByUserId(int userId) {
+        List<Ticket> results = (List<Ticket>) entityManager.createNativeQuery(
+                "SELECT ticket.* FROM ticket\n" +
+                "where user_id = ?", Ticket.class)
+                .setParameter(1, userId)
+                .getResultList();
         
         return results;
+    }
+
+    @Override
+    public Ticket getTicketById(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        
+        return session.get(Ticket.class, id);
+    }
+
+    @Override
+    public boolean updateTicket(Ticket ticket) {
+        Query query = (Query) entityManager.createNativeQuery(
+                "UPDATE ticket SET payment_status = ? where id = ?")
+                .setParameter(1, ticket.getPaymentStatus())
+                .setParameter(2, ticket.getId());
+
+        int result = query.executeUpdate();
+
+        return result > 0;
+    }
+
+    @Override
+    public Ticket addTicket2(Ticket ticket) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        
+        try {
+            session.save(ticket);
+            return ticket;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
     
 }

@@ -29,6 +29,11 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="content"
                        value="/WEB-INF/jsp/confirm.jsp" />
     </definition>
+    <definition name="carts" extends="baseLayout">
+        <put-attribute name="title" value="Giỏ Vé" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/carts.jsp" />
+    </definition>
     <definition name="login" extends="baseLayout">
         <put-attribute name="title" value="Đăng nhập" />
         <put-attribute name="content"

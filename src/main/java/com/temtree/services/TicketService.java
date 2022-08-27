@@ -23,6 +23,8 @@ public interface TicketService {
     List<Ticket> getTicketBustrips(int startLocationId, int endLocationId, Date departDate);
 
     boolean addTicket(long price, Date bookedDate, Bustrip bustrip, User user, Seat seat);
+    
+    Ticket addTicket2(long price, Date bookedDate, Bustrip bustrip, User user, Seat seat);
 
     boolean deleteTicket(int id);
 }

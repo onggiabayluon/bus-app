@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "CalendarDates.findAll", query = "SELECT c FROM CalendarDates c"),
     @NamedQuery(name = "CalendarDates.findById", query = "SELECT c FROM CalendarDates c WHERE c.id = :id"),
     @NamedQuery(name = "CalendarDates.findByDate", query = "SELECT c FROM CalendarDates c WHERE c.date = :date"),
-    @NamedQuery(name = "CalendarDates.findByExceptionType", query = "SELECT c FROM CalendarDates c WHERE c.exceptionType = :exceptionType")})
+    @NamedQuery(name = "CalendarDates.findByExceptionType", query = "SELECT c FROM CalendarDates c WHERE c.exceptionType = :exceptionType"),
+    @NamedQuery(name = "CalendarDates.findByRatio", query = "SELECT c FROM CalendarDates c WHERE c.ratio = :ratio")})
 public class CalendarDates implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,6 +52,9 @@ public class CalendarDates implements Serializable {
     @NotNull
     @Column(name = "exception_type")
     private int exceptionType;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "ratio")
+    private Float ratio;
     @JoinColumn(name = "calendar_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Calendar calendarId;
@@ -92,6 +96,14 @@ public class CalendarDates implements Serializable {
         this.exceptionType = exceptionType;
     }
 
+    public Float getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(Float ratio) {
+        this.ratio = ratio;
+    }
+
     public Calendar getCalendarId() {
         return calendarId;
     }
@@ -122,7 +134,7 @@ public class CalendarDates implements Serializable {
 
     @Override
     public String toString() {
-        return "com.temtree.pojo.busdb2.CalendarDates[ id=" + id + " ]";
+        return "com.temtree.pojo.CalendarDates[ id=" + id + " ]";
     }
     
 }

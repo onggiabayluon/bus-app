@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -50,6 +52,25 @@ public class ApiController {
     private BustripService bustripService;
     @Autowired
     private CommentService commentService;
+
+    @RequestMapping("/momo-notify")
+    public void payMomo2() {
+        System.out.println("test pay momo notify");
+
+//        System.err.println(params);
+
+    }
+
+    @PostMapping(value = "/momo-notify"
+//            , consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void payMomo() {
+        System.out.println("test pay momo notify");
+
+//        System.err.println(params);
+
+    }
 
     @PostMapping("/location")
     @ResponseStatus(HttpStatus.CREATED)
@@ -81,7 +102,6 @@ public class ApiController {
         return comment;
     }
 
-
 //    @PostMapping(value = "/bustrip")
 //    @ResponseStatus(HttpStatus.CREATED)
 //    public Bustrip addBustrip(@RequestBody Map<String, String> params) throws ParseException
@@ -98,8 +118,6 @@ public class ApiController {
 //         
 //       return bustrip;
 //    }
-    
-    
     @GetMapping("/routes")
     @ResponseStatus(HttpStatus.OK)
     public List<Route> getRoutes(@RequestParam String id) {
