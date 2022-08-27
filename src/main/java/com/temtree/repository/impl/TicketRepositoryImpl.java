@@ -173,5 +173,19 @@ public class TicketRepositoryImpl implements TicketRepository {
             return null;
         }
     }
-    
+
+    @Override
+    public List<Ticket> getTicketsWithFilter(boolean paymentStatus, Date fromDate, Date toDate) {
+        List<Ticket> results = (List<Ticket>) entityManager.createNativeQuery(
+                "SELECT ticket.* FROM ticket\n" +
+                "where payment_status = ?\n" +
+                "and CAST(created_date AS DATE) BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)", Ticket.class)
+                .setParameter(1, paymentStatus)
+                .setParameter(2, fromDate)
+                .setParameter(3, toDate)
+                .getResultList();
+        
+        return results;
+    }
+
 }

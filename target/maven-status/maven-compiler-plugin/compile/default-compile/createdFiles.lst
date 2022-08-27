@@ -1,6 +1,8 @@
 com\temtree\repository\impl\CalendarRepositoryImpl.class
+com\temtree\repository\impl\StatsRepositoryImpl.class
 com\temtree\formatter\BustripFormatter.class
 META-INF\spring.components
+com\temtree\controllers\HomeController.class
 com\temtree\controllers\UserController.class
 com\temtree\pojo\Receipt.class
 com\temtree\repository\SeatRepository.class
@@ -42,9 +44,12 @@ com\temtree\repository\BustripRepository.class
 com\temtree\pojo\Ticket_.class
 com\temtree\pojo\Route_.class
 com\temtree\services\impl\BustripServiceImpl.class
+com\temtree\controllers\ApiController.class
+com\temtree\services\impl\TicketServiceImpl.class
 com\temtree\pojo\CalendarDates.class
 com\temtree\repository\impl\UserRepositoryImpl.class
 com\temtree\services\impl\BusServiceImpl.class
+com\temtree\repository\StatsRepository.class
 com\temtree\configs\DispatcherServletInit.class
 com\temtree\pojo\Bus.class
 com\temtree\services\impl\CommentServiceImpl.class
@@ -70,5 +75,6 @@ com\temtree\pojo\Bustrip_.class
 com\temtree\configs\HibernateConfig.class
 com\temtree\repository\impl\CommentRepositoryImpl.class
 com\temtree\pojo\Bus_.class
+com\temtree\utils\utils.class
 com\temtree\services\impl\UserServiceImpl.class
 com\temtree\repository\impl\LocationRepositoryImpl.class

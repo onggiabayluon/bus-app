@@ -19,7 +19,7 @@ import java.util.Map;
 public interface TicketService {
 
     List<Ticket> getTickets();
-
+    
     List<Ticket> getTicketBustrips(int startLocationId, int endLocationId, Date departDate);
 
     boolean addTicket(long price, Date bookedDate, Bustrip bustrip, User user, Seat seat);
