@@ -18,6 +18,8 @@ public interface TicketRepository {
     
     List<Ticket> getTickets();
     
+    List<Ticket> getTicketsWithFilter(boolean paymentStatus, Date fromDate, Date toDate);
+    
     List<Ticket> getTicketsByUserId(int userId);
     
     Ticket getTicketByUserId(int id);

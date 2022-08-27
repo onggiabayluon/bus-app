@@ -273,6 +273,8 @@
         <script src="<c:url value="/js/core/bootstrap.min.js" />"></script>
         <script src="<c:url value="/js/plugins/perfect-scrollbar.min.js" />"></script>
         <script src="<c:url value="/js/plugins/smooth-scrollbar.min.js" />"></script>
+        
+        
         <script>
             var win = navigator.platform.indexOf('Win') > -1;
             if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -292,7 +294,367 @@
         <!--Custom Scripts-->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="<c:url value="/js/apiServices.js" />"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.1/dist/chart.min.js"></script>
 
+
+
+        <script>
+            let monthRevenueData = []
+            let monthRevenueLabel = []
+            <c:forEach items = "${monthRevenueStats}" var="monthRevenueStat" >
+                monthRevenueLabel.push(${monthRevenueStat[0]})
+                monthRevenueData.push('${monthRevenueStat[1]}')
+            </c:forEach>
+            
+            window.onload = function () {
+                const ctx = document.getElementById("chart-bars").getContext("2d");
+                const ctx2 = document.getElementById("chart-line").getContext("2d");
+
+                initChartLine(
+                ctx, 
+                monthRevenueData, 
+                monthRevenueLabel, 
+                'Products Revenue',
+                'line',
+                "rgba(255, 255, 255, .8)",
+                "borderColors"
+                )
+
+            };
+
+            function initChart(ctx, labels, data, title, type, bgcolors, borderColors) {
+                const myChart = new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: title,
+                        tension: 0.4,
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                        backgroundColor: bgcolors,
+                        data: data,
+                        maxBarThickness: 6
+                    },],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                    legend: {
+                        display: false,
+                    }
+                    },
+                    interaction: {
+                    intersect: false,
+                    mode: 'index',
+                    },
+                    scales: {
+                    y: {
+                        grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                        },
+                        ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 500,
+                        beginAtZero: true,
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        color: "#fff"
+                        },
+                    },
+                    x: {
+                        grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                        },
+                        ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        }
+                    },
+                    },
+                },
+                });
+            };
+
+
+            function initChartLine(ctx, labels, data, title, type, bgcolors, borderColors) {
+                const myChart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: title,
+                            tension: 0,
+                            borderWidth: 0,
+                            pointRadius: 5,
+                            pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                            pointBorderColor: "transparent",
+                            borderColor: "rgba(255, 255, 255, .8)",
+                            borderColor: "rgba(255, 255, 255, .8)",
+                            borderWidth: 4,
+                            backgroundColor: "transparent",
+                            fill: true,
+                            data: data,
+                            maxBarThickness: 6
+
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false,
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index',
+                        },
+                        scales: {
+                            y: {
+                                grid: {
+                                    drawBorder: false,
+                                    display: true,
+                                    drawOnChartArea: true,
+                                    drawTicks: false,
+                                    borderDash: [5, 5],
+                                    color: 'rgba(255, 255, 255, .2)'
+                                },
+                                ticks: {
+                                    display: true,
+                                    color: '#f8f9fa',
+                                    padding: 10,
+                                    font: {
+                                        size: 14,
+                                        weight: 300,
+                                        family: "Roboto",
+                                        style: 'normal',
+                                        lineHeight: 2
+                                    },
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    drawBorder: false,
+                                    display: false,
+                                    drawOnChartArea: false,
+                                    drawTicks: false,
+                                    borderDash: [5, 5]
+                                },
+                                ticks: {
+                                    display: true,
+                                    color: '#f8f9fa',
+                                    padding: 10,
+                                    font: {
+                                        size: 14,
+                                        weight: 300,
+                                        family: "Roboto",
+                                        style: 'normal',
+                                        lineHeight: 2
+                                    },
+                                }
+                            },
+                        },
+                    },
+                });
+            };
+                
+
+            
+
+
+            // var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+            // new Chart(ctx2, {
+            //   type: "line",
+            //   data: {
+            //     labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            //     datasets: [{
+            //       label: "Mobile apps",
+            //       tension: 0,
+            //       borderWidth: 0,
+            //       pointRadius: 5,
+            //       pointBackgroundColor: "rgba(255, 255, 255, .8)",
+            //       pointBorderColor: "transparent",
+            //       borderColor: "rgba(255, 255, 255, .8)",
+            //       borderColor: "rgba(255, 255, 255, .8)",
+            //       borderWidth: 4,
+            //       backgroundColor: "transparent",
+            //       fill: true,
+            //       data: [50, 40, 300, 320, 500, 350, 200, 230, 2000],
+            //       maxBarThickness: 6
+
+            //     }],
+            //   },
+            //   options: {
+            //     responsive: true,
+            //     maintainAspectRatio: false,
+            //     plugins: {
+            //       legend: {
+            //         display: false,
+            //       }
+            //     },
+            //     interaction: {
+            //       intersect: false,
+            //       mode: 'index',
+            //     },
+            //     scales: {
+            //       y: {
+            //         grid: {
+            //           drawBorder: false,
+            //           display: true,
+            //           drawOnChartArea: true,
+            //           drawTicks: false,
+            //           borderDash: [5, 5],
+            //           color: 'rgba(255, 255, 255, .2)'
+            //         },
+            //         ticks: {
+            //           display: true,
+            //           color: '#f8f9fa',
+            //           padding: 10,
+            //           font: {
+            //             size: 14,
+            //             weight: 300,
+            //             family: "Roboto",
+            //             style: 'normal',
+            //             lineHeight: 2
+            //           },
+            //         }
+            //       },
+            //       x: {
+            //         grid: {
+            //           drawBorder: false,
+            //           display: false,
+            //           drawOnChartArea: false,
+            //           drawTicks: false,
+            //           borderDash: [5, 5]
+            //         },
+            //         ticks: {
+            //           display: true,
+            //           color: '#f8f9fa',
+            //           padding: 10,
+            //           font: {
+            //             size: 14,
+            //             weight: 300,
+            //             family: "Roboto",
+            //             style: 'normal',
+            //             lineHeight: 2
+            //           },
+            //         }
+            //       },
+            //     },
+            //   },
+            // });
+
+            // var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+            // new Chart(ctx3, {
+            //   type: "line",
+            //   data: {
+            //     labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            //     datasets: [{
+            //       label: "Mobile apps",
+            //       tension: 0,
+            //       borderWidth: 0,
+            //       pointRadius: 5,
+            //       pointBackgroundColor: "rgba(255, 255, 255, .8)",
+            //       pointBorderColor: "transparent",
+            //       borderColor: "rgba(255, 255, 255, .8)",
+            //       borderWidth: 4,
+            //       backgroundColor: "transparent",
+            //       fill: true,
+            //       data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+            //       maxBarThickness: 6
+
+            //     }],
+            //   },
+            //   options: {
+            //     responsive: true,
+            //     maintainAspectRatio: false,
+            //     plugins: {
+            //       legend: {
+            //         display: false,
+            //       }
+            //     },
+            //     interaction: {
+            //       intersect: false,
+            //       mode: 'index',
+            //     },
+            //     scales: {
+            //       y: {
+            //         grid: {
+            //           drawBorder: false,
+            //           display: true,
+            //           drawOnChartArea: true,
+            //           drawTicks: false,
+            //           borderDash: [5, 5],
+            //           color: 'rgba(255, 255, 255, .2)'
+            //         },
+            //         ticks: {
+            //           display: true,
+            //           padding: 10,
+            //           color: '#f8f9fa',
+            //           font: {
+            //             size: 14,
+            //             weight: 300,
+            //             family: "Roboto",
+            //             style: 'normal',
+            //             lineHeight: 2
+            //           },
+            //         }
+            //       },
+            //       x: {
+            //         grid: {
+            //           drawBorder: false,
+            //           display: false,
+            //           drawOnChartArea: false,
+            //           drawTicks: false,
+            //           borderDash: [5, 5]
+            //         },
+            //         ticks: {
+            //           display: true,
+            //           color: '#f8f9fa',
+            //           padding: 10,
+            //           font: {
+            //             size: 14,
+            //             weight: 300,
+            //             family: "Roboto",
+            //             style: 'normal',
+            //             lineHeight: 2
+            //           },
+            //         }
+            //       },
+            //     },
+            //   },
+            // });
+        </script>
 
 
     </body>

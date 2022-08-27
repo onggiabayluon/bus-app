@@ -37,6 +37,7 @@ com.temtree.repository.impl.LocationRepositoryImpl=org.springframework.stereotyp
 com.temtree.repository.impl.ReceiptRepositoryImpl=org.springframework.stereotype.Component
 com.temtree.repository.impl.RouteRepositoryImpl=org.springframework.stereotype.Component
 com.temtree.repository.impl.SeatRepositoryImpl=org.springframework.stereotype.Component
+com.temtree.repository.impl.StatsRepositoryImpl=org.springframework.stereotype.Component
 com.temtree.repository.impl.TicketRepositoryImpl=org.springframework.stereotype.Component
 com.temtree.repository.impl.UserRepositoryImpl=org.springframework.stereotype.Component
 com.temtree.services.impl.BusServiceImpl=org.springframework.stereotype.Component

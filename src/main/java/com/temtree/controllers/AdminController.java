@@ -14,6 +14,8 @@ import com.temtree.repository.BusRepository;
 import com.temtree.repository.BustripRepository;
 import com.temtree.repository.CalendarDatesRepository;
 import com.temtree.repository.CalendarRepository;
+import com.temtree.repository.StatsRepository;
+import com.temtree.repository.TicketRepository;
 import com.temtree.repository.UserRepository;
 import com.temtree.services.BusService;
 import com.temtree.utils.utils;
@@ -64,9 +66,30 @@ public class AdminController {
     @Autowired
     private BustripRepository bustripRepository;
 
-    @RequestMapping("/")
-    public String admin(Model model, @RequestParam Map<String, String> params) {
+    @Autowired
+    private StatsRepository statsRepository;
+    @Autowired
+    private TicketRepository ticketRepository;
 
+    @RequestMapping("/")
+    public String admin(Model model, @RequestParam Map<String, String> params) throws ParseException {
+        boolean paymentStatus = Boolean.parseBoolean(params.getOrDefault("paymentStatus", "false"));
+        Date fromDate = utils.stringInDateToJavaDate3(params.getOrDefault("fromDate", null), "yyyy-MM-dd");
+        Date toDate = utils.stringInDateToJavaDate3(params.getOrDefault("toDate", null), "yyyy-MM-dd");
+
+        if (fromDate == null && toDate == null) {
+            fromDate = utils.getCurrentDate("yyyy-MM-dd");
+            toDate = utils.getCurrentDate("yyyy-MM-dd");
+        }
+
+
+        model.addAttribute("fromDate", params.getOrDefault("fromDate", null));
+        model.addAttribute("toDate", params.getOrDefault("toDate", null));
+        model.addAttribute("paymentStatus", params.getOrDefault("paymentStatus", null));
+        model.addAttribute("todayRevenueStats", statsRepository.todayRevenue(utils.getCurrentDate("yyyy-MM-dd"), utils.getCurrentDate("yyyy-MM-dd")));
+        model.addAttribute("monthRevenueStats", statsRepository.revenueStatsByMonth(fromDate, toDate));
+        model.addAttribute("routeRevenueStats", statsRepository.revenueStatsByRoute(fromDate, toDate));
+        model.addAttribute("tickets", ticketRepository.getTicketsWithFilter(paymentStatus, fromDate, toDate));
         return "admin";
     }
 

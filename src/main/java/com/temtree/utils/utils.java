@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -69,6 +70,24 @@ public class utils {
         return null;
     }
     
+    public static Date stringInDateToJavaDate3(String strDate, String format) throws ParseException {
+        //String date = "15/08/2022";
+        try {
+            DateFormat sdf = new SimpleDateFormat(format);
+            Date date = sdf.parse(strDate);
+
+            System.out.println("date: " + date);
+            System.out.println("Time: " + sdf.format(date));
+
+            return date;
+        }
+        catch (Exception e) {
+            System.err.println(e);
+        }
+        
+        return null;
+    }
+    
     public static Date stringInDateToJavaDate2(String strDate) throws ParseException {
         //String date = "15/08/2022";
         try {
@@ -89,6 +108,22 @@ public class utils {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
             Date date = new Date(System.currentTimeMillis());
+            formatter.format(date);
+
+            return date;
+        }
+        catch (Exception e) {
+            System.err.println(e);
+        }
+        
+        return null;
+    }
+    
+     public static Date getCurrentDate(String format) throws ParseException {
+        //String date = "15/08/2022";
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat(format);
+            Date date = new Date();
             formatter.format(date);
 
             return date;
