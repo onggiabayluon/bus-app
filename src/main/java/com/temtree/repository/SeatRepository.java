@@ -20,9 +20,9 @@ public interface SeatRepository {
     
     Seat findById(int id);
     
-    boolean checkBooked(int id);
+//    boolean checkBooked(int id);
     
-    boolean updateIsBooked(int id);
+//    boolean updateIsBooked(int id);
     
     int getTotalSeatByBus(int busId);
 

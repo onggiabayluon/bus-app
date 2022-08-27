@@ -68,19 +68,36 @@ public class TicketServiceImpl implements TicketService {
             ticket.setSeatId(seat);
             ticket.setBustripId(bustrip);
             
-            System.out.println("com.temtree.services.impl.TicketServiceImpl.addTicket()");
-            System.err.println(ticket.getId());
-            System.err.println(ticket.getBustripId());
-            System.err.println(ticket.getBookedDate());
-            System.err.println(ticket.getUserId());
-            System.err.println(ticket.getSeatId());
-            
+           
             return this.ticketRepository.addTicket(ticket);
         } catch (ParseException ex) {
             Logger.getLogger(TicketServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return false;
+    }
+
+    @Override
+    public Ticket addTicket2(long price, Date bookedDate, Bustrip bustrip, User user, Seat seat) {
+        try {
+            
+            Ticket ticket = new Ticket();
+            
+            ticket.setActive(true);
+            ticket.setPaymentStatus(false);
+            ticket.setPrice(price);
+            ticket.setCreatedDate(utils.getCurrentDateTime());
+            ticket.setBookedDate(bookedDate);
+            ticket.setUserId(user);
+            ticket.setSeatId(seat);
+            ticket.setBustripId(bustrip);
+            
+            return this.ticketRepository.addTicket2(ticket);
+        } catch (ParseException ex) {
+            Logger.getLogger(TicketServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
     }
 
 }

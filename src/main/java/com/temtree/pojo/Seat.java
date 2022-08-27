@@ -32,8 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Seat.findAll", query = "SELECT s FROM Seat s"),
     @NamedQuery(name = "Seat.findById", query = "SELECT s FROM Seat s WHERE s.id = :id"),
-    @NamedQuery(name = "Seat.findByActive", query = "SELECT s FROM Seat s WHERE s.active = :active"),
-    @NamedQuery(name = "Seat.findByIsBooked", query = "SELECT s FROM Seat s WHERE s.isBooked = :isBooked")})
+    @NamedQuery(name = "Seat.findByActive", query = "SELECT s FROM Seat s WHERE s.active = :active")})
 public class Seat implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,8 +43,8 @@ public class Seat implements Serializable {
     private Integer id;
     @Column(name = "active")
     private Boolean active;
-    @Column(name = "is_booked")
-    private Boolean isBooked;
+//    @Column(name = "is_booked")
+//    private Boolean isBooked;
     @JoinColumn(name = "bus_id", referencedColumnName = "id")
     @ManyToOne
     private Bus busId;
@@ -75,13 +74,13 @@ public class Seat implements Serializable {
         this.active = active;
     }
 
-    public Boolean getIsBooked() {
-        return isBooked;
-    }
-
-    public void setIsBooked(Boolean isBooked) {
-        this.isBooked = isBooked;
-    }
+//    public Boolean getIsBooked() {
+//        return isBooked;
+//    }
+//
+//    public void setIsBooked(Boolean isBooked) {
+//        this.isBooked = isBooked;
+//    }
 
     public Bus getBusId() {
         return busId;

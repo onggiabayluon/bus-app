@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Receipt.findByAmount", query = "SELECT r FROM Receipt r WHERE r.amount = :amount"),
     @NamedQuery(name = "Receipt.findByPaymentMethod", query = "SELECT r FROM Receipt r WHERE r.paymentMethod = :paymentMethod")})
 public class Receipt implements Serializable {
+    public static final String MOMO = "MOMO";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,6 +55,9 @@ public class Receipt implements Serializable {
     @Size(max = 255)
     @Column(name = "payment_method")
     private String paymentMethod;
+    @Size(max = 255)
+    @Column(name = "momo_request_id")
+    private String momoRequestId;
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Ticket ticketId;
@@ -62,6 +66,8 @@ public class Receipt implements Serializable {
     private User userId;
 
     public Receipt() {
+        this.createdDate = new Date();
+        this.active = true;
     }
 
     public Receipt(Integer id) {
@@ -147,6 +153,20 @@ public class Receipt implements Serializable {
     @Override
     public String toString() {
         return "com.temtree.pojo.Receipt[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the momoRequestId
+     */
+    public String getMomoRequestId() {
+        return momoRequestId;
+    }
+
+    /**
+     * @param momoRequestId the momoRequestId to set
+     */
+    public void setMomoRequestId(String momoRequestId) {
+        this.momoRequestId = momoRequestId;
     }
     
 }

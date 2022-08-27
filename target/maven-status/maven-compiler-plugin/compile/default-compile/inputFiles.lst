@@ -17,6 +17,7 @@ D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\pojo\Route.ja
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\utils\utils.java
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\formatter\CalendarFormatter.java
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\repository\impl\CalendarRepositoryImpl.java
+D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\repository\ReceiptRepository.java
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\services\CommentService.java
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\controllers\UserController.java
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\repository\impl\BusRepositoryImpl.java
@@ -42,6 +43,7 @@ D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\repository\im
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\repository\TicketRepository.java
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\repository\impl\BustripRepositoryImpl.java
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\repository\CommentRepository.java
+D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\repository\impl\ReceiptRepositoryImpl.java
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\configs\SpringSecurityConfig.java
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\repository\LocationRepository.java
 D:\010_work\Personal\Website\Java\busapp\src\main\java\com\temtree\services\impl\BusServiceImpl.java

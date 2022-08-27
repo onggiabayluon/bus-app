@@ -14,8 +14,11 @@ import java.util.List;
  * @author admin
  */
 public interface TicketRepository {
+    Ticket getTicketById(int id);
     
     List<Ticket> getTickets();
+    
+    List<Ticket> getTicketsByUserId(int userId);
     
     Ticket getTicketByUserId(int id);
     
@@ -23,9 +26,13 @@ public interface TicketRepository {
     
     boolean addTicket(Ticket ticket);
     
-    boolean checkBookedSeat(int id, Date bookedDate);
+    Ticket addTicket2(Ticket ticket);
+    
+    boolean checkBookedSeat(int id, Date bookedDate, int bustripId);
     
     int getTotalBookedSeatByDateAndBusTrip(Date bookedDate, int bustripId);
+    
+    boolean updateTicket(Ticket ticket);
 
     boolean deleteTicket(int id);
 }

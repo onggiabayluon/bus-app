@@ -4,16 +4,17 @@
  */
 package com.temtree.controllers;
 
-import com.mservice.allinone.models.PayATMResponse;
-import com.mservice.allinone.processor.allinone.PayATM;
-import com.mservice.shared.sharedmodels.Environment;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.temtree.pojo.Bustrip;
 import com.temtree.pojo.Location;
+import com.temtree.pojo.Receipt;
 import com.temtree.pojo.Route;
 import com.temtree.pojo.Seat;
 import com.temtree.pojo.Ticket;
 import com.temtree.pojo.User;
 import com.temtree.repository.BustripRepository;
+import com.temtree.repository.CalendarDatesRepository;
+import com.temtree.repository.ReceiptRepository;
 import com.temtree.repository.SeatRepository;
 import com.temtree.repository.TicketRepository;
 import com.temtree.services.BustripService;
@@ -23,17 +24,23 @@ import com.temtree.services.TicketService;
 import com.temtree.utils.utils;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -56,11 +63,17 @@ public class HomeController {
     private SeatRepository seatRepository;
     @Autowired
     private TicketRepository ticketRepository;
+    @Autowired
+    private CalendarDatesRepository calendarDatesRepository;
+    @Autowired
+    private ReceiptRepository receiptRepository;
 
     @ModelAttribute
-    public void commonAttr(Model model, HttpSession session) {
+    public void commonAttr(Model model, HttpSession session, HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
         // inject currentUser from session after login
         model.addAttribute("currentUser", session.getAttribute("currentUser"));
+        model.addAttribute("referer", referer);
     }
 
     @RequestMapping("/")
@@ -76,6 +89,17 @@ public class HomeController {
         return "index";
     }
 
+    @RequestMapping("/carts")
+    public String carts(Model model,
+            HttpSession session) throws ParseException {
+
+        User user = (User) session.getAttribute("currentUser");
+        List<Ticket> tickets = this.ticketRepository.getTicketsByUserId(user.getId());
+
+        model.addAttribute("tickets", tickets);
+        return "carts";
+    }
+
     @RequestMapping("/bustrip")
     public String bustrip(Model model,
             @RequestParam Map<String, String> params,
@@ -83,20 +107,18 @@ public class HomeController {
         int startLocationId = Integer.parseInt(params.getOrDefault("from", "0"));
         int endLocationId = Integer.parseInt(params.getOrDefault("to", "0"));
         Date departDate = utils.stringInDateToJavaDate2(params.getOrDefault("date", null));
-        
-        
+
         List<Bustrip> bustrips = this.bustripService.getAvailableBustrips(startLocationId, endLocationId, departDate);
-        
+
         // Seat Calculating: remainingSeat = totalBusSeat - totalBookedSeat(filter by bustripId and bookedDate);
-        int busId = bustrips.get(0).getBusId().getId();
-        int totalBusSeat = seatRepository.getTotalSeatByBus(busId);
-        
         for (Bustrip bustrip : bustrips) {
+            int busId = bustrip.getBusId().getId();
+            int totalBusSeat = seatRepository.getTotalSeatByBus(busId);
             int totalBookedSeat = ticketRepository.getTotalBookedSeatByDateAndBusTrip(departDate, bustrip.getId());
             int remainingSeat = totalBusSeat - totalBookedSeat;
             bustrip.setRemainingSeat(remainingSeat);
         }
-                
+
         List<Route> routes = this.routeService.getRoutesByLocationId(startLocationId);
 
         model.addAttribute("selectedLocationId", Integer.parseInt(params.getOrDefault("from", "0")));
@@ -113,15 +135,16 @@ public class HomeController {
     public String confirm(Model model,
             @RequestParam Map<String, String> params,
             HttpServletRequest request) throws ParseException {
-        String referer = request.getHeader("Referer");
         String[] seats = request.getParameterValues("seatId");
         String departDate = params.getOrDefault("departDate", null);
         int bustripId = Integer.parseInt(params.getOrDefault("bustripId", null));
         Bustrip selectedBustrip = bustripService.findById(bustripId);
-        long totalPrice = selectedBustrip.getPrice() * seats.length;
+
+        Date bookedDate = utils.stringInDateToJavaDate2(departDate);
+        float ratio = calendarDatesRepository.getCDByBustrip(bustripId, bookedDate);
+        long totalPrice = (long) (selectedBustrip.getPrice() * seats.length * ratio);
 
         model.addAttribute("selectedDate", departDate);
-        model.addAttribute("referer", referer);
         model.addAttribute("bustripId", bustripId);
         model.addAttribute("selectedSeats", seats);
         model.addAttribute("totalPrice", totalPrice);
@@ -144,12 +167,13 @@ public class HomeController {
         // Get pojo class
         Bustrip bustrip = bustripRepository.findById(bustripId);
         User user = (User) session.getAttribute("currentUser");
-        long price = bustrip.getPrice();
+        float ratio = calendarDatesRepository.getCDByBustrip(bustripId, bookedDate);
+        long price = (long) (bustrip.getPrice() * ratio);
 
         // save multiple ticket by seat
         for (String s : seats) {
             int seatId = Integer.parseInt(s);
-            boolean isBooked = ticketRepository.checkBookedSeat(seatId, bookedDate);
+            boolean isBooked = ticketRepository.checkBookedSeat(seatId, bookedDate, bustripId);
 
             if (isBooked == true) {
                 errMsg = "Ghế đã có người đặt";
@@ -160,7 +184,6 @@ public class HomeController {
 
             if (isBooked == false) {
                 Seat seat = seatRepository.findById(seatId);
-//                seatRepository.updateIsBooked(seat.getId());
 
                 if (this.ticketService.addTicket(price, bookedDate, bustrip, user, seat) == false) {
                     errMsg = "Đã có lỗi xảy ra";
@@ -173,45 +196,153 @@ public class HomeController {
         }
 
         // move to payment page if success
-        return "redirect:/";
+        return "redirect:/carts";
     }
 
-    @RequestMapping("/pay-momo")
+    @PostMapping("/pay-momo")
     public String payMomo(Model model,
+            @RequestParam Map<String, String> params,
+            HttpServletRequest request,
             HttpSession session) throws Exception {
+
+
+        /**
+         * Phase 2: Handle Momo Payment
+         */
+        int ticketId = Integer.parseInt(params.getOrDefault("ticketId", null));
+        
         User user = (User) session.getAttribute("currentUser");
-        Ticket ticket = ticketRepository.getTicketByUserId(user.getId());
+        Ticket ticket = ticketRepository.getTicketById(ticketId);
 
-        String requestId = String.valueOf(System.currentTimeMillis());
-        String orderId = (ticket.getId()).toString();
-        Long transId = 2L;
-        long amount = ticket.getPrice();
+        //parameters
+        String endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
+        String partnerCode = "MOMO";
+        String accessKey = "F8BBA842ECF85";
+        String secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
+//        String partnerCode = "MOMOIOBJ20220825";
+//        String accessKey = "INuJ7l7h3DkVrjWk";
+//        String secretKey = "G68L1mxpHZFLKu3zFhPWuNzRx1emVCFE";
+        String requestId = partnerCode + new Date().getTime();
+//        String orderId = requestId;
+        String orderId = ticket.getId().toString();
+        String orderInfo = "Thanh toán vé xe bằng momo, mã hóa đơn: " + orderId;
+        String redirectUrl = "http://localhost:8080/busapp/momo-notify";
+        String ipnUrl = "http://localhost:8080/busapp/api/momo-notify";
+        String amount = ticket.getPrice().toString();
+        String requestType = "captureWallet";
+        String extraData = ""; //pass empty value if your merchant does not have stores
 
-        String partnerClientId = "partnerClientId";
-        String orderInfo = "Pay With MoMo";
-        String returnURL = "https://google.com.vn";
-        String notifyURL = "https://google.com.vn";
-        String callbackToken = "callbackToken";
-        String token = "";
-        String bankCode = "SML";
+        //before sign HMAC SHA256 with format
+        //accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId&requestType=$requestType
+        String rawSignature = "accessKey=" + accessKey + "&amount=" + amount + "&extraData=" + extraData + "&ipnUrl=" + ipnUrl + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&partnerCode=" + partnerCode + "&redirectUrl=" + redirectUrl + "&requestId=" + requestId + "&requestType=" + requestType;
+        //puts raw signature
+        System.out.println("--------------------RAW SIGNATURE----------------");
+        System.out.println(rawSignature);
 
-        Environment environment = Environment.selectEnv("dev", Environment.ProcessType.PAY_GATE);
+        //signature
+        String signature = utils.toSHA256(secretKey, rawSignature);
 
-//        CaptureMoMoResponse captureMoMoResponse = CaptureMoMo.process(environment, orderId, requestId, Long.toString(amount), "", returnURL, notifyURL, "");
-//        QueryStatusTransactionResponse queryStatusTransactionResponse = QueryStatusTransactionResponse.process(environment, "1561972787557", "1562135830002");
-        String publicKey = "INuJ7l7h3DkVrjWk";
-        String privateKey = "G68L1mxpHZFLKu3zFhPWuNzRx1emVCFE/0rpq21IhyVNkwQZ+rqCYmbYGiBUm0+SO+uLn+P2YGe0DyoozPNqdJBoERuvwXIHIed/bbp2wu3VFslIwuMJ3dQLWfRirwoq98eG+a9VsZxZ+mB+juJBNWYvSvV5DHOCdKrfUQvXJg0y5pmOkeZC5PbgebGX1b16dG0nJVNSHAqG2M5I6xHTewyexySkVP2mfX9X0ETYp/esUapzom6ReSorplb2a2YYtKrcr4lFGrbDw9WZxty9Ov9p1bgQvbJzWqT0Rzge2IOG1Jh3r+i/zEtWQoBCMtW3sTHf9qBE98+s3AgMBAAECggEAQxBiU9aFgnk5HFGDTwJrDRlASRNrOBUu3odCS6MDD2e6T67daYWw+HRy4zxDTu1r4JsbijMA6wUPEG/SnWanD8f26DAcGC5vFKvZv5Ki8bQIXVzDGhr5MRS/E3lDxuEqljSPN+1+Ch6CV9r/vmN/YBV6zC1hH3IrTRPD71Jj1KMITCDQlKcDbZqgFTY0wq2ONrzQ5lF0u1sSrdnHLny2kayIAocWqSVbfcSE/9iKN4jkc2/zBQOAFgBQVPuZOdLL+rf1PTKus75aJm/TzaCcoxF496kTw/mRJ77rOxB8mNDEhGULTopG0Bk12upA+QXzxsWJKm8pgv/iXV+0Hi27oQKBgQDCMAydxOCybtOnTkRQ66typlRJQDVgBCD4yhNchOd6jWk34GRY64MuNbyyrD8A5P/ioI4OvRs00S28Sb/G/w3ldciR0j7lm9FgbjkTDCrVVbp4P8gczgL+z5mPdCua1KQD+2C5RA2tMRJlAfczIVekoxCriuCQSO9RltsGT7LmEQKBgQDBP/bzTD+PKWmxeBOTLeNGH8IM63DeccWtowxRgeF1xohFK1ipi5RKxoKOVLxku0U3tKOe6thE2IhpaqYFcCRs2TFZidChyytEjD4LVlECfe9OvCqfVL8IvDUzw8B3850HYrGUh8y4Mmry3JJYLOKoAPBqEg9NLe9c8yI9rI3UxwKBgGVQjnSOMLHH8vPaePhDTUtfDqC9OFvlK5LCU8G0sdUWDKyTjad7ERE+BjqudZyw3fTO0e9MqPIwpQ0U6VMY5ZYvkrrKF/jSCDaoq2yNr5doyAZPOMgWkCeEBtl6wflhMkXFlNx0bjJLZQ6ALQpnPgPu9BacObft5bcK3zF2yZ8RAoGBAIgkYfuBKf3XdQh7yX6Ug1qxoOmtLHTpvhPXnCQH1ig811+za+D13mDXfL5838QvUlIuRl78n6PQ0DlD0vZdzKuKT4P+3SY+lZrTGhqukp+ozOCxG23oLDUhMnHnZD6dN3EujGBRU14o1sOFtOu9o2gsUTLIylLbG5hmCSdd2wWdAoGBAIvddYHkS1b8B8TCv1+CVObe5WCUvqpZgbHo3oztD0KxlgWvl+f6y8DUToK3KU9sp512Ivk43mn1Xv2QftBx8E4vyhWeltdiKOJOhMsk6djjoyb8AOuyPVumXTQBuue1yRrTKLAl1SaZnzdrKzpXsI8OBpnI0bjFxA2SNnU/iD0R";
+        System.out.println("--------------------SIGNATURE----------------");
+        System.out.println(signature);
 
-        String partnerCode = "MOMOIOBJ20220825";
-        String phoneNumber = "0846478332";
-        String username = "duc.huy";
+        Map<String, String> requestBody = new HashMap<>();
+        {
+            requestBody.put("partnerCode", partnerCode);
+            requestBody.put("accessKey", accessKey);
+            requestBody.put("requestId", requestId);
+            requestBody.put("amount", amount);
+            requestBody.put("orderId", orderId);
+            requestBody.put("orderInfo", orderInfo);
+            requestBody.put("redirectUrl", redirectUrl);
+            requestBody.put("ipnUrl", ipnUrl);
+            requestBody.put("extraData", extraData);
+            requestBody.put("requestType", requestType);
+            requestBody.put("signature", signature);
+        }
 
-        orderId = String.valueOf(System.currentTimeMillis());
+        String json = new ObjectMapper().writeValueAsString(requestBody);
 
-//        PaymentResponse captureWalletMoMoResponse = CreateOrderMoMo.process(environment, orderId, requestId, Long.toString(amount), orderInfo, returnURL, notifyURL, "", RequestType.CAPTURE_WALLET, Boolean.TRUE);
-        PayATMResponse payATMResponse = PayATM.process(environment, requestId, orderId, bankCode, "35000", "Pay With MoMo", returnURL, notifyURL, "");
+        // Create a new RestTemplate instance
+        RestTemplate rest = new RestTemplate();
+        // create headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.setContentLength(json.length());
 
-//        PayGate.generateRSA(customerNumber, "247", "247", "nhatnguyen", environment.getPartnerInfo().getPartnerCode(), amount, publicKey);
-        return null;
+        // Request to momo dev endpoint and get response 
+        HttpEntity<String> requestEntity = new HttpEntity<String>(json, headers);
+        ResponseEntity<String> responseEntity = rest.exchange(endpoint, HttpMethod.POST, requestEntity, String.class);
+        System.out.println(responseEntity.getBody());
+
+        Map<String, String> responseMap = new ObjectMapper().readValue(responseEntity.getBody(), Map.class);
+        String payUrl = responseMap.get("payUrl");
+
+        // Redirect sang giao diện thanh toán momo
+        return "redirect:" + payUrl;
     }
+
+    
+    
+    
+    
+    
+    
+    @RequestMapping(value = "/momo-notify")
+    public String momoPostProcess(Model model,
+            @RequestParam Map<String, String> params,
+            HttpSession session) {
+
+        System.out.println("test pay momo notify");
+        System.err.println(params);
+        
+        /**
+         * {"partnerCode":"MOMO","orderId":"MOMO1661521038667","requestId":"MOMO1661521038667","amount":1000,"responseTime":1661521041642,"message":"Successful.","resultCode":0,"payUrl":"https://test-payment.momo.vn/v2/gateway/pay?t=TU9NT3xNT01PMTY2MTUyMTAzODY2Nw==","deeplink":"momo://?action=payWithAppToken&amount=1000&cardId=&cardType=&cashInId=&cashInIdPay=&comment=&createdAt=1661521041641&deeplinkCallback=&description=Thanh+toa%CC%81n+ve%CC%81+xe+b%C4%83%CC%80ng+momo&discountCampaignAmount=0&discountCode=&extra=&extraData=&extras=&gatewayMerchantCode=MOMO&gatewaySessionId=TU9NT3xNT01PMTY2MTUyMTAzODY2Nw==&gatewayVersion=3.0&giftIds=&installmentToken=&isScanQR=false&language=en&merchantcode=MOMO&merchantname=MoMo+Payment&merchantnamelabel=Nh%C3%A0+cung+c%E1%BA%A5p&moneylimitPerTrans=&orderGroupId=&orderId=MOMO1661521038667&orderLabel=M%C3%A3+%C4%91%C6%A1n+h%C3%A0ng&partnerCode=MOMO&partnerName=MoMo+Payment&pin=&prepaidIds=&requestId=MOMO1661521038667&requestType=payment&serviceType=app&signature=9ca451f0fff9b9a4d2d9279033dbe1b8e70e49f3d7c470187be00d1a86036ce9&storeId=MOMO&storeName=MoMo+Payment&subPartnerCode=&type=&urlSubmitToken=https%3A%2F%2Fmomo.vn&v=","qrCodeUrl":"https://test-payment.momo.vn/v2/gateway/app?isScanQr=true&t=TU9NT3xNT01PMTY2MTUyMTAzODY2Nw=="}
+         * {partnerCode=MOMO, orderId=MOMO1661521038667, requestId=MOMO1661521038667, amount=1000, orderInfo=Thanh toa?n ve? xe b??ng momo, orderType=momo_wallet, transId=2721386950, resultCode=0, message=Successful., payType=qr, responseTime=1661521058968, extraData=, signature=5eb440b9db26faf6e55013e9dcc94378bc0eedfeae6e253772c60939665ecb09}
+         */
+        
+        // Params
+        int resultCode = Integer.parseInt(params.getOrDefault("resultCode", "1"));
+        int orderId = Integer.parseInt(params.getOrDefault("orderId", null));
+        String requestId = params.getOrDefault("requestId", null);
+        String errMsg = "";
+
+        // Pojo
+        Ticket ticket = this.ticketRepository.getTicketById(orderId);
+        User user = (User) session.getAttribute("currentUser");
+
+        // handle momo payment success 
+        if (resultCode == 0 && ticket != null) {
+            // Set payment_status sang true
+            ticket.setPaymentStatus(true);
+            if (this.ticketRepository.updateTicket(ticket) == false) {
+                errMsg = "Đã có lỗi xảy ra";
+                model.addAttribute("errMsg", errMsg);
+                return "redirect:/carts";
+            }
+
+            // Create receipt
+            Receipt receipt = new Receipt();
+            receipt.setAmount(ticket.getPrice());
+            receipt.setMomoRequestId(requestId);
+            receipt.setPaymentMethod(Receipt.MOMO);
+            receipt.setTicketId(ticket);
+            receipt.setUserId(user);
+
+            if (this.receiptRepository.addReceipt(receipt) == false) {
+                errMsg = "Đã có lỗi xảy ra";
+                model.addAttribute("errMsg", errMsg);
+                return "redirect:/carts";
+            }
+        }
+
+        // handle momo payment fail 
+        if (resultCode != 0) {
+            errMsg = "Đã có lỗi xảy ra trong quá tình thanh toán qua momo";
+            model.addAttribute("errMsg", errMsg);
+            return "redirect:/carts";
+        }
+
+        return "redirect:/carts";
+    }
+
 }

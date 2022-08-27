@@ -60,6 +60,8 @@ public class Comment implements Serializable {
     private User userId;
 
     public Comment() {
+        this.createdDate = new Date();
+        this.active = true;
     }
 
     public Comment(Integer id) {

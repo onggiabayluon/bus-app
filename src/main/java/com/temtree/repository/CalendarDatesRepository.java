@@ -5,6 +5,7 @@
 package com.temtree.repository;
 
 import com.temtree.pojo.CalendarDates;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,8 @@ public interface CalendarDatesRepository {
     List<CalendarDates> getCalendarDatess();
 
     boolean addCalendarDates(CalendarDates calendarDates);
+    
+    float getCDByBustrip(int bustripId, Date bookedDate);
 
     boolean deleteCalendarDates(int id);
 }

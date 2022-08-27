@@ -4,6 +4,7 @@
  */
 package com.temtree.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -65,12 +66,15 @@ public class Ticket implements Serializable {
     @NotNull
     @Column(name = "payment_status")
     private boolean paymentStatus;
+    @JsonIgnore
     @JoinColumn(name = "bustrip_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Bustrip bustripId;
+    @JsonIgnore
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Seat seatId;
+    @JsonIgnore
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;

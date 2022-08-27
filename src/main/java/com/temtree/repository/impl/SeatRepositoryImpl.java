@@ -90,28 +90,28 @@ public class SeatRepositoryImpl implements SeatRepository {
         return seat;
     }
 
-    @Override
-    public boolean checkBooked(int id) {
-        Query query = (Query) entityManager.createNativeQuery(
-                "SELECT count(*) FROM seat\n"
-                + "where seat.id = ? and is_booked = true")
-                .setParameter(1, id);
+//    @Override
+//    public boolean checkBooked(int id) {
+//        Query query = (Query) entityManager.createNativeQuery(
+//                "SELECT count(*) FROM seat\n"
+//                + "where seat.id = ? and is_booked = true")
+//                .setParameter(1, id);
+//
+//        BigInteger isBooked = (BigInteger) query.getSingleResult();
+//
+//        return isBooked.intValue() > 0;
+//    }
 
-        BigInteger isBooked = (BigInteger) query.getSingleResult();
-
-        return isBooked.intValue() > 0;
-    }
-
-    @Override
-    public boolean updateIsBooked(int id) {
-        Query query = (Query) entityManager.createNativeQuery(
-                "UPDATE seat SET is_booked = true where id = ?")
-                .setParameter(1, id);
-
-        int isBooked = query.executeUpdate();
-
-        return isBooked > 0;
-    }
+//    @Override
+//    public boolean updateIsBooked(int id) {
+//        Query query = (Query) entityManager.createNativeQuery(
+//                "UPDATE seat SET is_booked = true where id = ?")
+//                .setParameter(1, id);
+//
+//        int isBooked = query.executeUpdate();
+//
+//        return isBooked > 0;
+//    }
 
     @Override
     public int getTotalSeatByBus(int busId) {

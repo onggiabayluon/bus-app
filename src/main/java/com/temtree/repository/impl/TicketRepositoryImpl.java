@@ -90,25 +90,27 @@ public class TicketRepositoryImpl implements TicketRepository {
         Ticket ticket = (Ticket) entityManager.createNativeQuery(
                 "select * from ticket\n" +
                 "where user_id = ?\n" +
-                "and payment_status = false", Ticket.class)
+                "and payment_status = false\n" +
+                "order by created_date desc\n" +
+                "LIMIT 1", Ticket.class)
                 .setParameter(1, id)
                 .getSingleResult();
         
-        System.out.println("com.temtree.repository.impl.TicketRepositoryImpl.getTicketByUserId()");
-        System.err.println(ticket);
         
         return ticket;
     }
 
     @Override
-    public boolean checkBookedSeat(int id, Date bookedDate) {
+    public boolean checkBookedSeat(int id, Date bookedDate, int bustripId) {
         Query query = (Query) entityManager.createNativeQuery(
                 "SELECT count(*) FROM busdb.ticket\n" +
                 "where seat_id = ?\n" +
+                "and bustrip_id = ?\n" +
                 "and booked_date = ?\n" +
                 "and active = 1")
                 .setParameter(1, id)
-                .setParameter(2, bookedDate);
+                .setParameter(2, bustripId)
+                .setParameter(3, bookedDate);
 
         BigInteger isBooked = (BigInteger) query.getSingleResult();
 
@@ -127,6 +129,49 @@ public class TicketRepositoryImpl implements TicketRepository {
                 .getSingleResult();
 
         return totalSeat.intValue();
+    }
+
+    @Override
+    public List<Ticket> getTicketsByUserId(int userId) {
+        List<Ticket> results = (List<Ticket>) entityManager.createNativeQuery(
+                "SELECT ticket.* FROM ticket\n" +
+                "where user_id = ?", Ticket.class)
+                .setParameter(1, userId)
+                .getResultList();
+        
+        return results;
+    }
+
+    @Override
+    public Ticket getTicketById(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        
+        return session.get(Ticket.class, id);
+    }
+
+    @Override
+    public boolean updateTicket(Ticket ticket) {
+        Query query = (Query) entityManager.createNativeQuery(
+                "UPDATE ticket SET payment_status = ? where id = ?")
+                .setParameter(1, ticket.getPaymentStatus())
+                .setParameter(2, ticket.getId());
+
+        int result = query.executeUpdate();
+
+        return result > 0;
+    }
+
+    @Override
+    public Ticket addTicket2(Ticket ticket) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        
+        try {
+            session.save(ticket);
+            return ticket;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
     
 }

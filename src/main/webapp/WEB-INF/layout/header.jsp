@@ -68,20 +68,28 @@
                                         </ul>
                                     </li>
                                 </sec:authorize>
-                                    <style>
-                                            @media only screen and (min-width: 1000px) {
-                                                .li-avatar {
-                                                    left: 410px;
-                                                }
-                                            }
-                                        </style>
+                                <sec:authorize access="hasAuthority('EMPLOYEE')">
+                                    <li><a href="#">Admin Page</a>
+                                        <ul class="dropdown">
+                                            <li><a href="<c:url value="/admin/add" />">Add</a></li>
+                                        </ul>
+                                    </li>
+                                </sec:authorize>
+                                    
+                                <style>
+                                    @media only screen and (min-width: 1000px) {
+                                        .li-avatar {
+                                            left: 410px;
+                                        }
+                                    }
+                                </style>
                                 <c:choose>
                                     <c:when test="${currentUser == null}">
                                         <li class="li-avatar position-relative"><a href="login">Đăng nhập</a></li>
                                         <li class="li-avatar position-relative"><a href="register">Đăng ký</a></li>
                                         </c:when>
                                         <c:when test="${currentUser != null}">
-                                        
+
                                         <li class="li-avatar">
                                             <a href="#" aria-expanded="false">
                                                 <c:choose>
@@ -103,7 +111,7 @@
                                             </a>
                                             <ul class="dropdown">
                                                 <li><a class="text-primary" href="#">${currentUser.username}</a></li>
-
+                                                <li><a href="<c:url value="/carts" />">Giỏ vé</a></li>
                                                 <li><a href="<c:url value="/logout" />">Đăng xuất</a></li>
                                             </ul>
                                         </li>   

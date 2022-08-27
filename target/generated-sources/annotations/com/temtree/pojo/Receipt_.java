@@ -7,10 +7,11 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.9.v20210604-rNA", date="2022-08-25T09:56:29")
+@Generated(value="EclipseLink-2.7.9.v20210604-rNA", date="2022-08-27T08:57:09")
 @StaticMetamodel(Receipt.class)
 public class Receipt_ { 
 
+    public static volatile SingularAttribute<Receipt, String> momoRequestId;
     public static volatile SingularAttribute<Receipt, Long> amount;
     public static volatile SingularAttribute<Receipt, Date> createdDate;
     public static volatile SingularAttribute<Receipt, Boolean> active;
