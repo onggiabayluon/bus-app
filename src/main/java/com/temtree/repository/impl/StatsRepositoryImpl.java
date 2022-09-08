@@ -111,6 +111,21 @@ public class StatsRepositoryImpl implements StatsRepository {
             return null;
         }
     }
+
+    @Override
+    public Object[] totalRevenue() {
+        try {
+            Object[] results = (Object[]) entityManager.createNativeQuery(
+                "SELECT sum(amount), id FROM receipt")
+                .getSingleResult();
+            
+            
+            return results;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
     
 

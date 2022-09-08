@@ -9,6 +9,7 @@ import com.temtree.pojo.Bustrip;
 import com.temtree.pojo.Calendar;
 import com.temtree.pojo.CalendarDates;
 import com.temtree.pojo.Location;
+import com.temtree.pojo.Route;
 import com.temtree.pojo.User;
 import com.temtree.repository.BusRepository;
 import com.temtree.repository.BustripRepository;
@@ -26,6 +27,7 @@ import com.temtree.services.UserService;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -82,10 +84,10 @@ public class AdminController {
             toDate = utils.getCurrentDate("yyyy-MM-dd");
         }
 
-
         model.addAttribute("fromDate", params.getOrDefault("fromDate", null));
         model.addAttribute("toDate", params.getOrDefault("toDate", null));
         model.addAttribute("paymentStatus", params.getOrDefault("paymentStatus", null));
+        model.addAttribute("totalRevenueStats", statsRepository.totalRevenue());
         model.addAttribute("todayRevenueStats", statsRepository.todayRevenue(utils.getCurrentDate("yyyy-MM-dd"), utils.getCurrentDate("yyyy-MM-dd")));
         model.addAttribute("monthRevenueStats", statsRepository.revenueStatsByMonth(fromDate, toDate));
         model.addAttribute("routeRevenueStats", statsRepository.revenueStatsByRoute(fromDate, toDate));
@@ -117,6 +119,8 @@ public class AdminController {
         model.addAttribute("calendar", new Calendar());
         model.addAttribute("calendarDates", new CalendarDates());
         model.addAttribute("user", new User());
+        model.addAttribute("location", new Location());
+        model.addAttribute("route", new Route());
 
         return "add";
     }
@@ -125,17 +129,30 @@ public class AdminController {
     public String add(
             @ModelAttribute(value = "bustrip") Bustrip bustrip,
             BindingResult r,
-            @RequestParam("departTime") String departTime,
-            @RequestParam("endTime") String endTime) throws ParseException {
+            HttpServletRequest request
+    //            @RequestParam("departTime") String departTime,
+    //            @RequestParam("endTime") String endTime
+    )
+            throws ParseException {
 
-        // Reformat Date
-        Date formattedDepartTime = utils.stringInTimeToDateObject(departTime);
-        Date formattedEndTime = utils.stringInTimeToDateObject(endTime);
-        // Re-set bustrip date 
-        bustrip.setDepartTime(formattedDepartTime);
-        bustrip.setEndTime(formattedEndTime);
+        String[] departTimes = request.getParameterValues("departTime");
+        String[] endTimes = request.getParameterValues("endTime");
+        boolean result = false;
 
-        if (this.bustripService.addBustrip(bustrip) == true) {
+        for (int i = 0; i < departTimes.length; i++) {
+            // Reformat Date
+            Date formattedDepartTime = utils.stringInTimeToDateObject(departTimes[i]);
+            Date formattedEndTime = utils.stringInTimeToDateObject(endTimes[i]);
+
+            // Re-set bustrip date 
+            bustrip.setDepartTime(formattedDepartTime);
+            bustrip.setEndTime(formattedEndTime);
+
+            result = this.bustripService.addBustrip(bustrip);
+
+        }
+
+        if (result == true) {
             return "redirect:list";
         }
 
@@ -231,6 +248,38 @@ public class AdminController {
             BindingResult r) throws ParseException {
 
         if (this.userService.addUser(user) == true) {
+            return "redirect:list";
+        }
+
+        if (r.hasErrors()) {
+            return "add";
+        }
+
+        return "list";
+    }
+
+    @PostMapping("/add-location")
+    public String addLocation(
+            @ModelAttribute(value = "location") Location location,
+            BindingResult r) throws ParseException {
+
+        if (this.locationService.addLocation(location) == true) {
+            return "redirect:list";
+        }
+
+        if (r.hasErrors()) {
+            return "add";
+        }
+
+        return "list";
+    }
+    
+    @PostMapping("/add-route")
+    public String addRoute(
+            @ModelAttribute(value = "route") Route route,
+            BindingResult r) throws ParseException {
+
+        if (this.routeService.addRoute(route) == true) {
             return "redirect:list";
         }
 

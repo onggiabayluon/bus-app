@@ -4,6 +4,7 @@
  */
 package com.temtree.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -47,17 +48,20 @@ public class Location implements Serializable {
     @Size(max = 255)
     @Column(name = "name")
     private String name;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "endLocationId")
     private Set<Route> routeSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "startLocationId")
     private Set<Route> routeSet1;
 
     public Location() {
     }
 
-    public Location(Integer id) {
-        this.id = id;
+    public Location(String id) {
+        this.id = Integer.parseInt(id);
     }
+    
 
     public Integer getId() {
         return id;
