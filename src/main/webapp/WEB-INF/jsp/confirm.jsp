@@ -66,7 +66,7 @@
             <div class="col-10 mx-auto mb-4 mt-4">
                 <!--Start Card-->
                 <div class="card p-4">
-                    <h5 class="card-title">Thông tin khách hàng</h5>
+                   <h5 class="card-title">Thông tin khách hàng</h5>
                     <div class="card-body">
                         <form action="pay-momo" method="post">
                             <!--hidden input-->
@@ -77,14 +77,14 @@
                             <input type="hidden" name="bookedDate" value="${selectedDate}"/>
                             <input type="hidden" name="bustripId" value="${selectedBustrip.id}"/>
                         
-                            <!-- Email input -->
-                            <div class="form-outline mb-4">
+                             <!--Email input--> 
+<!--                            <div class="form-outline mb-4">
                                 <input name="fullName" type="text" class="form-control" />
                                 <label class="form-label">Họ tên</label>
-                            </div>
+                            </div>-->
 
-                            <!-- Password input -->
-                            <div class="form-outline mb-4">
+                             <!--Password input--> 
+<!--                            <div class="form-outline mb-4">
                                 <input name="phone" type="text" class="form-control" />
                                 <label class="form-label">Số điện thoại</label>
                             </div>
@@ -92,7 +92,7 @@
                             <div class="form-outline mb-4">
                                 <input name="email" type="email" class="form-control" />
                                 <label class="form-label">Email</label>
-                            </div>
+                            </div>-->
                             
                             <div class="form-outline mb-4 ">
                                 Tổng tiền: ${totalPrice} VND

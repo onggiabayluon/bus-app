@@ -14,6 +14,8 @@ import java.util.List;
 public interface StatsRepository{
     Object[] todayRevenue(Date fromDate, Date toDate);
     
+    Object[] totalRevenue();
+    
     List<Object[]> revenueStats(Date fromDate, Date toDate);
     
     List<Object[]> revenueStatsByMonth(Date fromDate, Date toDate);
