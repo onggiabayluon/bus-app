@@ -33,7 +33,7 @@
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">Location table</h6>
+                        <h6 class="text-white text-capitalize ps-3">User table</h6>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2">
@@ -49,24 +49,34 @@
                             </thead>
                             <tbody>
                                 <c:forEach items="${users}" var="user">
-                                    <tr>
-                                        <td class="align-middle text-center">
-                                            <div class="d-flex px-2 py-1">
-                                                ${user.id}
-                                            </div>
-                                        </td>
-                                        <td >
-                                            <span class="text-secondary text-xs font-weight-bold">${user.username}</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">${user.userRole}</span>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                Edit
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    <form:form method="post" action="update-user" modelAttribute="user" class="p-4">
+                                        <form:input type="hidden" path="id" value="${user.id}" />
+                                        <tr>
+                                            <td class="align-middle text-center">
+                                                <div class="d-flex px-2 py-1">
+                                                    ${user.id}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="text-secondary text-xs font-weight-bold">${user.username}</span>
+                                            </td>
+                                            <!--Role Options--> 
+                                            <td class="align-middle text-center">
+                                                <div class="input-group input-group-static mb-4">
+                                                    <form:select path="userRole" class="form-control">
+                                                        <option value="${user.userRole}" selected>${user.userRole}</option>
+                                                        <option value="USER">USER</option>
+                                                        <option value="ADMIN">ADMIN</option>
+                                                        <option value="DRIVER">DRIVER</option>
+                                                        <option value="EMPLOYEE">EMPLOYEE</option>
+                                                    </form:select>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">
+                                                <button type="submit" class="btn btn-sm btn-info">Submit</button>
+                                            </td>
+                                        </tr>
+                                    </form:form>
                                 </c:forEach>
                             </tbody>
                         </table>
@@ -98,24 +108,27 @@
                             </thead>
                             <tbody>
                                 <c:forEach items="${locations}" var="location">
-                                    <tr>
-                                        <td class="align-middle text-center">
-                                            <div class="d-flex px-2 py-1">
-                                                ${location.id}
-                                            </div>
-                                        </td>
-                                        <td >
-                                            <span class="text-secondary text-xs font-weight-bold">${location.alias}</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">${location.name}</span>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                Edit
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    <form:form method="post" action="update-location" modelAttribute="location" class="p-4">
+                                        <form:input type="hidden" path="id" value="${location.id}" />
+                                        <tr>
+                                            <td class="align-middle text-center">
+                                                <div class="d-flex px-2 py-1">
+                                                    ${location.id}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <form:input path="alias" type="text" class="text-secondary text-xs font-weight-bold" value="${location.alias}" />
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <form:input path="name" type="text" class="text-secondary text-xs font-weight-bold" value="${location.name}" />
+                                            </td>
+                                            <td class="align-middle">
+                                                <button type="submit" class="btn btn-sm btn-info">Submit</button>
+                                            </td>
+                                        </tr>
+                                    </form:form>
+
+
                                 </c:forEach>
                             </tbody>
                         </table>

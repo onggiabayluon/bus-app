@@ -10,11 +10,14 @@ import com.temtree.pojo.Calendar;
 import com.temtree.pojo.CalendarDates;
 import com.temtree.pojo.Location;
 import com.temtree.pojo.Route;
+import com.temtree.pojo.Seat;
 import com.temtree.pojo.User;
 import com.temtree.repository.BusRepository;
 import com.temtree.repository.BustripRepository;
 import com.temtree.repository.CalendarDatesRepository;
 import com.temtree.repository.CalendarRepository;
+import com.temtree.repository.LocationRepository;
+import com.temtree.repository.SeatRepository;
 import com.temtree.repository.StatsRepository;
 import com.temtree.repository.TicketRepository;
 import com.temtree.repository.UserRepository;
@@ -57,6 +60,10 @@ public class AdminController {
     private BusService busService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SeatRepository seatRepository;
+    @Autowired
+    private LocationRepository locationRepository;
     @Autowired
     private BusRepository busRepository;
     @Autowired
@@ -101,7 +108,13 @@ public class AdminController {
         model.addAttribute("routes", this.routeService.getRoutes());
         model.addAttribute("bustrips", this.bustripService.getBustrips());
         model.addAttribute("users", this.userRepository.getUsers());
+        
+        
+        
         model.addAttribute("bustrip", new Bustrip());
+        model.addAttribute("user", new User());
+        model.addAttribute("location", new Location());
+        
 
         return "list";
     }
@@ -121,10 +134,11 @@ public class AdminController {
         model.addAttribute("user", new User());
         model.addAttribute("location", new Location());
         model.addAttribute("route", new Route());
+        model.addAttribute("seat", new Seat());
 
         return "add";
     }
-
+    
     @PostMapping("/add-bustrip")
     public String add(
             @ModelAttribute(value = "bustrip") Bustrip bustrip,
@@ -162,13 +176,70 @@ public class AdminController {
 
         return "list";
     }
+    
+
+    @PostMapping("/add-seat")
+    public String addSeats(
+            @ModelAttribute(value = "seat") Seat seat,
+            BindingResult r,
+            HttpServletRequest request
+    )
+            throws ParseException {
+
+        if (this.seatRepository.addSeat(seat) == true) {
+            return "redirect:add";
+        }
+
+        if (r.hasErrors()) {
+            return "add";
+        }
+
+        return "list";
+    }
+    
+    
+    @PostMapping("/update-user")
+    public String updateUser(
+            @ModelAttribute(value = "user") User user,
+            BindingResult r) throws ParseException {
+
+        if (this.userRepository.updateUser(user) == true) {
+            return "redirect:list";
+        }
+
+        if (r.hasErrors()) {
+            return "redirect:add";
+        }
+
+        return "redirect:list";
+    }
+    
+    
 
     @PostMapping("/update-bustrip")
     public String updateBustrip(
             @ModelAttribute(value = "bustrip") Bustrip bustrip,
             BindingResult r) throws ParseException {
+        
 
         if (this.bustripRepository.updateBustrip(bustrip) == true) {
+            return "redirect:list";
+        }
+
+        if (r.hasErrors()) {
+            return "redirect:add";
+        }
+
+        return "redirect:list";
+    }
+    
+    @PostMapping("/update-location")
+    public String updateLocation(
+            @ModelAttribute(value = "bustrip") Location location,
+            BindingResult r) throws ParseException {
+        
+
+        if (this.locationRepository.updateLocation(location) == true) {
             return "redirect:list";
         }
 

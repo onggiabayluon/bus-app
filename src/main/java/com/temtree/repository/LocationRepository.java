@@ -5,6 +5,7 @@
 package com.temtree.repository;
 
 import com.temtree.pojo.Location;
+import com.temtree.pojo.Location;
 import java.util.List;
 import java.util.Map;
 
@@ -18,4 +19,6 @@ public interface LocationRepository {
     boolean addLocation(Location location);
 
     boolean deleteLocation(int id);
+    
+    boolean updateLocation(Location location);
 }

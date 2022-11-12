@@ -5,6 +5,7 @@
 package com.temtree.repository;
 
 import com.temtree.pojo.User;
+import com.temtree.pojo.User;
 import java.util.List;
 import java.util.Map;
 
@@ -26,4 +27,6 @@ public interface UserRepository{
     boolean addUser(User user);
 
     boolean deleteUser(int id);
+    
+    boolean updateUser(User user);
 }
