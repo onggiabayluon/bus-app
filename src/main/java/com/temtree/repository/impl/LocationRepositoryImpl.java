@@ -8,6 +8,8 @@ import com.temtree.pojo.Location;
 import com.temtree.repository.LocationRepository;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -28,13 +30,16 @@ import org.hibernate.query.Query;
 @PropertySource("classpath:databases.properties")
 @Transactional
 public class LocationRepositoryImpl implements LocationRepository {
+
     @Autowired
     private LocalSessionFactoryBean sessionFactory;
-    
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
     public boolean addLocation(Location location) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        
+
         try {
             session.save(location);
             return true;
@@ -56,10 +61,23 @@ public class LocationRepositoryImpl implements LocationRepository {
         CriteriaQuery<Location> q = b.createQuery(Location.class);
         Root root = q.from(Location.class);
         q.select(root);
-        
+
         Query query = session.createQuery(q);
-        
+
         return query.getResultList();
     }
-    
+
+    @Override
+    public boolean updateLocation(Location location) {
+        Query query = (Query) entityManager.createNativeQuery(
+                "UPDATE location SET alias = ?, name = ? where id = ?")
+                .setParameter(1, location.getAlias())
+                .setParameter(2, location.getName())
+                .setParameter(3, location.getId());
+
+
+        int result = query.executeUpdate();
+
+        return result > 0;
+    }
 }

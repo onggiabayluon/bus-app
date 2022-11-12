@@ -106,4 +106,16 @@ public class UserRepositoryImpl implements UserRepository {
         return results;
     }
 
+    @Override
+    public boolean updateUser(User user) {
+        Query query = (Query) entityManager.createNativeQuery(
+                "UPDATE user SET user_role = ? where id = ?")
+                .setParameter(1, user.getUserRole())
+                .setParameter(2, user.getId());
+
+        int result = query.executeUpdate();
+
+        return result > 0;
+    }
+
 }
